@@ -42,5 +42,14 @@ const validateFuncs = {
       isValid: Object.keys(errors).length === 0,
     };
   },
+  validUsername(username) {
+    if (validator.isEmpty(username)) {
+      throw "No Username Provided";
+    }
+    if (!validator.isAlphanumeric(username)) {
+      throw "Usernames only contain alphanumeric characters";
+    }
+    return username.trim();
+  },
 };
 export default validateFuncs;

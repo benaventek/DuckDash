@@ -2,7 +2,6 @@ import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import users from "../data/users.js";
 
 const db = await dbConnection();
-await db.dropDatabase();
 
 await users.addUser(
   "test",
