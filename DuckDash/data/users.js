@@ -1,13 +1,21 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import validate from "../helpers/validation.js";
+import validateFuncs from "../helpers/validation.js";
 
 let exportedMethods = {
   //username, email, passwd, are all given by the user
   //ProfilePicture, BIO, friendsList and testResultsList are initialized to defaults
   async addUser(username, email, password) {
     //ToDo: Validate all user inputs, throw error if invalid
-    validate.validateRegisterInput(username, email, password);
+    let errorCheck = validateFuncs.validateRegisterInput(
+      username,
+      email,
+      password
+    );
+    if (errorCheck.isValid === false)
+      throw new Error(
+        "Invalid user inputs" + JSON.stringify(errorCheck.errors)
+      );
     //Create new user object
     //initialize friendsList and testResultsList as empty arrays
     let friendsList = [];
