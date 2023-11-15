@@ -1,0 +1,16 @@
+{
+  "name": "finalproject",
+  "version": "1.0.0",
+  "description": "FinalProject",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Group6",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "mongodb": "^6.2.0"
+  }
+}
