@@ -1,16 +1,19 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import validate from "../helpers/validation.js";
 
 let exportedMethods = {
-  //username, email, passwd, profilepicture, userbio, are all given by the user
-  //friendsList and testResultsList are initialized as empty arrays
-  async addUser(username, email, password, profilePictureUrl, userBio) {
+  //username, email, passwd, are all given by the user
+  //ProfilePicture, BIO, friendsList and testResultsList are initialized to defaults
+  async addUser(username, email, password) {
     //ToDo: Validate all user inputs, throw error if invalid
-
+    validate.validateRegisterInput(username, email, password);
     //Create new user object
     //initialize friendsList and testResultsList as empty arrays
     let friendsList = [];
     let testResultsList = [];
+    let userBio = ""; //initialize userBio to empty string
+    let profilePictureUrl = "../public/LocalImages/defaultProfilePicture.png"; //initialize profilePictureUrl to default Profile Picture
     //ToDo: hash password
 
     let newUser = {
