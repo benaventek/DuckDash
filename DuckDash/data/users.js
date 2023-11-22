@@ -50,5 +50,56 @@ let exportedMethods = {
     if (!user) return false;
     return user;
   },
+  //takes in username, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
+  async updateUser(username, updateSelection, updateValue) {
+    updateValue = validateFuncs.validUpdateInfo(updateSelection, updateValue);
+    username = validateFuncs.validUsername(username);
+    if (updateSelection === "Bio") {
+      const userCollection = await users();
+      const updateInfo = await userCollection.updateOne(
+        { username: username },
+        { $set: { userBio: updateValue } }
+      );
+      if (!updateInfo) throw new Error("Could not update user");
+      return 1;
+    } else if (updateSelection === "ProfilePictureUrl") {
+      const userCollection = await users();
+      const updateInfo = await userCollection.updateOne(
+        { username: username },
+        { $set: { profilePictureUrl: updateValue } }
+      );
+      if (!updateInfo) throw new Error("Could not update user");
+      return 1;
+      //for friendsList the update value is the friends username that will be appended, we will get the ID throgh the getUserByUsername function
+    } else if (updateSelection === "FriendsList") {
+      let friend = await this.getUserByUsername(updateValue);
+      const userCollection = await users();
+      const updateInfo = await userCollection.updateOne(
+        { username: username },
+        {
+          $push: {
+            friendsList: friend._id,
+          },
+        }
+      );
+      if (!updateInfo) throw new Error("Could not update user");
+      return 1;
+      //for TestResultsList the update value is the test ID that will be appended.
+    } else if (updateSelection === "TestResultsList") {
+      const userCollection = await users();
+      const updateInfo = await userCollection.updateOne(
+        { username: username },
+        {
+          $push: {
+            testResultsList: updateValue,
+          },
+        }
+      );
+      if (!updateInfo) throw new Error("Could not update user");
+      return 1;
+    } else {
+      throw new Error("Invalid update selection");
+    }
+  },
 };
 export default exportedMethods;

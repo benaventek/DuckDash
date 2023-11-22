@@ -2,7 +2,8 @@
 
 import { isStringObject } from "util/types";
 import validator from "validator";
-
+import { ObjectId } from "mongodb";
+import fs from "fs";
 //Function to validate user registration inputs
 const validateFuncs = {
   validateRegisterInput(username, email, password) {
@@ -50,6 +51,39 @@ const validateFuncs = {
       throw "Usernames only contain alphanumeric characters";
     }
     return username.trim();
+  },
+  //Function to validate user update inputs
+  validUpdateInfo(updateSelection, updateValue) {
+    updateValue = updateValue.trim();
+    //bio will have max length of 250 characters
+    if (updateSelection === "Bio") {
+      if (typeof updateValue !== "string") {
+        throw "Bio must be a string";
+      }
+      if (updateValue.length > 250) {
+        throw "Bio must be less than 250 characters";
+      }
+      if (validator.isEmpty(updateValue)) {
+        throw "No Bio Provided";
+      }
+    } else if (updateSelection === "ProfilePictureUrl") {
+      //TODO add way to legitimately check if the file exists or not or if its a valid url
+      if (typeof updateValue !== "string") {
+        throw "Invalid Profile Picture Url";
+      }
+      if (validator.isEmpty(updateValue)) {
+        throw "No Profile Picture Provided";
+      }
+    } else if (updateSelection === "FriendsList") {
+      if (this.validUsername(updateValue) === false) {
+        throw "Invalid Friend Username";
+      }
+    } else if (updateSelection === "TestResultsList") {
+      if (!ObjectId.isValid(updateValue)) {
+        throw "Invalid Test Result Id";
+      }
+    }
+    return updateValue;
   },
 };
 export default validateFuncs;
