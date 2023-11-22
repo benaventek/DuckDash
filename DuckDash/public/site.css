@@ -1,0 +1,65 @@
+* {
+  font-family: 'Fjalla One', sans-serif;
+}
+body {
+  background-color: #d3d3d3;
+  margin: 0;
+}
+
+#nav {
+  width: 95%;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #a32638;
+  box-shadow: 0px 3px 8px 0px black;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+#sitename {
+  float: left;
+  color: white;
+  margin: 0;
+  padding: 10px 0 0 20px;
+  padding-bottom: 10px;
+}
+
+nav {
+  float: right;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  color: white;
+  display: inline-block;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.navitem:hover {
+  background-color: #741724;
+}
+
+h2 {
+  text-align: center;
+}

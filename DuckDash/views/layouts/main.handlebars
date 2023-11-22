@@ -2,19 +2,35 @@
 {{! Refer lecture code to learn more on how this works:
 https://github.com/stevens-cs546-cs554/CS-546/tree/master/lecture_08/code/HTML_Templating }}
 
-<!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset='utf-8' />
     <title>{{{title}}}</title>
-    <link rel="stylesheet" href="/public/site.css">
-</head>
+    <link
+      rel='stylesheet'
+      href='https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap'
+    />
+    <link rel='stylesheet' href='/public/site.css' />
+  </head>
 
-<body>
+  <body>
+    <header>
+      <div id='nav'>
+        <a href='/'><h1 id='sitename'>DuckDash</h1></a>
+        <nav>
+          <ul>
+            <li class='navitem'><a href='/'>Home</a></li>
+            <li class='navitem'><a href='/leaderboard'>Leaderboard</a></li>
+            <li class='navitem'><a href='/search'>Search</a></li>
+            <li class='navitem'><a href='/login'>Login / Sign Up</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
     <main>
-        {{{body}}}
+      {{{body}}}
     </main>
-</body>
+  </body>
 
 </html>
