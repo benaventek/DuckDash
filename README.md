@@ -7,13 +7,13 @@ By: Kevin Benavente, Andres Fernandez, Jack Jimenez, Andrew McCauley
 
 You can seed the database with some dummy login info by running:
 
-        1. node tasks/seed.js *will be "npm seed" later*
+        npm run seed
 
 
 **Running**
 
 You start up the site by doing:
 
-        1. node app.js *will be "npm start" later*
+        npm start
 
 
