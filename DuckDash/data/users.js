@@ -1,6 +1,8 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validateFuncs from "../helpers/validation.js";
+import bcrypt from "bcrypt";
+const saltRounds = 16;
 
 let exportedMethods = {
   //username, email, passwd, are all given by the user
@@ -8,6 +10,12 @@ let exportedMethods = {
   //username must not be taken
   async addUser(username, email, password) {
     //ToDo: Validate all user inputs, throw error if invalid
+    if (!username || !email || !password)
+      throw new Error("Invalid user inputs");
+    username = username.trim();
+    email = email.trim();
+    password = password.trim(); //trim all inputs
+    email = email.toLowerCase(); //convert email to lowercase
     let errorCheck = validateFuncs.validateRegisterInput(
       username,
       email,
@@ -26,12 +34,13 @@ let exportedMethods = {
     let testResultsList = [];
     let userBio = ""; //initialize userBio to empty string
     let profilePictureUrl = "../public/LocalImages/defaultProfilePicture.png"; //initialize profilePictureUrl to default Profile Picture
-    //ToDo: hash password
+    //Hash using bcrypt
+    hashedPassword = await bcrypt.hash(password, saltRounds);
 
     let newUser = {
       username: username,
       email: email,
-      password: password,
+      password: hashedPassword,
       profilePictureUrl: profilePictureUrl,
       userBio: userBio,
       friendsList: friendsList,
@@ -100,6 +109,43 @@ let exportedMethods = {
     } else {
       throw new Error("Invalid update selection");
     }
+  },
+  async loginUser(emailAddress, password) {
+    if (!emailAddress || !password) {
+      throw new Error("All fields are required");
+    }
+    //trim all inputs
+    emailAddress = emailAddress.trim();
+    password = password.trim();
+    validator.validate(emailAddress);
+    emailAddress = emailAddress.toLowerCase();
+
+    let errorCheck = validateFuncs.validateRegisterInput(
+      "NoUsernameNeeded",
+      email,
+      password
+    );
+    if (errorCheck.isValid === false)
+      throw new Error(
+        "Invalid user inputs" + JSON.stringify(errorCheck.errors)
+      );
+    const userCollection = await users();
+    const user = await userCollection.findOne({ emailAddress: emailAddress });
+    if (!user) {
+      throw new Error("Either the email address or password is invalid");
+    }
+    const hashedPassword = user.password;
+    const match = await bcrypt.compare(password, hashedPassword);
+    if (!match) {
+      throw new Error("Either the email address or password is invalid");
+    }
+    const returnInfo = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailAddress: user.emailAddress,
+      role: user.role,
+    };
+    return returnInfo;
   },
 };
 export default exportedMethods;

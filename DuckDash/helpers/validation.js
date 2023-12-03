@@ -1,9 +1,7 @@
 //File used to validate various user inputs
 
-import { isStringObject } from "util/types";
 import validator from "validator";
 import { ObjectId } from "mongodb";
-import fs from "fs";
 //Function to validate user registration inputs
 const validateFuncs = {
   validateRegisterInput(username, email, password) {
