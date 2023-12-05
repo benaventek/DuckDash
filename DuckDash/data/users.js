@@ -1,7 +1,7 @@
 import { users } from "../config/mongoCollections.js";
-import { ObjectId } from "mongodb";
 import validateFuncs from "../helpers/validation.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
+import * as validator from "email-validator";
 const saltRounds = 16;
 
 let exportedMethods = {
@@ -35,7 +35,7 @@ let exportedMethods = {
     let userBio = ""; //initialize userBio to empty string
     let profilePictureUrl = "../public/LocalImages/defaultProfilePicture.png"; //initialize profilePictureUrl to default Profile Picture
     //Hash using bcrypt
-    hashedPassword = await bcrypt.hash(password, saltRounds);
+    let hashedPassword = await bcrypt.hash(password, saltRounds);
 
     let newUser = {
       username: username,
@@ -122,7 +122,7 @@ let exportedMethods = {
 
     let errorCheck = validateFuncs.validateRegisterInput(
       "NoUsernameNeeded",
-      email,
+      emailAddress,
       password
     );
     if (errorCheck.isValid === false)
@@ -143,7 +143,6 @@ let exportedMethods = {
       firstName: user.firstName,
       lastName: user.lastName,
       emailAddress: user.emailAddress,
-      role: user.role,
     };
     return returnInfo;
   },
