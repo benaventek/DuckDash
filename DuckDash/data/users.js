@@ -110,19 +110,19 @@ let exportedMethods = {
       throw new Error("Invalid update selection");
     }
   },
-  async loginUser(emailAddress, password) {
-    if (!emailAddress || !password) {
+  async loginUser(email, password) {
+    if (!email || !password) {
       throw new Error("All fields are required");
     }
     //trim all inputs
-    emailAddress = emailAddress.trim();
+    email = email.trim();
     password = password.trim();
-    validator.validate(emailAddress);
-    emailAddress = emailAddress.toLowerCase();
+    validator.validate(email);
+    email = email.toLowerCase();
 
     let errorCheck = validateFuncs.validateRegisterInput(
       "NoUsernameNeeded",
-      emailAddress,
+      email,
       password
     );
     if (errorCheck.isValid === false)
@@ -130,7 +130,7 @@ let exportedMethods = {
         "Invalid user inputs" + JSON.stringify(errorCheck.errors)
       );
     const userCollection = await users();
-    const user = await userCollection.findOne({ emailAddress: emailAddress });
+    const user = await userCollection.findOne({ email: email });
     if (!user) {
       throw new Error("Either the email address or password is invalid");
     }
@@ -142,9 +142,67 @@ let exportedMethods = {
     const returnInfo = {
       firstName: user.firstName,
       lastName: user.lastName,
-      emailAddress: user.emailAddress,
+      email: user.email,
     };
     return returnInfo;
+  },
+  async registerUser(firstName, lastName, username, email, password) {
+    if (!firstName || !lastName || !email || !password || !username) {
+      throw new Error("All fields are required");
+    }
+    //trim all inputs
+    firstName = firstName.trim();
+    lastName = lastName.trim();
+    email = email.trim();
+    password = password.trim();
+    username = username.trim();
+
+    if (firstName.length < 2 || firstName.length > 25) {
+      throw new Error("First name should be atleast 2 characters long");
+    }
+    if (lastName.length < 2 || lastName.length > 25) {
+      throw new Error("Last name should be atleast 2 characters long");
+    }
+    //first name and last name should not contain numbers
+    if (/\d/.test(firstName)) {
+      throw new Error("First name should not contain numbers");
+    }
+    if (/\d/.test(lastName)) {
+      throw new Error("Last name should not contain numbers");
+    }
+    validator.validate(email);
+    email = email.toLowerCase();
+    //check if email address already exists
+    const userCollection = await users();
+    const user = await userCollection.findOne({ email: email });
+    if (user) {
+      throw new Error("Email address already exists");
+    }
+    let errorCheck = validateFuncs.validateRegisterInput(
+      username,
+      email,
+      password
+    );
+    if (errorCheck.isValid === false)
+      throw new Error(
+        "Invalid user inputs" + JSON.stringify(errorCheck.errors)
+      );
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hashedPassword,
+      username: username,
+    };
+    const insertInfo = await userCollection.insertOne(newUser);
+    if (!insertInfo.insertedId) {
+      throw "User Add Failed";
+    }
+    return { insertedUser: true };
   },
 };
 export default exportedMethods;
