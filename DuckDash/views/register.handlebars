@@ -1,0 +1,26 @@
+<section class="Register">
+    <h1 class="RegisterTitle">Register Form</h1>
+    <p>
+        {{#if error}}
+        Error "{{{error}}}"
+        {{/if}}
+    </p>
+    <div class="registerForm">
+        <form action="/register" method="POST" id="registration-form">
+            <label for="firstNameInput">First Name</label>
+            <input type="text" name="firstNameInput" id="firstNameInput">
+            <label for="lastNameInput">Last Name</label>
+            <input type="text" name="lastNameInput" id="lastNameInput">
+            <label for="emailAddressInput">Email Address</label>
+            <input type="email" name="emailAddressInput" id="emailAddressInput">
+            <label for="passwordInput">Password</label>
+            <input type="password" name="passwordInput" id="passwordInput">
+            <label for="confirmPasswordInput">Confirm Password</label>
+            <input type="password" name="confirmPasswordInput" id="confirmPasswordInput">
+            <input type="submit" value="Submit">
+        </form>
+        <a class="LoginLink" href="/login">Already have an account?</a>
+    </div>
+
+
+</section>

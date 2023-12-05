@@ -1,1 +1,23 @@
 <h2>Login page will go here</h2>
+
+{{!-- TEMPLATE FOR LOGIN FORM COPIED FROM MY LAB JUST FOR NOW --}}
+<section class="Login">
+    <h1>Login Form</h1>
+    <p>
+        {{#if error}}
+        Error "{{{error}}}"
+        {{/if}}
+    </p>
+    <div class="loginForm">
+        <form action="/login" method="POST" id="login-form">
+            <label for="emailAddressInput">Email Address</label>
+            <input type="email" name="emailAddressInput" id="emailAddressInput">
+            <label for="passwordInput">Password</label>
+            <input type="password" name="passwordInput" id="passwordInput">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <a class="RegisterLink" href="/register">Click Here To Register</a>
+
+</section>
+{{!-- END OF LOGIN FORM TEMPLATE --}}

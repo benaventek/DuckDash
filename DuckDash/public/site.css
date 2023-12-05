@@ -1,5 +1,5 @@
 * {
-  font-family: 'Fjalla One', sans-serif;
+  font-family: "Fjalla One", sans-serif;
 }
 body {
   background-color: #d3d3d3;
@@ -17,7 +17,7 @@ header {
 }
 
 header::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -61,5 +61,52 @@ a {
 }
 
 h2 {
+  text-align: center;
+}
+/* JUST FOR NOW TEMPLATE COPIED FROM MY LAB- ANDRES */
+.Login {
+  width: 300px;
+  margin: 0 auto;
+  padding: 15px;
+  border: 4px solid #ccc;
+  background: #d3d3d3;
+  border-radius: 5px;
+  display: table;
+  text-align: center;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+input[type="submit"] {
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: grey;
+  cursor: pointer;
+}
+a.RegisterLink,
+a.LoginLink {
+  color: #741724;
+}
+/* JUST FOR NOW TEMPLATE COPIED FROM MY LAB- ANDRES */
+.registerForm {
+  width: 300px;
+  margin: 0 auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background: #eaeaea;
+  border-radius: 5px;
+  display: table;
+  text-align: center;
+}
+.RegisterTitle {
   text-align: center;
 }
