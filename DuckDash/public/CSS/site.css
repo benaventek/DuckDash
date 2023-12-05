@@ -1,5 +1,5 @@
 * {
-  font-family: "Fjalla One", sans-serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 body {
   background-color: #d3d3d3;
@@ -17,7 +17,7 @@ header {
 }
 
 header::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -74,9 +74,9 @@ h2 {
   display: table;
   text-align: center;
 }
-input[type="text"],
-input[type="password"],
-input[type="email"],
+input[type='text'],
+input[type='password'],
+input[type='email'],
 select {
   width: 100%;
   margin-bottom: 2px;
@@ -84,7 +84,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-input[type="submit"] {
+input[type='submit'] {
   width: 100%;
   padding: 8px 16px;
   border: 1px solid #ccc;
@@ -109,4 +109,69 @@ a.LoginLink {
 }
 .RegisterTitle {
   text-align: center;
+}
+
+/* Typing Test Styling */
+#info {
+  display: flex;
+}
+
+.info {
+  margin: 5px;
+}
+
+#timer {
+  margin-left: 525px;
+}
+
+#wpm {
+  margin-left: 315px;
+}
+
+#accuracy {
+  margin-left: 350px;
+}
+
+#restart {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#prompt {
+  margin-left: 500px;
+  margin-right: 500px;
+  background-color: #c2c2c2;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 14px;
+  line-height: 25px;
+  height: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  filter: blur(5px);
+  position: relative;
+  z-index: 1;
+}
+
+#prompt:focus {
+  filter: blur(0px);
+}
+
+#focusmsg {
+  padding-top: 180px;
+  font-size: 20px;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.word {
+  display: inline-block;
+  margin-left: 2px;
+  margin-right: 2px;
 }

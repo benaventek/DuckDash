@@ -4,33 +4,33 @@ https://github.com/stevens-cs546-cs554/CS-546/tree/master/lecture_08/code/HTML_T
 
 <html lang='en'>
 
-  <head>
-    <meta charset='utf-8' />
-    <title>{{{title}}}</title>
-    <link
-      rel='stylesheet'
-      href='https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap'
-    />
-    <link rel='stylesheet' href='/public/site.css' />
-  </head>
+<head>
+  <meta charset='utf-8' />
+  <title>{{{title}}}</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap' />
+  <link rel='stylesheet' href='../../public/CSS/site.css' />
+</head>
 
-  <body>
-    <header>
-      <div id='nav'>
-        <a href='/'><h1 id='sitename'>DuckDash</h1></a>
-        <nav>
-          <ul>
-            <li class='navitem'><a href='/'>Home</a></li>
-            <li class='navitem'><a href='/leaderboard'>Leaderboard</a></li>
-            <li class='navitem'><a href='/search'>Search</a></li>
-            <li class='navitem'><a href='/login'>Login / Sign Up</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <main>
-      {{{body}}}
-    </main>
-  </body>
+<body>
+  <header>
+    <div id='nav'>
+      <a href='/'>
+        <h1 id='sitename'>DuckDash</h1>
+      </a>
+      <nav>
+        <ul>
+          <li class='navitem'><a href='/'>Home</a></li>
+          <li class='navitem'><a href='/leaderboard'>Leaderboard</a></li>
+          <li class='navitem'><a href='/search'>Search</a></li>
+          <li class='navitem'><a href='/login'>Login / Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    {{{body}}}
+  </main>
+  <script src="../../public/JS/main.js"></script>
+</body>
 
 </html>
