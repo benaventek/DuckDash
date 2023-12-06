@@ -2,19 +2,29 @@ import { presetTests } from "../config/mongoCollections.js";
 import validateFuncs from "../helpers/validation.js";
 
 let ExportedMethods = {
-  async CreateTypingTest(testTitle, text, difficulty) {
-    if (!testTitle || !text || !difficulty)
+  //timelimit between 30 and 300 seconds
+  async CreateTypingTest(testTitle, text, difficulty, timeLimit) {
+    if (!testTitle || !text || !difficulty || !timeLimit)
       throw new Error("Invalid user inputs");
+    if (typeof testTitle !== "string") throw "Invalid test title";
+    if (typeof text !== "string") throw "Invalid text";
+    if (typeof difficulty !== "string") throw "Invalid difficulty";
+    if (typeof timeLimit !== "number") throw "Invalid time limit";
     testTitle = testTitle.trim();
     text = text.trim();
     difficulty = difficulty.trim();
-
-    validateFuncs.validateTypingTestInput(testTitle, text, difficulty);
+    validateFuncs.validateTypingTestInput(
+      testTitle,
+      text,
+      difficulty,
+      timeLimit
+    );
     //Create new user object
     let newTest = {
       testTitle: testTitle,
       text: text,
       difficulty: difficulty,
+      timeLimit: timeLimit,
       testScores: [],
     };
     //If there exists a test with the same name throw an error

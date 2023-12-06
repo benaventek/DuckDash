@@ -172,4 +172,11 @@ router
       });
     }
   });
+router.route("/logout").get(async (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+router.route("/profile").get(async (req, res) => {
+  res.render("profilePage", { title: "Profile" });
+});
 export default router;

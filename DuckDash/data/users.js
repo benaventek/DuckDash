@@ -61,6 +61,14 @@ let exportedMethods = {
   },
   //takes in username, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
   async updateUser(username, updateSelection, updateValue) {
+    if (!username || !updateSelection || !updateValue)
+      throw new Error("Invalid user inputs");
+    if (
+      typeof username !== "string" ||
+      typeof updateSelection !== "string" ||
+      typeof updateValue !== "string"
+    )
+      throw new Error("Invalid user inputs");
     updateValue = validateFuncs.validUpdateInfo(updateSelection, updateValue);
     username = validateFuncs.validUsername(username);
     if (updateSelection === "Bio") {
@@ -114,6 +122,9 @@ let exportedMethods = {
     if (!email || !password) {
       throw new Error("All fields are required");
     }
+    if (typeof email !== "string" || typeof password !== "string") {
+      throw new Error("Invalid user inputs");
+    }
     //trim all inputs
     email = email.trim();
     password = password.trim();
@@ -143,12 +154,23 @@ let exportedMethods = {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      username: user.username,
+      profilePictureUrl: user.profilePictureUrl,
     };
     return returnInfo;
   },
   async registerUser(firstName, lastName, username, email, password) {
     if (!firstName || !lastName || !email || !password || !username) {
       throw new Error("All fields are required");
+    }
+    if (
+      typeof firstName !== "string" ||
+      typeof lastName !== "string" ||
+      typeof email !== "string" ||
+      typeof password !== "string" ||
+      typeof username !== "string"
+    ) {
+      throw new Error("Invalid user inputs");
     }
     //trim all inputs
     firstName = firstName.trim();
@@ -172,37 +194,12 @@ let exportedMethods = {
     }
     validator.validate(email);
     email = email.toLowerCase();
-    //check if email address already exists
-    const userCollection = await users();
-    const user = await userCollection.findOne({ email: email });
-    if (user) {
-      throw new Error("Email address already exists");
+    try {
+      await this.addUser(username, email, password);
+      return true;
+    } catch (error) {
+      throw error;
     }
-    let errorCheck = validateFuncs.validateRegisterInput(
-      username,
-      email,
-      password
-    );
-    if (errorCheck.isValid === false)
-      throw new Error(
-        "Invalid user inputs" + JSON.stringify(errorCheck.errors)
-      );
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: hashedPassword,
-      username: username,
-    };
-    const insertInfo = await userCollection.insertOne(newUser);
-    if (!insertInfo.insertedId) {
-      throw "User Add Failed";
-    }
-    return { insertedUser: true };
   },
   async getUserById(id) {
     if (!id) throw "Invalid user id";

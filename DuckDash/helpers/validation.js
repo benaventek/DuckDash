@@ -83,7 +83,7 @@ const validateFuncs = {
     }
     return updateValue;
   },
-  validateTypingTestInput(testTitle, text, difficulty) {
+  validateTypingTestInput(testTitle, text, difficulty, timeLimit) {
     //Test Title checks
     if (validator.isEmpty(testTitle)) {
       throw "Test Title field is required";
@@ -102,6 +102,10 @@ const validateFuncs = {
       difficulty !== "Hard"
     ) {
       throw "Invalid Difficulty";
+    }
+    //Time Limit checks
+    if (timeLimit < 30 || timeLimit > 300) {
+      throw "Invalid Time Limit";
     }
   },
 };

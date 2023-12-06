@@ -3,7 +3,7 @@ import express from "express";
 const app = express();
 import session from "express-session";
 import configRoutes from "./routes/index.js";
-
+import middlewareFunctions from "./helpers/middleware.js";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import exphbs from "express-handlebars";
@@ -37,6 +37,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(middlewareFunctions.isLoggedIn);
 
 configRoutes(app);
 

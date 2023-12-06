@@ -22,7 +22,12 @@ https://github.com/stevens-cs546-cs554/CS-546/tree/master/lecture_08/code/HTML_T
           <li class='navitem'><a href='/'>Home</a></li>
           <li class='navitem'><a href='/leaderboard'>Leaderboard</a></li>
           <li class='navitem'><a href='/search'>Search</a></li>
+          {{#if loggedin}}
+          <li class="navitem"><a href="/profile">Profile</a></li>
+          <li class='navitem'><a href='/logout'>Logout</a></li>
+          {{else}}
           <li class='navitem'><a href='/login'>Login / Sign Up</a></li>
+          {{/if}}
         </ul>
       </nav>
     </div>
