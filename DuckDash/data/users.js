@@ -204,5 +204,14 @@ let exportedMethods = {
     }
     return { insertedUser: true };
   },
+  async getUserById(id) {
+    if (!id) throw "Invalid user id";
+    if (typeof id !== "string") throw "Invalid user id";
+    id = id.trim();
+    const userCollection = await users();
+    const user = await userCollection.findOne({ _id: id });
+    if (!user) throw "User not found";
+    return user;
+  },
 };
 export default exportedMethods;

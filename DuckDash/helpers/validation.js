@@ -83,5 +83,26 @@ const validateFuncs = {
     }
     return updateValue;
   },
+  validateTypingTestInput(testTitle, text, difficulty) {
+    //Test Title checks
+    if (validator.isEmpty(testTitle)) {
+      throw "Test Title field is required";
+    }
+    //Text checks
+    if (validator.isEmpty(text)) {
+      throw "Text field is required";
+    }
+    //Difficulty checks
+    if (validator.isEmpty(difficulty)) {
+      throw "Difficulty field is required";
+    }
+    if (
+      difficulty !== "Easy" &&
+      difficulty !== "Medium" &&
+      difficulty !== "Hard"
+    ) {
+      throw "Invalid Difficulty";
+    }
+  },
 };
 export default validateFuncs;
