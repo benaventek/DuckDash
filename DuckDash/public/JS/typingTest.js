@@ -3,6 +3,8 @@ let restart = document.getElementById('restart');
 let timer = document.getElementById('timer');
 let score = document.getElementById('score');
 let test = document.getElementById('test');
+let tests = document.getElementById('tests').textContent;
+console.log(tests);
 let promptDropdown = document.getElementById('promptDropdown');
 let promptDropdownDiv = document.getElementById('prompt-dropdown');
 let timeDropdown = document.getElementById('timeDropdown');
