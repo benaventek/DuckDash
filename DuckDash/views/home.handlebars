@@ -1,5 +1,4 @@
 <h2>Typing Test</h2>
-
 <div id="info">
     <div class="info" id="timer">30 Seconds
     </div>
@@ -11,7 +10,37 @@
     </div>
     <p id="focusmsg">Click in here to type!</p>
 </div>
-<div id="restart"><button>Restart</button></div>
+<div id="restart-container"><button id="restart">Restart</button></div>
+<div id="dropdown-menus">
+    <div class="dropdown">
+        <label for="promptDropdown">Prompt:</label>
+        <select id="promptDropdown">
+            <option value="option1">1</option>
+            <option value="option2">2</option>
+            <option value="option3">3</option>
+            <option value="option4">4</option>
+            <option value="option5">5</option>
+        </select>
+    </div>
+
+    <div class="dropdown">
+        <label for="timeDropdown">Time:</label>
+        <select id="timeDropdown">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+    </div>
+
+    <div class="dropdown">
+        <label for="difficultyDropdown">Difficulty:</label>
+        <select id="difficultyDropdown">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+    </div>
+</div>
 
 {{!-- Sketching out, have an a item which is hidden, using client side un hide it once the test is over, promt user to
 login to save their score, have another a item which

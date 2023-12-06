@@ -118,22 +118,27 @@ a.LoginLink {
 
 .info {
   margin: 5px;
+  font-size: 25px;
 }
 
 #timer {
-  margin-left: 525px;
+  margin-left: 510px;
 }
 
 #wpm {
-  margin-left: 315px;
+  margin-left: 275px;
 }
 
 #accuracy {
-  margin-left: 350px;
+  margin-left: 340px;
+}
+
+#restart-container {
+  display: flex;
+  justify-content: center;
 }
 
 #restart {
-  text-align: center;
   margin-top: 10px;
 }
 
@@ -153,6 +158,7 @@ a.LoginLink {
   filter: blur(5px);
   position: relative;
   z-index: 1;
+  font-size: 20px;
 }
 
 #prompt:focus {
@@ -160,7 +166,7 @@ a.LoginLink {
 }
 
 #focusmsg {
-  padding-top: 180px;
+  margin-top: 215px;
   font-size: 20px;
   text-align: center;
   position: absolute;
@@ -172,6 +178,32 @@ a.LoginLink {
 
 .word {
   display: inline-block;
-  margin-left: 2px;
-  margin-right: 2px;
+}
+
+.letter.correct {
+  color: green;
+}
+
+.letter.incorrect {
+  color: red;
+}
+
+.space.incorrect {
+  background-color: red;
+  background: rgba(255, 0, 0, 0.3);
+}
+
+.next {
+  background-color: yellow;
+}
+
+/* Dropdown Styling */
+#dropdown-menus {
+  display: flex;
+  justify-content: center;
+}
+
+.dropdown {
+  margin: 10px;
+  width: 120px;
 }
