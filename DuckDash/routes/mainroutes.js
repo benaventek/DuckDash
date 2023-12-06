@@ -5,7 +5,10 @@ import UserFuncs from "../data/users.js";
 import * as validator from "email-validator";
 
 router.route("/").get(async (req, res) => {
-  res.render("home", { title: "DuckDash Homepage" });
+  res.render("home", {
+    title: "DuckDash Homepage",
+    partial: "typingTest_script",
+  });
 });
 
 router.route("/leaderboard").get(async (req, res) => {
@@ -54,7 +57,7 @@ router
       );
       req.session.user = DbInfo;
       if (DbInfo) {
-        return res.redirect("/home");
+        return res.redirect("/");
       } else {
         return res.status(500).render("login", {
           title: "Login",
@@ -139,12 +142,15 @@ router
   .get(async (req, res, next) => {
     res.render("profilePage", {
       title: "Profile",
+      partial: "profilePage_script",
       username: req.session.user.username,
       userBio: req.session.user.userBio,
+      profilePictureUrl: req.session.user.profilePictureUrl,
     });
   })
   //FIX THIS
   .post(async (req, res, next) => {
+    let selection = req.body.selection;
     await UserFuncs.updateUser(
       req.session.user.username,
       "Bio",

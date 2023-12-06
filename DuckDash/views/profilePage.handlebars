@@ -1,7 +1,16 @@
 <h2 class="userName">{{username}}</h2>
 <section>
+    <button id="editProfilePicture">Edit Profile Picture</button>
     <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
-    <p class="userBio">{{{userBio}}}</p>
+    <div class="BioSection">
+        <p class="userBio">{{{userBio}}}</p>
+        <form action="/profile" method="POST" id="changeBio" hidden>
+            <input type="text" name="bioInput" id="bioInput" />
+            <input type="submit" value="Submit">
+        </form>
+        <button class="editProfileBio" id="editProfileBio">Edit Bio</button>
+    </div>
+
 
     {{!-- //TODO: Add a button to change whatever the user wants to change
 
@@ -14,9 +23,6 @@
     --}}
 
 
-    <form action="/profile" method="POST" id="changeBio">
-        <input type="text" name="bioInput" id="bioInput" />
-    </form>
 
 
 </section>

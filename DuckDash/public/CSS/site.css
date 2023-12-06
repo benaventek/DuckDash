@@ -222,3 +222,15 @@ a.LoginLink {
   display: block;
   margin: auto;
 }
+.userBio {
+  padding-top: 30px;
+  width: 33%;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+button.editProfileBio {
+  display: block;
+  text-align: center;
+  float: right;
+}

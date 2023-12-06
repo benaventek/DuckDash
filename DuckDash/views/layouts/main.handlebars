@@ -35,7 +35,9 @@ https://github.com/stevens-cs546-cs554/CS-546/tree/master/lecture_08/code/HTML_T
   <main>
     {{{body}}}
   </main>
-  <script src="../../public/JS/main.js"></script>
+  {{#if partial}}
+  {{> (lookup . 'partial') }}
+  {{/if}}
 </body>
 
 </html>
