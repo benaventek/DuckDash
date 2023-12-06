@@ -1,6 +1,6 @@
 <h2>Typing Test</h2>
 <div id="info">
-    <div class="info" id="timer">30 Seconds
+    <div class="info" id="timer">15 Seconds
     </div>
     <div class="info" id="wpm">100 WPM</div>
     <div class="info" id="accuracy">97%</div>
@@ -12,32 +12,32 @@
 </div>
 <div id="restart-container"><button id="restart">Restart</button></div>
 <div id="dropdown-menus">
-    <div class="dropdown">
-        <label for="promptDropdown">Prompt:</label>
+    <div id='prompt-dropdown' class="dropdown">
+        <label for="promptDropdown">Text:</label>
         <select id="promptDropdown">
-            <option value="option1">1</option>
-            <option value="option2">2</option>
-            <option value="option3">3</option>
-            <option value="option4">4</option>
-            <option value="option5">5</option>
+            <option value="random">Random</option>
+            <option value="option2">filler1</option>
+            <option value="option3">filler2</option>
+            <option value="option4">filler3</option>
+            <option value="option5">filler4</option>
         </select>
     </div>
 
-    <div class="dropdown">
+    <div id='time-dropdown' class="dropdown">
         <label for="timeDropdown">Time:</label>
         <select id="timeDropdown">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="15s">15 Seconds</option>
+            <option value="30s">30 Seconds</option>
+            <option value="1m">1 Minute</option>
         </select>
     </div>
 
-    <div class="dropdown">
+    <div id='diff-dropdown' class="dropdown">
         <label for="difficultyDropdown">Difficulty:</label>
         <select id="difficultyDropdown">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
         </select>
     </div>
 </div>

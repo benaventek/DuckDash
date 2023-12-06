@@ -170,6 +170,7 @@ a.LoginLink {
   font-size: 20px;
   text-align: center;
   position: absolute;
+  padding: 0;
   top: 0;
   left: 0;
   right: 0;
@@ -178,6 +179,11 @@ a.LoginLink {
 
 .word {
   display: inline-block;
+}
+
+.letter {
+  padding-left: 0.25px;
+  padding-right: 0.25px;
 }
 
 .letter.correct {
@@ -194,16 +200,18 @@ a.LoginLink {
 }
 
 .next {
-  background-color: yellow;
+  background-color: grey;
+  color: white;
 }
 
 /* Dropdown Styling */
 #dropdown-menus {
-  display: flex;
-  justify-content: center;
+  text-align: center;
+  width: 10%;
+  margin-left: 45%;
+  padding-top: 10px;
 }
 
 .dropdown {
-  margin: 10px;
-  width: 120px;
+  margin-top: 10px;
 }

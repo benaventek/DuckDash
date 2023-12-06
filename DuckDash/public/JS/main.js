@@ -3,6 +3,12 @@ let restart = document.getElementById('restart');
 let timer = document.getElementById('timer');
 let score = document.getElementById('score');
 let test = document.getElementById('test');
+let promptDropdown = document.getElementById('promptDropdown');
+let promptDropdownDiv = document.getElementById('prompt-dropdown');
+let timeDropdown = document.getElementById('timeDropdown');
+let timeDropdownDiv = document.getElementById('time-dropdown');
+let diffDropdown = document.getElementById('difficultyDropdown');
+let diffDropdownDiv = document.getElementById('diff-dropdown');
 let focusMessage = document.getElementById('focusmsg');
 let prompts = [
   "Can't you see that it's raining outside?",
@@ -12,9 +18,29 @@ let prompts = [
   "She said, 'I can't believe you did that!'",
 ];
 
-restart.addEventListener('click', () => {
+promptDropdown.addEventListener('change', () => {
+  if (promptDropdown.value === 'random') {
+    timeDropdownDiv.hidden = false;
+    diffDropdownDiv.hidden = false;
+  } else {
+    timeDropdownDiv.hidden = true;
+    diffDropdownDiv.hidden = true;
+  }
+});
+
+promptDropdown.addEventListener('change', () => {
+  if (promptDropdown.value === 'option2') {
+    quoteToWrite = prompts[0];
+  } else if (promptDropdown.value === 'option3') {
+    quoteToWrite = prompts[1];
+  } else if (promptDropdown.value === 'option4') {
+    quoteToWrite = prompts[2];
+  } else if (promptDropdown.value === 'option5') {
+    quoteToWrite = prompts[3];
+  } else if (promptDropdown.value === 'random') {
+    quoteToWrite = prompts[Math.floor(Math.random() * prompts.length)];
+  }
   current = 0;
-  let quoteToWrite = prompts[Math.floor(Math.random() * prompts.length)];
   prompt.innerHTML = quoteToWrite;
 
   let words = quoteToWrite.split(' ');
@@ -46,6 +72,27 @@ restart.addEventListener('click', () => {
   wordDivs.forEach((div) => prompt.appendChild(div));
 });
 
+timeDropdown.addEventListener('change', () => {
+  if (timeDropdown.value === '15s') {
+    timer.innerHTML = '15 Seconds';
+  } else if (timeDropdown.value === '30s') {
+    timer.innerHTML = '30 Seconds';
+  } else if (timeDropdown.value === '1m') {
+    timer.innerHTML = '60 Seconds';
+  }
+});
+
+restart.addEventListener('click', () => {
+  let letters = prompt.querySelectorAll('.letter');
+  letters.forEach((letter) => {
+    letter.classList.remove('current');
+    letter.classList.remove('next');
+    letter.classList.remove('correct');
+    letter.classList.remove('incorrect');
+  });
+  current = 0;
+});
+
 prompt.addEventListener('focus', () => {
   focusMessage.style.display = 'none';
 });
@@ -57,7 +104,7 @@ prompt.addEventListener('blur', () => {
 let current = 0;
 prompt.addEventListener('keyup', (event) => {
   let keyPress = event.key;
-  if (keyPress === 'Shift') {
+  if (keyPress === 'Shift' || keyPress === 'CapsLock') {
     return;
   }
 
@@ -72,6 +119,9 @@ prompt.addEventListener('keyup', (event) => {
       letters[current + 1].classList.add('next');
     }
     if (keyPress === ' ') {
+      keyPress = ' ';
+    }
+    if (keyPress === letters[current].textContent) {
       letters[current].classList.add('correct');
       console.log(
         `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
@@ -98,3 +148,11 @@ prompt.addEventListener('keyup', (event) => {
     }
   }
 });
+
+//TODO:
+// 1. Functioning Timer
+// 2. Calculate WPM and Accuracy
+// 3. Actual random prompts
+// 4. Difficulty
+// 5. Pull prompts from database somehow
+// 6. Make preset prompts
