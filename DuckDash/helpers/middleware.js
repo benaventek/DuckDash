@@ -1,8 +1,8 @@
+//TODO FIX THIS MIDDLEWARE
 let middlewareFunctions = {
   isLoggedIn(req, res, next) {
     if (req.session.user) {
       res.locals.loggedin = true;
-      res.locals.profilePic = req.session.user.profilePictureUrl;
       if (req.path == "/login" || req.path == "/register") {
         return res.redirect("/home");
       }

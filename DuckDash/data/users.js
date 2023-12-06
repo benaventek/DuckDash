@@ -151,21 +151,20 @@ let exportedMethods = {
       throw new Error("Either the email address or password is invalid");
     }
     const returnInfo = {
-      firstName: user.firstName,
-      lastName: user.lastName,
       email: user.email,
       username: user.username,
       profilePictureUrl: user.profilePictureUrl,
+      userBio: user.userBio,
+      friendsList: user.friendsList,
+      testResultsList: user.testResultsList,
     };
     return returnInfo;
   },
-  async registerUser(firstName, lastName, username, email, password) {
-    if (!firstName || !lastName || !email || !password || !username) {
+  async registerUser(username, email, password) {
+    if (!email || !password || !username) {
       throw new Error("All fields are required");
     }
     if (
-      typeof firstName !== "string" ||
-      typeof lastName !== "string" ||
       typeof email !== "string" ||
       typeof password !== "string" ||
       typeof username !== "string"
@@ -173,25 +172,10 @@ let exportedMethods = {
       throw new Error("Invalid user inputs");
     }
     //trim all inputs
-    firstName = firstName.trim();
-    lastName = lastName.trim();
     email = email.trim();
     password = password.trim();
     username = username.trim();
 
-    if (firstName.length < 2 || firstName.length > 25) {
-      throw new Error("First name should be atleast 2 characters long");
-    }
-    if (lastName.length < 2 || lastName.length > 25) {
-      throw new Error("Last name should be atleast 2 characters long");
-    }
-    //first name and last name should not contain numbers
-    if (/\d/.test(firstName)) {
-      throw new Error("First name should not contain numbers");
-    }
-    if (/\d/.test(lastName)) {
-      throw new Error("Last name should not contain numbers");
-    }
     validator.validate(email);
     email = email.toLowerCase();
     try {

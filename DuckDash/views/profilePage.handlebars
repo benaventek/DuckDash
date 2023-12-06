@@ -1,4 +1,22 @@
-<h2>Profile page will go here</h2>
+<h2 class="userName">{{username}}</h2>
 <section>
-    <img src="{{{profilePic}}}" alt="Profile Picture">
+    <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+    <p class="userBio">{{{userBio}}}</p>
+
+    {{!-- //TODO: Add a button to change whatever the user wants to change
+
+    Will create post request to /profile with the following data:
+    {
+    "bioInput": "whatever the user wants to change"
+    }
+    will then call the updateUser function depending on what the user wants to change
+    will then redirect to /profile
+    --}}
+
+
+    <form action="/profile" method="POST" id="changeBio">
+        <input type="text" name="bioInput" id="bioInput" />
+    </form>
+
+
 </section>
