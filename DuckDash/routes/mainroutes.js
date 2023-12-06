@@ -137,7 +137,11 @@ router.route("/logout").get(async (req, res) => {
 router
   .route("/profile")
   .get(async (req, res, next) => {
-    res.render("profilePage", { title: "Profile" });
+    res.render("profilePage", {
+      title: "Profile",
+      username: req.session.user.username,
+      userBio: req.session.user.userBio,
+    });
   })
   //FIX THIS
   .post(async (req, res, next) => {
@@ -146,6 +150,6 @@ router
       "Bio",
       req.body.bioInput
     );
-    res.render("profilePage", { title: "Profile" });
+    res.redirect("/profile");
   });
 export default router;

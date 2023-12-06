@@ -2,6 +2,7 @@ import { users } from "../config/mongoCollections.js";
 import validateFuncs from "../helpers/validation.js";
 import bcrypt from "bcryptjs";
 import * as validator from "email-validator";
+import { ObjectId } from "mongodb";
 const saltRounds = 16;
 
 let exportedMethods = {
@@ -151,6 +152,7 @@ let exportedMethods = {
       throw new Error("Either the email address or password is invalid");
     }
     const returnInfo = {
+      userID: user._id,
       email: user.email,
       username: user.username,
       profilePictureUrl: user.profilePictureUrl,
@@ -190,9 +192,18 @@ let exportedMethods = {
     if (typeof id !== "string") throw "Invalid user id";
     id = id.trim();
     const userCollection = await users();
-    const user = await userCollection.findOne({ _id: id });
+    const user = await userCollection.findOne({ _id: new ObjectId(id) });
     if (!user) throw "User not found";
-    return user;
+    const returnInfo = {
+      userID: user._id,
+      email: user.email,
+      username: user.username,
+      profilePictureUrl: user.profilePictureUrl,
+      userBio: user.userBio,
+      friendsList: user.friendsList,
+      testResultsList: user.testResultsList,
+    };
+    return returnInfo;
   },
 };
 export default exportedMethods;

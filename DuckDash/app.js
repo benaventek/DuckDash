@@ -38,7 +38,7 @@ app.use(
   })
 );
 
-app.use(middlewareFunctions.isLoggedIn);
+app.all("*", middlewareFunctions.isLoggedIn);
 
 configRoutes(app);
 
