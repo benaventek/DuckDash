@@ -104,7 +104,7 @@ prompt.addEventListener('blur', () => {
 });
 
 let current = 0;
-prompt.addEventListener('keyup', (event) => {
+prompt.addEventListener('keydown', (event) => {
   let keyPress = event.key;
   if (keyPress === 'Shift' || keyPress === 'CapsLock') {
     return;
