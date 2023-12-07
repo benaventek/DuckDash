@@ -1,22 +1,20 @@
-<h2 class="userName">{{username}}</h2>
 <section>
     <div class="ProfilePictureSecion">
+        <h2 class="userName">{{username}}</h2>
         <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+
+        <button id="editProfilePictureButton">
+            Edit Picture
+        </button>
+        <button id="CanceleditProfilePictureButton" hidden>
+            Cancel
+        </button>
+        <form action="/upload" enctype="multipart/form-data" method="post" id="uploadPicture" hidden>
+            <input type="file" name="imageUpload" id="imageUpload" accept="image/png, image/jpeg" />
+            <input type="submit" value="Submit">
+        </form>
     </div>
-    <form action="/upload" enctype="multipart/form-data" method="post" id="uploadPicture" hidden>
-        <input type="file" name="imageUpload" id="imageUpload" accept="image/png, image/jpeg" />
-        <input type="submit" value="Submit">
-    </form>
-    <button id="editProfilePictureButton">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24"
-            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-            <path d="M13.5 6.5l4 4" />
-        </svg>
-        <span>Edit</span>
-    </button>
+
 
     <div class="BioSection">
         <p class="userBio">{{{userBio}}}</p>
@@ -24,8 +22,12 @@
             <input type="text" name="bioInput" id="bioInput" value="{{{userBio}}}" />
             <input type="submit" value="Submit">
         </form>
+        <button class="editProfileBioButton" id="editProfileBioButton">Edit Bio</button>
+        <button id="CancelEditBioButton" hidden>
+            Cancel
+        </button>
     </div>
-    <button class="editProfileBioButton" id="editProfileBioButton">Edit Bio</button>
+
 
     {{!-- //TODO: Add a button to change whatever the user wants to change
 
