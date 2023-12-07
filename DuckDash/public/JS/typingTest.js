@@ -3,7 +3,7 @@ let restart = document.getElementById('restart');
 let timer = document.getElementById('timer');
 let accuracy = document.getElementById('accuracy');
 let score = document.getElementById('score');
-let wpm = document.getElementById('wpm')
+let wpm = document.getElementById('wpm');
 let test = document.getElementById('test');
 let tests = JSON.parse(document.getElementById('tests').textContent);
 tests.forEach((test) => {
@@ -29,8 +29,9 @@ let timePassed = 0
 function newTest() {
   started = false;
   current = 0;
+  furthestReached = 0;
   accuracy.innerHTML = "100%"
-  wpm = "0 WPM"
+  wpm.innerHTML = "0 WPM"
   timing = false;
   let letters = prompt.querySelectorAll('.letter');
   letters.forEach((letter) => {
@@ -147,7 +148,7 @@ async function startTimer() {
       break;
   }
 
-  while (currtime > 0 && timing){
+  while (timePassed < currtime && timing){
     await wait();
     timePassed += .01;
     
@@ -172,6 +173,8 @@ async function startTimer() {
 let current = 0;
 let numwrong = [];
 let words = [];
+let wordCount = 0;
+let furthestReached = 0;
 prompt.addEventListener('keydown', (event) => {
   let keyPress = event.key;
   if (keyPress === 'Shift' || keyPress === 'CapsLock') {
@@ -196,7 +199,7 @@ prompt.addEventListener('keydown', (event) => {
       keyPress = ' ';
     }
     if (keyPress === letters[current].textContent) {
-      if(keyPress = ' '){
+      if(keyPress === ' '){
         words[current] = true;
       }
       letters[current].classList.add('correct');
@@ -204,6 +207,7 @@ prompt.addEventListener('keydown', (event) => {
         `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
       );
       current++;
+      furthestReached++;
     }else if (keyPress === 'Backspace' && current > 0) {
       current--;
       letters[current].classList.remove('correct');
@@ -217,19 +221,27 @@ prompt.addEventListener('keydown', (event) => {
         `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
       );
       current++;
+      furthestReached++;
     }
     let count = 0;
-    let wordCount = 0;
-    for(let i = 0; i <= current; i++){
+    wordCount = 0;
+    for(let i = 0; i <= furthestReached; i++){
       if(numwrong[i]) count++;
       if(words[i]) wordCount++;
     }
-    
-    accuracy.innerHTML = 100 - (Math.round((count/(current)) * 100)).toFixed(0) + "%"
-    wpm.innerHTML = (Math.round((wordCount/currtime) * 100)).toFixed(0) * 60 + " WPM!"
+    accuracy.innerHTML = 100 - (Math.round((count/(furthestReached)) * 100)).toFixed(0) + "%";
+    console.log(furthestReached);
+    //words complete / seconds passed * 60 (seconds for minutes)
+    let currwpm = wordCount/timePassed * 60
+    if(timePassed == 0) currwpm = 0;
+    wpm.innerHTML = (Math.round(currwpm)).toFixed(0)  + " WPM";
   }
   //Check if now at the end
   if (current == letters.length){
+    for(let i = 0; i <= furthestReached; i++){
+      if(words[i]) wordCount++;
+    }
+    wordCount++;
     console.log('Complete!')
     forceRestart = false;
     timing = false;
