@@ -7,6 +7,20 @@ import middlewareFunctions from "./helpers/middleware.js";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import exphbs from "express-handlebars";
+import fileUpload from "express-fileupload";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import dotenv from "dotenv";
+import UserFuncs from "./data/users.js";
+
+dotenv.config();
+const s3Config = {
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_ACCESS_SECRET,
+  region: "us-east-1",
+};
+
+const s3Client = new S3Client(s3Config);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -42,6 +56,32 @@ app.use(
 );
 
 app.all("*", middlewareFunctions.isLoggedIn);
+app.use(fileUpload());
+
+app.post("/upload", async (req, res) => {
+  const file = req.files.imageUpload;
+  var binaryFile = new Buffer(file.data, "binary");
+  const fileName = "UserProfilePictures" + ".png";
+  const bucketParams = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: fileName,
+    Body: binaryFile,
+  };
+  try {
+    const data = await s3Client.send(new PutObjectCommand(bucketParams));
+  } catch (err) {
+    console.log("Error", err);
+  }
+  if (req.session.user) {
+    await UserFuncs.updateUser(
+      req.session.user.username,
+      "ProfilePictureUrl",
+      "https://duckdashbucket.s3.amazonaws.com/UserProfilePictures.png"
+    );
+  }
+
+  res.redirect("/profile");
+});
 
 configRoutes(app);
 

@@ -1,8 +1,12 @@
 <h2 class="userName">{{username}}</h2>
 <section>
     <div class="ProfilePictureSecion">
-        <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+        <img class="ProfilePicture" href="{{{profilePictureUrl}}}" alt="Profile Picture">
     </div>
+    <form action="/upload" enctype="multipart/form-data" method="post" id="uploadPicture" hidden>
+        <input type="file" name="imageUpload" id="imageUpload" accept="image/png, image/jpeg" />
+        <input type="submit" value="Submit">
+    </form>
     <button id="editProfilePictureButton">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24"
             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
