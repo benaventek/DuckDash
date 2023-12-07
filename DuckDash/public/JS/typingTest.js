@@ -1,7 +1,9 @@
 let prompt = document.getElementById('prompt');
 let restart = document.getElementById('restart');
 let timer = document.getElementById('timer');
+let accuracy = document.getElementById('accuracy');
 let score = document.getElementById('score');
+let wpm = document.getElementById('wpm')
 let test = document.getElementById('test');
 let tests = JSON.parse(document.getElementById('tests').textContent);
 tests.forEach((test) => {
@@ -22,10 +24,13 @@ let prompts = [
   "She said, 'I can't believe you did that!'",
 ];
 let started = false;
-let timecomplete = true;
+let forceRestart = false;
+let timePassed = 0
 function newTest() {
   started = false;
   current = 0;
+  accuracy.innerHTML = "100%"
+  wpm = "0 WPM"
   timing = false;
   let letters = prompt.querySelectorAll('.letter');
   letters.forEach((letter) => {
@@ -34,7 +39,7 @@ function newTest() {
     letter.classList.remove('correct');
     letter.classList.remove('incorrect');
   });
-
+  numwrong = [];
   if (timeDropdown.value === '15s') {
     timer.innerHTML = '15 Seconds';
   } else if (timeDropdown.value === '30s') {
@@ -42,6 +47,8 @@ function newTest() {
   } else if (timeDropdown.value === '1m') {
     timer.innerHTML = '60 Seconds';
   }
+  timePassed = 0
+  return;
 }
 
 promptDropdown.addEventListener('change', () => {
@@ -66,7 +73,8 @@ promptDropdown.addEventListener('change', () => {
   } else if (promptDropdown.value === 'random') {
     quoteToWrite = prompts[Math.floor(Math.random() * prompts.length)];
   }
-  current = 0;
+  forceRestart = true;
+  newTest();
   prompt.innerHTML = quoteToWrite;
 
   let words = quoteToWrite.split(' ');
@@ -99,11 +107,13 @@ promptDropdown.addEventListener('change', () => {
 });
 
 timeDropdown.addEventListener('change', () => {
+  forceRestart = true;
   newTest();
 });
 
 
 restart.addEventListener('click', () => {
+  forceRestart = true;
   newTest();
 });
 
@@ -136,18 +146,32 @@ async function startTimer() {
     default:
       break;
   }
+
   while (currtime > 0 && timing){
     await wait();
-    currtime -= .01;
+    timePassed += .01;
     
-    timer.innerHTML = (Math.round(currtime * 100) / 100).toFixed(2) + " Seconds";
+    timer.innerHTML = (Math.round((currtime - timePassed) * 100) / 100).toFixed(2) + " Seconds";
   }
-  if (currtime <= 0){
+  if (timePassed >= currtime){
     timer.innerHTML = "0 Seconds";
+  }
+  if (forceRestart === true) {
+    forceRestart = false;
+    if (timeDropdown.value === '15s') {
+      timer.innerHTML = '15 Seconds';
+    } else if (timeDropdown.value === '30s') {
+      timer.innerHTML = '30 Seconds';
+    } else if (timeDropdown.value === '1m') {
+      timer.innerHTML = '60 Seconds';
+    }
+    
   }
 }
 
 let current = 0;
+let numwrong = [];
+let words = [];
 prompt.addEventListener('keydown', (event) => {
   let keyPress = event.key;
   if (keyPress === 'Shift' || keyPress === 'CapsLock') {
@@ -172,18 +196,15 @@ prompt.addEventListener('keydown', (event) => {
       keyPress = ' ';
     }
     if (keyPress === letters[current].textContent) {
+      if(keyPress = ' '){
+        words[current] = true;
+      }
       letters[current].classList.add('correct');
       console.log(
         `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
       );
       current++;
-    } else if (keyPress === letters[current].textContent) {
-      letters[current].classList.add('correct');
-      console.log(
-        `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
-      );
-      current++;
-    } else if (keyPress === 'Backspace' && current > 0) {
+    }else if (keyPress === 'Backspace' && current > 0) {
       current--;
       letters[current].classList.remove('correct');
       letters[current].classList.remove('incorrect');
@@ -191,15 +212,26 @@ prompt.addEventListener('keydown', (event) => {
       letters[current].classList.add('next');
     } else {
       letters[current].classList.add('incorrect');
+      numwrong[current] = true
       console.log(
         `Received input: ${keyPress}, Expected input: ${letters[current].textContent}`
       );
       current++;
     }
+    let count = 0;
+    let wordCount = 0;
+    for(let i = 0; i <= current; i++){
+      if(numwrong[i]) count++;
+      if(words[i]) wordCount++;
+    }
+    
+    accuracy.innerHTML = 100 - (Math.round((count/(current)) * 100)).toFixed(0) + "%"
+    wpm.innerHTML = (Math.round((wordCount/currtime) * 100)).toFixed(0) * 60 + " WPM!"
   }
   //Check if now at the end
   if (current == letters.length){
     console.log('Complete!')
+    forceRestart = false;
     timing = false;
   }
 });
