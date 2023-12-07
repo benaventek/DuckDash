@@ -66,6 +66,9 @@ app.post("/upload", async (req, res) => {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: fileName,
     Body: binaryFile,
+    Fields: {
+      "Content-Type": "image/png",
+    },
   };
   try {
     const data = await s3Client.send(new PutObjectCommand(bucketParams));
