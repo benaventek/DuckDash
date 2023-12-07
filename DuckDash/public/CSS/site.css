@@ -217,20 +217,60 @@ a.LoginLink {
 }
 
 .ProfilePicture {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   display: block;
   margin: auto;
+  padding: 10px;
+}
+div.BioSection {
+  padding-top: 30px;
 }
 .userBio {
-  padding-top: 30px;
   width: 33%;
   display: block;
   margin: auto;
   text-align: center;
+  word-wrap: break-word;
 }
-button.editProfileBio {
+p.userBio {
+  border: #741724 2px dotted;
+  padding: 10px;
+}
+#editProfileBioButton {
+  height: auto;
   display: block;
   text-align: center;
-  float: right;
+  position: absolute;
+  right: 29%;
+  background-color: #a32638;
+  color: white;
+}
+#editProfilePictureButton {
+  padding: 4px 2px;
+  margin-right: 20px;
+  display: block;
+  position: absolute;
+  right: 42%;
+  top: 32%;
+  background-color: #a32638;
+}
+#editProfilePictureButton span {
+  height: inherit;
+  width: inherit;
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 4px;
+  color: white;
+}
+#editProfilePictureButton svg {
+  height: inherit;
+  width: inherit;
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+}
+#editProfilePictureButton:hover,
+#editProfileBioButton:hover {
+  cursor: pointer;
 }
