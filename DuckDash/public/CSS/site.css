@@ -221,7 +221,7 @@ a.LoginLink {
   height: 150px;
   display: block;
   margin: auto;
-  padding: 10px;
+  border: #741724 5px solid;
 }
 div.BioSection {
   padding-top: 30px;
@@ -258,7 +258,8 @@ p.userBio {
   background-color: #a32638;
   margin: auto;
   position: relative;
-  left: 66.66%;
+  left: 80%;
+  top: 10px;
   color: white;
 }
 #CanceleditProfilePictureButton {
