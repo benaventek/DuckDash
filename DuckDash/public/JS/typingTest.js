@@ -21,6 +21,28 @@ let prompts = [
   "Don't forget to bring your umbrella; it might rain later.",
   "She said, 'I can't believe you did that!'",
 ];
+let started = false;
+let timecomplete = true;
+function newTest() {
+  started = false;
+  current = 0;
+  timing = false;
+  let letters = prompt.querySelectorAll('.letter');
+  letters.forEach((letter) => {
+    letter.classList.remove('current');
+    letter.classList.remove('next');
+    letter.classList.remove('correct');
+    letter.classList.remove('incorrect');
+  });
+
+  if (timeDropdown.value === '15s') {
+    timer.innerHTML = '15 Seconds';
+  } else if (timeDropdown.value === '30s') {
+    timer.innerHTML = '30 Seconds';
+  } else if (timeDropdown.value === '1m') {
+    timer.innerHTML = '60 Seconds';
+  }
+}
 
 promptDropdown.addEventListener('change', () => {
   if (promptDropdown.value === 'random') {
@@ -77,24 +99,12 @@ promptDropdown.addEventListener('change', () => {
 });
 
 timeDropdown.addEventListener('change', () => {
-  if (timeDropdown.value === '15s') {
-    timer.innerHTML = '15 Seconds';
-  } else if (timeDropdown.value === '30s') {
-    timer.innerHTML = '30 Seconds';
-  } else if (timeDropdown.value === '1m') {
-    timer.innerHTML = '60 Seconds';
-  }
+  newTest();
 });
 
+
 restart.addEventListener('click', () => {
-  let letters = prompt.querySelectorAll('.letter');
-  letters.forEach((letter) => {
-    letter.classList.remove('current');
-    letter.classList.remove('next');
-    letter.classList.remove('correct');
-    letter.classList.remove('incorrect');
-  });
-  current = 0;
+  newTest();
 });
 
 prompt.addEventListener('focus', () => {
@@ -104,6 +114,38 @@ prompt.addEventListener('focus', () => {
 prompt.addEventListener('blur', () => {
   focusMessage.style.display = 'block';
 });
+function wait() {
+  return new Promise(resolve => {
+    setTimeout(resolve,10);
+  });
+}
+let timing = false
+//Timer
+async function startTimer() {
+  currtime = 0
+  switch (timeDropdown.value) {
+    case '15s':
+      currtime = 15;
+      break;
+    case '30s':
+      currtime = 30;
+      break;
+    case '1m':
+      currtime = 60;
+      break;
+    default:
+      break;
+  }
+  while (currtime > 0 && timing){
+    await wait();
+    currtime -= .01;
+    
+    timer.innerHTML = (Math.round(currtime * 100) / 100).toFixed(2) + " Seconds";
+  }
+  if (currtime <= 0){
+    timer.innerHTML = "0 Seconds";
+  }
+}
 
 let current = 0;
 prompt.addEventListener('keydown', (event) => {
@@ -111,7 +153,11 @@ prompt.addEventListener('keydown', (event) => {
   if (keyPress === 'Shift' || keyPress === 'CapsLock') {
     return;
   }
-
+  if (!started){
+    started = true;
+    timing = true;
+    startTimer();
+  }
   let letters = prompt.querySelectorAll('.letter');
   letters.forEach((letter) => {
     letter.classList.remove('current');
@@ -150,6 +196,11 @@ prompt.addEventListener('keydown', (event) => {
       );
       current++;
     }
+  }
+  //Check if now at the end
+  if (current == letters.length){
+    console.log('Complete!')
+    timing = false;
   }
 });
 
