@@ -15,6 +15,9 @@ let middlewareFunctions = {
       if (req.path == "/profile") {
         return res.redirect("/login");
       }
+      if (req.path == "/upload") {
+        return res.redirect("/login");
+      }
     }
     next();
   },

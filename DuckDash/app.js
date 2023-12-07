@@ -61,7 +61,7 @@ app.use(fileUpload());
 app.post("/upload", async (req, res) => {
   const file = req.files.imageUpload;
   var binaryFile = new Buffer(file.data, "binary");
-  const fileName = "UserProfilePictures" + ".png";
+  const fileName = "UserProfilePictures" + req.session.user.userID;
   const bucketParams = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: fileName,
@@ -75,13 +75,11 @@ app.post("/upload", async (req, res) => {
   } catch (err) {
     console.log("Error", err);
   }
-  if (req.session.user) {
-    await UserFuncs.updateUser(
-      req.session.user.username,
-      "ProfilePictureUrl",
-      "https://duckdashbucket.s3.amazonaws.com/UserProfilePictures.png"
-    );
-  }
+  await UserFuncs.updateUser(
+    req.session.user.username,
+    "ProfilePictureUrl",
+    "https://duckdashbucket.s3.amazonaws.com/UserProfilePictures.png"
+  );
 
   res.redirect("/profile");
 });
