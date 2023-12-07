@@ -19,4 +19,5 @@ const getCollectionFn = (collection) => {
 export const users = getCollectionFn("users");
 export const results = getCollectionFn("results");
 export const presetTests = getCollectionFn("presetTests");
-export const Requests = getCollectionFn("requests");
+export const requests = getCollectionFn("requests");
+export const friends = getCollectionFn("friends");

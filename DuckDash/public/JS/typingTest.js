@@ -230,7 +230,6 @@ prompt.addEventListener('keydown', (event) => {
       if(words[i]) wordCount++;
     }
     accuracy.innerHTML = 100 - (Math.round((count/(furthestReached)) * 100)).toFixed(0) + "%";
-    console.log(furthestReached);
     //words complete / seconds passed * 60 (seconds for minutes)
     let currwpm = wordCount/timePassed * 60
     if(timePassed == 0) currwpm = 0;
