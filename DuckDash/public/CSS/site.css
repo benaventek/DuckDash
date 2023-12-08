@@ -283,3 +283,12 @@ div.BioSection {
 h2.username {
   text-align: center;
 }
+#SendFriendRequestButton {
+  padding: 4px 2px;
+  background-color: #a32638;
+  margin: auto;
+  position: absolute;
+  left: 55%;
+  bottom: 87%;
+  color: white;
+}

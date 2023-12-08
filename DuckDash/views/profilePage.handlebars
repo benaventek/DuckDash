@@ -1,7 +1,7 @@
 <section>
     <div class="ProfilePictureSecion">
         <h2 class="userName">{{username}}</h2>
-        <img class="ProfilePicture" class="NO-CACHE" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+        <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
 
         <button id="editProfilePictureButton">
             Edit Picture
@@ -26,6 +26,24 @@
         <button id="CancelEditBioButton" hidden>
             Cancel
         </button>
+    </div>
+
+    <div class="FriendsSection">
+        <h2>Friends</h2>
+        <ul>
+            {{#each friends}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div class="TestsSection">
+        <h2>Tests</h2>
+        <ul>
+            {{#each tests}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
     </div>
 
 

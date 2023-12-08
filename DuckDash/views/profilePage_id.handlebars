@@ -1,10 +1,16 @@
 <section>
     <div class="ProfilePictureSecion">
-        <h2 class="userName">{{username}}</h2>
-        <img class="ProfilePicture" class="NO-CACHE" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+        <h2 class="userName" id="userName">{{username}}</h2>
+        <button name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend Request</button>
+        <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
+
     </div>
+    {{!-- TODO: Add a button to enable friend request, maybe Add friend. Also if this user is already a friend dont show
+    the button and maybe show
+    a remove friend button
 
-
+    also show total number of friends a user has, and all the tests they have completed along with their stats
+    --}}
     <div class="BioSection">
         <p class="userBio">{{{userBio}}}</p>
     </div>

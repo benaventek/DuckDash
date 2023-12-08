@@ -149,6 +149,8 @@ router
     res.render("profilePage", {
       title: "Profile",
       partial: "profilePage_script",
+      tests: req.session.user.testResultsList,
+      friends: req.session.user.friendsList,
       username: req.session.user.username,
       userBio: req.session.user.userBio,
       profilePictureUrl: req.session.user.profilePictureUrl,
@@ -163,25 +165,51 @@ router
     );
     res.redirect("/profile");
   });
-router.route("/profile/:username").get(async (req, res, next) => {
-  if (!req.params.username)
-    return res.status(404).render("error", { title: "Error" });
-  try {
-    let user = await UserFuncs.getUserByUsername(req.params.username);
-    if (req.session.user) {
-      if (req.session.user.username == user.username) {
-        return res.redirect("/profile");
+router
+  .route("/profile/:username")
+  .get(async (req, res, next) => {
+    if (!req.params.username)
+      return res.status(404).render("error", { title: "Error" });
+    try {
+      let user = await UserFuncs.getUserByUsername(req.params.username);
+      if (req.session.user) {
+        if (req.session.user.username == user.username) {
+          return res.redirect("/profile");
+        }
       }
+      res.render("profilePage_id", {
+        title: "Profile",
+        partial: "profilePage_id_script",
+        username: user.username,
+        userBio: user.userBio,
+        profilePictureUrl: user.profilePictureUrl,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(404).render("error", { title: "404", Error: error });
     }
-    res.render("profilePage_id", {
-      title: "Profile",
-      username: user.username,
-      userBio: user.userBio,
-      profilePictureUrl: user.profilePictureUrl,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(404).render("error", { title: "404", Error: error });
-  }
-});
+  })
+  .post(async (req, res, next) => {
+    if (req.session.user) {
+      try {
+        let user = await UserFuncs.getUserByUsername(req.body.username);
+        await UserFuncs.updateUser(
+          req.session.user.username,
+          "FriendsList",
+          user.username
+        );
+        res.render("profilePage_id", {
+          title: "Profile",
+          partial: "profilePage_id_script",
+          username: user.username,
+          userBio: user.userBio,
+          profilePictureUrl: user.profilePictureUrl,
+        });
+      } catch (error) {
+        return res.status(404).render("error", { title: "404", Error: error });
+      }
+    } else {
+      return res.redirect("/login");
+    }
+  });
 export default router;

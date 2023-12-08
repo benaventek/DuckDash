@@ -20,4 +20,3 @@ export const users = getCollectionFn("users");
 export const results = getCollectionFn("results");
 export const presetTests = getCollectionFn("presetTests");
 export const requests = getCollectionFn("requests");
-export const friends = getCollectionFn("friends");
