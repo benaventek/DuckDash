@@ -26,8 +26,8 @@ pictureUploadArea.addEventListener("submit", async (event) => {
     event.preventDefault();
     return;
   }
-  if (pictureInput.files[0].size > 10000000) {
-    alert("File must be less than 10MB");
+  if (pictureInput.files[0].size > 5000000) {
+    alert("File must be less than 5MB");
     event.preventDefault();
     return;
   }

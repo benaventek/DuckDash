@@ -143,6 +143,9 @@ router.route("/logout").get(async (req, res) => {
 router
   .route("/profile")
   .get(async (req, res, next) => {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
     res.render("profilePage", {
       title: "Profile",
       partial: "profilePage_script",
@@ -153,7 +156,6 @@ router
   })
   //FIX THIS
   .post(async (req, res, next) => {
-    let selection = req.body.selection;
     await UserFuncs.updateUser(
       req.session.user.username,
       "Bio",
@@ -161,5 +163,25 @@ router
     );
     res.redirect("/profile");
   });
-
+router.route("/profile/:username").get(async (req, res, next) => {
+  if (!req.params.username)
+    return res.status(404).render("error", { title: "Error" });
+  try {
+    let user = await UserFuncs.getUserByUsername(req.params.username);
+    if (req.session.user) {
+      if (req.session.user.username == user.username) {
+        return res.redirect("/profile");
+      }
+    }
+    res.render("profilePage_id", {
+      title: "Profile",
+      username: user.username,
+      userBio: user.userBio,
+      profilePictureUrl: user.profilePictureUrl,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).render("error", { title: "404", Error: error });
+  }
+});
 export default router;

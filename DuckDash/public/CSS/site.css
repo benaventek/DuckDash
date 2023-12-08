@@ -216,22 +216,17 @@ a.LoginLink {
   margin-top: 10px;
 }
 
-.ProfilePicture {
+img.ProfilePicture {
   width: 150px;
   height: 150px;
   display: block;
   margin: auto;
   border: #741724 5px solid;
 }
-div.BioSection {
-  padding-top: 30px;
-}
 .userBio {
   margin: auto;
   text-align: center;
   word-wrap: break-word;
-}
-p.userBio {
   border: #741724 2px dotted;
   padding: 10px;
 }
@@ -280,6 +275,7 @@ div.ProfilePictureSecion {
   align-items: center;
 }
 div.BioSection {
+  padding-top: 30px;
   display: grid;
   justify-content: center;
   align-items: center;

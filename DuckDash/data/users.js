@@ -17,6 +17,7 @@ let exportedMethods = {
     email = email.trim();
     password = password.trim(); //trim all inputs
     email = email.toLowerCase(); //convert email to lowercase
+    username = username.toLowerCase(); //convert username to lowercase
     let errorCheck = validateFuncs.validateRegisterInput(
       username,
       email,
@@ -57,7 +58,7 @@ let exportedMethods = {
     username = validateFuncs.validUsername(username);
     const userCollection = await users();
     const user = await userCollection.findOne({ username: username });
-    if (!user) return false;
+    if (!user) throw "User Doesnt Exist";
     return user;
   },
   //takes in username, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
