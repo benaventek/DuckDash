@@ -293,3 +293,24 @@ h2.username {
   bottom: 87%;
   color: white;
 }
+#FriendsSection {
+  padding-top: 15px;
+  display: grid;
+  justify-content: center;
+}
+#SendToUsersProfile {
+  text-align: center;
+  margin: auto;
+  align-self: center;
+  padding: 0;
+  color: #741724;
+}
+#FriendsListItem {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: grid;
+  text-align: center;
+}
+#FriendsList {
+  border: #741724 2px dotted;
+}

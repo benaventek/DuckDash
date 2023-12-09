@@ -28,20 +28,30 @@
         </button>
     </div>
 
-    <div class="FriendsSection">
-        <h2>Friends</h2>
+    <div class="FriendsSection" id="FriendsSection">
+        <h2 class="FriendsTitle">Friends</h2>
         <ul>
             {{#each friends}}
             <li>{{this}}</li>
             {{/each}}
         </ul>
-        <h2>Friend Requests</h2>
-        <ul>
+        <h2 class="PendingFriendRequestTitle">Pending Friend Requests</h2>
+        <ul class="FriendsList" id="FriendsList">
             {{#each PendingFriendRequests}}
-            <li>
-                <a href="/profile/{{this}}">
+            <li class="FriendsListItem" id="FriendsListItem">
+                <a class="SendToUsersProfile" id="SendToUsersProfile" href="/profile/{{this}}">
                     {{this}}
                 </a>
+                <div class="FriendRequestButtonsOptions" id="FriendRequestButtonsOptions">
+                    <form action="WillGetThisFromClientSide" method="post" id="FriendRequestPost">
+                        <button type="submit" class="AcceptFriendRequestButton" id="AcceptFriendRequestButton">
+                            Accept
+                        </button>
+                        <button type="submit" class="DeclineFriendRequestButton" id="DeclineFriendRequestButton">
+                            Decline
+                        </button>
+                    </form>
+                </div>
 
             </li>
             {{/each}}

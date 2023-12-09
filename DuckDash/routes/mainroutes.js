@@ -187,7 +187,9 @@ router
     if (!req.params.username)
       return res.status(404).render("error", { title: "Error" });
     try {
-      let user = await UserFuncs.getUserByUsername(req.params.username);
+      let user = await UserFuncs.getUserByUsername(
+        req.params.username.toLowerCase()
+      );
       if (req.session.user) {
         if (req.session.user.username == user.username) {
           return res.redirect("/profile");
@@ -209,7 +211,7 @@ router
     if (req.session.user) {
       try {
         let requestedUser = await UserFuncs.getUserByUsername(
-          req.body.username
+          req.body.username.toLowerCase()
         );
         console.log(
           req.session.user.userID.toString(),
