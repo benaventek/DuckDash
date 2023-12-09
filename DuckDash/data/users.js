@@ -17,7 +17,6 @@ let exportedMethods = {
     email = email.trim();
     password = password.trim(); //trim all inputs
     email = email.toLowerCase(); //convert email to lowercase
-    username = username.toLowerCase(); //convert username to lowercase
     let errorCheck = validateFuncs.validateRegisterInput(
       username,
       email,
@@ -28,8 +27,10 @@ let exportedMethods = {
         "Invalid user inputs" + JSON.stringify(errorCheck.errors)
       );
     //Check if username is taken
-    if (await this.getUserByUsername(username))
-      throw new Error("Username is already taken");
+    try {
+      let isDuplicate = await this.getUserByUsername(username);
+      if (isDuplicate) throw new Error("Username already taken");
+    } catch (error) {}
     //Create new user object
     //initialize friendsList and testResultsList as empty arrays
     let friendsList = [];
@@ -56,8 +57,11 @@ let exportedMethods = {
   },
   async getUserByUsername(username) {
     username = validateFuncs.validUsername(username);
+    username = username.toLowerCase();
     const userCollection = await users();
-    const user = await userCollection.findOne({ username: username });
+    const user = await userCollection.findOne({
+      username: { $regex: new RegExp("^" + username + "$", "i") },
+    });
     if (!user) throw "User Doesnt Exist";
     const returnInfo = {
       userID: user._id,
@@ -187,7 +191,6 @@ let exportedMethods = {
     email = email.trim();
     password = password.trim();
     username = username.trim();
-
     validator.validate(email);
     email = email.toLowerCase();
     try {
