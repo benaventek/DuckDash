@@ -229,6 +229,7 @@ img.ProfilePicture {
   word-wrap: break-word;
   border: #741724 2px dotted;
   padding: 10px;
+  max-width: 450px;
 }
 #editProfileBioButton {
   height: auto;

@@ -12,7 +12,7 @@
   "author": "Group6",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.468.0",
+    "@aws-sdk/client-s3": "^3.470.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",

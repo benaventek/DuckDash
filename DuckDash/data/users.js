@@ -59,7 +59,16 @@ let exportedMethods = {
     const userCollection = await users();
     const user = await userCollection.findOne({ username: username });
     if (!user) throw "User Doesnt Exist";
-    return user;
+    const returnInfo = {
+      userID: user._id,
+      email: user.email,
+      username: user.username,
+      profilePictureUrl: user.profilePictureUrl,
+      userBio: user.userBio,
+      friendsList: user.friendsList,
+      testResultsList: user.testResultsList,
+    };
+    return returnInfo;
   },
   //takes in username, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
   async updateUser(username, updateSelection, updateValue) {

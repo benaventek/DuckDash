@@ -1,10 +1,18 @@
 <section>
+
+
     <div class="ProfilePictureSecion">
         <h2 class="userName" id="userName">{{username}}</h2>
-        <button name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend Request</button>
-        <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
 
+        <form action="/profile/{{username}}" method="post" id="sendFriendRequest">
+            <label for="username">Send Friend Request</label>
+            <input type="hidden" id="username" name="username" value="{{username}}">
+            <button type="submit" value="submit" name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend
+                Request</button>
+        </form>
     </div>
+
+
     {{!-- TODO: Add a button to enable friend request, maybe Add friend. Also if this user is already a friend dont show
     the button and maybe show
     a remove friend button

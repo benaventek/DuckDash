@@ -3,7 +3,9 @@ import presetTestFuncs from "../data/presetTests.js";
 const router = Router();
 import validateFuncs from "../helpers/validation.js";
 import UserFuncs from "../data/users.js";
+import RequestFuncs from "../data/requests.js";
 import * as validator from "email-validator";
+import { ObjectId } from "mongodb";
 
 router.route("/").get(async (req, res) => {
   let tests = await presetTestFuncs.getAllTests();
@@ -146,24 +148,38 @@ router
     if (!req.session.user) {
       return res.redirect("/login");
     }
-    res.render("profilePage", {
-      title: "Profile",
-      partial: "profilePage_script",
-      tests: req.session.user.testResultsList,
-      friends: req.session.user.friendsList,
-      username: req.session.user.username,
-      userBio: req.session.user.userBio,
-      profilePictureUrl: req.session.user.profilePictureUrl,
-    });
+
+    try {
+      let PendingFriendRequests =
+        await RequestFuncs.getPendingRequestsbyRecieverId(
+          req.session.user.userID.toString()
+        );
+      console.log(PendingFriendRequests);
+      res.render("profilePage", {
+        title: "Profile",
+        partial: "profilePage_script",
+        tests: req.session.user.testResultsList,
+        friends: req.session.user.friendsList,
+        username: req.session.user.username,
+        userBio: req.session.user.userBio,
+        profilePictureUrl: req.session.user.profilePictureUrl,
+        PendingFriendRequests: PendingFriendRequests,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   })
-  //FIX THIS
   .post(async (req, res, next) => {
-    await UserFuncs.updateUser(
-      req.session.user.username,
-      "Bio",
-      req.body.bioInput
-    );
-    res.redirect("/profile");
+    try {
+      await UserFuncs.updateUser(
+        req.session.user.username,
+        "Bio",
+        req.body.bioInput
+      );
+      res.redirect("/profile");
+    } catch (error) {
+      return res.status(404).render("error", { title: "404", Error: error });
+    }
   });
 router
   .route("/profile/:username")
@@ -192,18 +208,24 @@ router
   .post(async (req, res, next) => {
     if (req.session.user) {
       try {
-        let user = await UserFuncs.getUserByUsername(req.body.username);
-        await UserFuncs.updateUser(
-          req.session.user.username,
-          "FriendsList",
-          user.username
+        let requestedUser = await UserFuncs.getUserByUsername(
+          req.body.username
         );
+        console.log(
+          req.session.user.userID.toString(),
+          requestedUser.userID.toString()
+        );
+        await RequestFuncs.addRequest(
+          req.session.user.userID.toString(),
+          requestedUser.userID.toString()
+        );
+        console.log("Friend request sent successfully");
         res.render("profilePage_id", {
           title: "Profile",
           partial: "profilePage_id_script",
-          username: user.username,
-          userBio: user.userBio,
-          profilePictureUrl: user.profilePictureUrl,
+          username: requestedUser.username,
+          userBio: requestedUser.userBio,
+          profilePictureUrl: requestedUser.profilePictureUrl,
         });
       } catch (error) {
         return res.status(404).render("error", { title: "404", Error: error });

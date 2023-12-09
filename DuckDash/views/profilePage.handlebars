@@ -35,6 +35,17 @@
             <li>{{this}}</li>
             {{/each}}
         </ul>
+        <h2>Friend Requests</h2>
+        <ul>
+            {{#each PendingFriendRequests}}
+            <li>
+                <a href="/profile/{{this}}">
+                    {{this}}
+                </a>
+
+            </li>
+            {{/each}}
+        </ul>
     </div>
 
     <div class="TestsSection">

@@ -11,15 +11,17 @@ import fileUpload from "express-fileupload";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import UserFuncs from "./data/users.js";
+process.env.AWS_SDK_LOAD_CONFIG = "1";
 
 dotenv.config();
-const s3Config = {
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_ACCESS_SECRET,
-  region: "us-east-1",
-};
 
-const s3Client = new S3Client(s3Config);
+const client = new S3Client({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRETE_ACCESS_KEY,
+  },
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -61,16 +63,16 @@ app.post("/upload", async (req, res) => {
   const file = req.files.imageUpload;
   const fileName = "UserProfilePictures_" + req.session.user.userID + ".png";
   const bucketParams = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Bucket: "duckdashbucket",
     Key: fileName,
     Body: file.data,
     ContentType: file.mimetype,
     CacheControl: "no-cache",
   };
   try {
-    const data = await s3Client.send(new PutObjectCommand(bucketParams));
+    const data = await client.send(new PutObjectCommand(bucketParams));
   } catch (err) {
-    alert("Error uploading file: ", err);
+    console.log(err);
   }
   try {
     await UserFuncs.updateUser(
