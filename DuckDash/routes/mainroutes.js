@@ -5,7 +5,7 @@ import validateFuncs from "../helpers/validation.js";
 import UserFuncs from "../data/users.js";
 import RequestFuncs from "../data/requests.js";
 import * as validator from "email-validator";
-import { ObjectId } from "mongodb";
+import { requests } from "../config/mongoCollections.js";
 
 router.route("/").get(async (req, res) => {
   let tests = await presetTestFuncs.getAllTests();
@@ -218,12 +218,12 @@ router
         let requestedUser = await UserFuncs.getUserByUsername(
           req.body.username.toLowerCase()
         );
-        
+
         await RequestFuncs.addRequest(
           req.session.user.userID.toString(),
           requestedUser.userID.toString()
         );
-        
+
         res.render("profilePage_id", {
           title: "Profile",
           partial: "profilePage_id_script",
@@ -247,6 +247,20 @@ router.route("/acceptFriendRequest").post(async (req, res, next) => {
       req.body.FriendRequestId,
       req.session.user.userID.toString()
     );
+    res.redirect("/profile");
+  } catch (error) {
+    return res.status(404).render("error", { title: "404", Error: error });
+  }
+});
+router.route("/declineFriendRequest").post(async (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const userCollection = await requests();
+    await userCollection.deleteOne({
+      sender: req.body.FriendRequestId,
+    });
     res.redirect("/profile");
   } catch (error) {
     return res.status(404).render("error", { title: "404", Error: error });
