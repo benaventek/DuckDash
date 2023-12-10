@@ -195,9 +195,24 @@ router
       let user = await UserFuncs.getUserByUsername(
         req.params.username.toLowerCase()
       );
+      let isFriend = false;
+      let isPending = false;
       if (req.session.user) {
         if (req.session.user.username == user.username) {
           return res.redirect("/profile");
+        }
+        for (const friend of user.friendsList) {
+          if (friend.toString() == req.session.user.userID.toString()) {
+            isFriend = true;
+          }
+        }
+        let pendingRequests = await RequestFuncs.getPendingRequestsbyRecieverId(
+          req.session.user.userID.toString()
+        );
+        for (const request of pendingRequests) {
+          if (request.userId == user.userID.toString()) {
+            isPending = true;
+          }
         }
       }
       res.render("profilePage_id", {
@@ -206,6 +221,7 @@ router
         username: user.username,
         userBio: user.userBio,
         profilePictureUrl: user.profilePictureUrl,
+        showRequestButton: !isFriend && !isPending,
       });
     } catch (error) {
       console.log(error);
