@@ -1,5 +1,6 @@
 import { requests } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import mongodb from "mongodb";
 import users from "./users.js";
 import e from "express";
 
@@ -22,7 +23,21 @@ let exportedMethods = {
       let receiver = await users.getUserById(receiverId);
 
       //check that sener and reciever are not already friends
-      if (sender.friendsList.includes(receiverId))
+
+      let senderfriends = [];
+      let receiverfriends = [];
+      for (const friend of sender.friendsList) {
+        let FriendUsername = await users.getUserById(friend.toString());
+        senderfriends.push(FriendUsername.username);
+      }
+      for (const friend of receiver.friendsList) {
+        let FriendUsername = await users.getUserById(friend.toString());
+        receiverfriends.push(FriendUsername.username);
+      }
+      if (
+        senderfriends.includes(receiver.username) ||
+        receiverfriends.includes(sender.username)
+      )
         throw new Error("Sender and receiver are already friends");
 
       //check if request already exists, if it is pending then throw error saying it is pending and if it is accepted then throw error saying they are already friends
@@ -73,8 +88,12 @@ let exportedMethods = {
       let pendingRequestUsers = [];
 
       for (const request of pendingRequests) {
-        let Requesteduser = (await users.getUserById(request.sender)).username;
-        pendingRequestUsers.push(Requesteduser);
+        let user = await users.getUserById(request.sender);
+        let RequestdUserObject = {
+          username: user.username,
+          userId: request.sender,
+        };
+        pendingRequestUsers.push(RequestdUserObject);
       }
 
       return pendingRequestUsers;
@@ -108,6 +127,20 @@ let exportedMethods = {
       sender: senderId,
       receiver: receiverId,
     });
+    if (!request) throw new Error("Request does not exist");
+
+    //update user friends list
+    try {
+      await users.updateUser(receiver.username, "FriendsList", sender.username);
+      await users.updateUser(sender.username, "FriendsList", receiver.username);
+
+      await requestCollection.findOneAndDelete({
+        sender: senderId,
+        receiver: receiverId,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 };
 export default exportedMethods;

@@ -110,7 +110,7 @@ let exportedMethods = {
         { username: username },
         {
           $push: {
-            friendsList: friend._id,
+            friendsList: friend.userID,
           },
         }
       );

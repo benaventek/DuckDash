@@ -154,12 +154,17 @@ router
         await RequestFuncs.getPendingRequestsbyRecieverId(
           req.session.user.userID.toString()
         );
-      console.log(PendingFriendRequests);
+      let friends = [];
+      for (const friend of req.session.user.friendsList) {
+        let FriendUsername = await UserFuncs.getUserById(friend.toString());
+        friends.push(FriendUsername.username);
+      }
+
       res.render("profilePage", {
         title: "Profile",
         partial: "profilePage_script",
         tests: req.session.user.testResultsList,
-        friends: req.session.user.friendsList,
+        friends: friends,
         username: req.session.user.username,
         userBio: req.session.user.userBio,
         profilePictureUrl: req.session.user.profilePictureUrl,
@@ -213,15 +218,12 @@ router
         let requestedUser = await UserFuncs.getUserByUsername(
           req.body.username.toLowerCase()
         );
-        console.log(
-          req.session.user.userID.toString(),
-          requestedUser.userID.toString()
-        );
+        
         await RequestFuncs.addRequest(
           req.session.user.userID.toString(),
           requestedUser.userID.toString()
         );
-        console.log("Friend request sent successfully");
+        
         res.render("profilePage_id", {
           title: "Profile",
           partial: "profilePage_id_script",
@@ -240,6 +242,14 @@ router.route("/acceptFriendRequest").post(async (req, res, next) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
-  console.log("Accepted Request");
+  try {
+    await RequestFuncs.acceptFriendRequest(
+      req.body.FriendRequestId,
+      req.session.user.userID.toString()
+    );
+    res.redirect("/profile");
+  } catch (error) {
+    return res.status(404).render("error", { title: "404", Error: error });
+  }
 });
 export default router;
