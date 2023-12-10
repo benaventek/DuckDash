@@ -83,11 +83,31 @@ let exportedMethods = {
     }
   },
 
-  async delRequest(id) {
-    //TODO: Implement & add validation.
-    const userCollection = await results();
+  async acceptFriendRequest(senderId, receiverId) {
+    //check that given ID are valid objectIDs
+    if (!senderId || !receiverId)
+      throw new Error("senderId or receiverId null");
 
-    return userCollection;
+    if (!ObjectId.isValid(senderId) || !ObjectId.isValid(receiverId))
+      throw new Error("Invalid user inputs");
+
+    //check that sender and receiver are not the same
+    if (senderId === receiverId)
+      throw new Error("Sender and receiver are the same");
+
+    //check that sender and receiver exist
+    let sender = await users.getUserById(senderId);
+    let receiver = await users.getUserById(receiverId);
+    //check that sender and receiver are not friends
+    if (sender.friendsList.includes(receiverId))
+      throw new Error("Sender and receiver are already friends");
+
+    //get request
+    const requestCollection = await requests();
+    const request = await requestCollection.findOne({
+      sender: senderId,
+      receiver: receiverId,
+    });
   },
 };
 export default exportedMethods;

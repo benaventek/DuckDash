@@ -236,4 +236,10 @@ router
       return res.redirect("/login");
     }
   });
+router.route("/acceptFriendRequest").post(async (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  console.log("Accepted Request");
+});
 export default router;

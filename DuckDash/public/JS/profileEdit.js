@@ -63,3 +63,21 @@ bioInputArea.addEventListener("submit", async (event) => {
     return;
   }
 });
+
+let AcceptFriendRequestButton = document.getElementById(
+  "AcceptFriendRequestButton"
+);
+let DeclineFriendRequestButton = document.getElementById(
+  "DeclineFriendRequestButton"
+);
+
+let FriendRequestForm = document.getElementById("FriendRequestPost");
+
+AcceptFriendRequestButton.addEventListener("click", () => {
+  FriendRequestForm.action = "/acceptFriendRequest";
+  FriendRequestForm.submit();
+});
+DeclineFriendRequestButton.addEventListener("click", () => {
+  FriendRequestForm.action = "/declineFriendRequest";
+  FriendRequestForm.submit();
+});
