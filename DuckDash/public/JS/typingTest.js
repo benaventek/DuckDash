@@ -24,6 +24,7 @@ let started = false;
 let forceRestart = false;
 let timePassed = 0;
 function newTest() {
+  done = false;
   started = false;
   current = 0;
   furthestReached = 0;
@@ -176,6 +177,7 @@ function wait() {
   });
 }
 let timing = false;
+let done = false;
 //Timer
 async function startTimer() {
   currtime = 0;
@@ -207,6 +209,7 @@ async function startTimer() {
   }
   if (timePassed >= currtime) {
     timer.innerHTML = '0 Seconds';
+    done = true;
   }
   if (forceRestart === true) {
     forceRestart = false;
@@ -227,7 +230,7 @@ let wordCount = 0;
 let furthestReached = 0;
 prompt.addEventListener('keydown', (event) => {
   let keyPress = event.key;
-  if (keyPress === 'Shift' || keyPress === 'CapsLock') {
+  if (keyPress === 'Shift' || keyPress === 'CapsLock' || done) {
     return;
   }
   if (!started) {
