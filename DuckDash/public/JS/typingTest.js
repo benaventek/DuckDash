@@ -13,12 +13,268 @@ let timeDropdownDiv = document.getElementById('time-dropdown');
 let diffDropdown = document.getElementById('difficultyDropdown');
 let diffDropdownDiv = document.getElementById('diff-dropdown');
 let focusMessage = document.getElementById('focusmsg');
-let prompts = [
-  "Can't you see that it's raining outside?",
-  "I'm going to the store, and I'll be back by 5:00 PM.",
-  "What's your favorite book, and why?",
-  'This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super lonThis is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! This is a super long prompt! ',
-  "She said, 'I can't believe you did that!'",
+let randomWords = [
+  'request',
+  'negotiation',
+  'kidney',
+  'disorder',
+  'expression',
+  'fight',
+  'deviation',
+  'quality',
+  'new',
+  'missile',
+  'joke',
+  'confusion',
+  'wage',
+  'dance',
+  'lily',
+  'fast',
+  'shock',
+  'pick',
+  'meadow',
+  'sharp',
+  'motivation',
+  'suspicion',
+  'ridge',
+  'football',
+  'cancel',
+  'button',
+  'battlefield',
+  'ignore',
+  'iron',
+  'praise',
+  'short',
+  'dedicate',
+  'accident',
+  'conglomerate',
+  'jail',
+  'basin',
+  'instrument',
+  'vat',
+  'freighter',
+  'combine',
+  'government',
+  'instinct',
+  'pension',
+  'strap',
+  'partner',
+  'suspect',
+  'haunt',
+  'paragraph',
+  'model',
+  'freeze',
+  'mobile',
+  'fast',
+  'pressure',
+  'quiet',
+  'ring',
+  'deer',
+  'manage',
+  'fault',
+  'deadly',
+  'linear',
+  'crusade',
+  'plug',
+  'give',
+  'bean',
+  'complete',
+  'mainstream',
+  'write',
+  'momentum',
+  'hate',
+  'dependence',
+  'tax',
+  'motivation',
+  'tournament',
+  'job',
+  'glacier',
+  'medium',
+  'cower',
+  'pottery',
+  'forestry',
+  'spokesperson',
+  'grow',
+  'tell',
+  'program',
+  'eavesdrop',
+  'survival',
+  'major',
+  'innovation',
+  'business',
+  'peanut',
+  'cupboard',
+  'left',
+  'food',
+  'top',
+  'persist',
+  'embox',
+  'blade',
+  'closed',
+  'sister',
+  'stake',
+  'promote',
+  'apple',
+  'orange',
+  'banana',
+  'grape',
+  'melon',
+  'strawberry',
+  'pineapple',
+  'kiwi',
+  'watermelon',
+  'peach',
+  'pear',
+  'plum',
+  'cherry',
+  'blueberry',
+  'raspberry',
+  'blackberry',
+  'mango',
+  'papaya',
+  'coconut',
+  'avocado',
+  'lemon',
+  'lime',
+  'apricot',
+  'fig',
+  'guava',
+  'passionfruit',
+  'dragonfruit',
+  'pomegranate',
+  'lychee',
+  'cranberry',
+  'elderberry',
+  'gooseberry',
+  'boysenberry',
+  'rhubarb',
+  'persimmon',
+  'date',
+  'kiwifruit',
+  'starfruit',
+  'mulberry',
+  'tangerine',
+  'cantaloupe',
+  'honeydew',
+  'grapefruit',
+  'mandarin',
+  'nectarine',
+  'quince',
+  'soursop',
+  'ackee',
+  'breadfruit',
+  'plantain',
+  'durian',
+  'jackfruit',
+  'lychee',
+  'mangosteen',
+  'rambutan',
+  'salak',
+  'soursop',
+  'tamarind',
+  'yuzu',
+  'kumquat',
+  'persimmon',
+  'pomelo',
+  'ugli',
+  'passionfruit',
+  'feijoa',
+  'kiwano',
+  'longan',
+  'sapodilla',
+  'sugar',
+  'white',
+  'breadnut',
+  'cupuaçu',
+  'jabuticaba',
+  'marang',
+  'santol',
+  'sweetsop',
+  'tamarillo',
+  'abiu',
+  'barbadine',
+  'cainito',
+  'canistel',
+  'carob',
+  'cempedak',
+  'chayote',
+  'cupuaçu',
+  'feijoa',
+  'guanabana',
+  'guava',
+  'honeyberry',
+  'horned',
+  'jackfruit',
+  'jambul',
+  'kaffir',
+  'kakadu',
+  'kerson',
+  'kumquat',
+  'longan',
+  'loquat',
+  'mamey',
+  'mangosteen',
+  'marang',
+  'medlar',
+  'monstera',
+  'mora',
+  'morus',
+  'mulberry',
+  'nance',
+  'noni',
+  'pawpaw',
+  'pepino',
+  'pitanga',
+  'pitaya',
+  'pulasan',
+  'quandong',
+  'quince',
+  'rambutan',
+  'redcurrant',
+  'salak',
+  'santol',
+  'soursop',
+  'star apple',
+  'star fruit',
+  'strawberry guava',
+  'sugar apple',
+  'surinam cherry',
+  'tamarind',
+  'tamarillo',
+  'ugli fruit',
+  'white currant',
+  'white sapote',
+  'yuzu',
+];
+let punctuation = [
+  '.',
+  ',',
+  ';',
+  ':',
+  '!',
+  '?',
+  '-',
+  '_',
+  '(',
+  ')',
+  '[',
+  ']',
+  '{',
+  '}',
+  '<',
+  '>',
+  '/',
+  '|',
+  '@',
+  '#',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '+',
+  '=',
+  '~',
 ];
 let started = false;
 let forceRestart = false;
@@ -58,6 +314,56 @@ function newTest() {
   return;
 }
 
+function easyRandomTestGen() {
+  let words = [];
+  for (let i = 0; i < 100; i++) {
+    words.push(randomWords[Math.floor(Math.random() * randomWords.length)]);
+  }
+  let prompt = words.join(' ');
+  return prompt;
+}
+
+function mediumRandomTestGen() {
+  let words = [];
+  for (let i = 0; i < 100; i++) {
+    let word = randomWords[Math.floor(Math.random() * randomWords.length)];
+    let letters = word.split('');
+    let newWord = '';
+    for (let j = 0; j < letters.length; j++) {
+      if (Math.random() < 0.1) {
+        newWord += letters[j].toUpperCase();
+      } else {
+        newWord += letters[j];
+      }
+    }
+    words.push(newWord);
+  }
+  let prompt = words.join(' ');
+  return prompt;
+}
+
+function hardRandomTestGen() {
+  let words = [];
+  for (let i = 0; i < 100; i++) {
+    let word = randomWords[Math.floor(Math.random() * randomWords.length)];
+    let letters = word.split('');
+    let newWord = '';
+    for (let j = 0; j < letters.length; j++) {
+      if (Math.random() < 0.1) {
+        newWord += letters[j].toUpperCase();
+      } else {
+        newWord += letters[j];
+      }
+    }
+    if (Math.random() < 0.1) {
+      newWord += punctuation[Math.floor(Math.random() * punctuation.length)];
+    }
+    words.push(newWord);
+  }
+  let prompt = words.join(' ');
+  return prompt;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // put the tests from the db into the dropdown
   tests.forEach((test, index) => {
@@ -68,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // generate random prompt on page load
-  quoteToWrite = prompts[Math.floor(Math.random() * prompts.length)];
+  quoteToWrite = easyRandomTestGen();
   forceRestart = true;
   newTest();
   prompt.innerHTML = quoteToWrite;
@@ -112,9 +418,58 @@ promptDropdown.addEventListener('change', () => {
   }
 });
 
+diffDropdown.addEventListener('change', () => {
+  if (promptDropdown.value === 'random') {
+    if (diffDropdown.value === 'easy') {
+      quoteToWrite = easyRandomTestGen();
+    } else if (diffDropdown.value === 'medium') {
+      quoteToWrite = mediumRandomTestGen();
+    } else if (diffDropdown.value === 'hard') {
+      quoteToWrite = hardRandomTestGen();
+    }
+  }
+  forceRestart = true;
+  newTest();
+  prompt.innerHTML = quoteToWrite;
+
+  let words = quoteToWrite.split(' ');
+  let wordDivs = words.map((word, index) => {
+    let div = document.createElement('div');
+    div.classList.add('word');
+
+    if (index !== 0) {
+      let spaceSpan = document.createElement('span');
+      spaceSpan.innerHTML = '&nbsp;';
+      spaceSpan.classList.add('letter', 'space');
+      div.appendChild(spaceSpan);
+    }
+
+    let letters = word.split('');
+    let letterSpans = letters.map((letter) => {
+      let span = document.createElement('span');
+      span.textContent = letter;
+      span.classList.add('letter');
+      return span;
+    });
+
+    letterSpans.forEach((span) => div.appendChild(span));
+
+    return div;
+  });
+
+  prompt.innerHTML = '';
+  wordDivs.forEach((div) => prompt.appendChild(div));
+});
+
 promptDropdown.addEventListener('change', () => {
   if (promptDropdown.value === 'random') {
-    quoteToWrite = prompts[Math.floor(Math.random() * prompts.length)];
+    if (diffDropdown.value === 'easy') {
+      quoteToWrite = easyRandomTestGen();
+    } else if (diffDropdown.value === 'medium') {
+      quoteToWrite = mediumRandomTestGen();
+    } else if (diffDropdown.value === 'hard') {
+      quoteToWrite = hardRandomTestGen();
+    }
   } else if (
     parseInt(promptDropdown.value) >= 0 &&
     parseInt(promptDropdown.value) < tests.length
@@ -160,8 +515,19 @@ timeDropdown.addEventListener('change', () => {
 });
 
 restart.addEventListener('click', () => {
+  // generate random prompt on page load
+  if (promptDropdown.value === 'random') {
+    if (diffDropdown.value === 'easy') {
+      quoteToWrite = easyRandomTestGen();
+    } else if (diffDropdown.value === 'medium') {
+      quoteToWrite = mediumRandomTestGen();
+    } else if (diffDropdown.value === 'hard') {
+      quoteToWrite = hardRandomTestGen();
+    }
+  }
   forceRestart = true;
   newTest();
+  prompt.innerHTML = quoteToWrite;
 });
 
 prompt.addEventListener('focus', () => {
@@ -317,8 +683,8 @@ prompt.addEventListener('keydown', (event) => {
 //TODO:
 // 1. Functioning Timer ✅
 // 2. Calculate WPM and Accuracy ✅
-// 3. Actual random prompts
-// 4. Difficulty
+// 3. Actual random prompts ✅
+// 4. Difficulty ✅
 // 5. Pull prompts from database somehow ✅
 // 6. Make preset prompts
 // 7. Scrolling text ✅
