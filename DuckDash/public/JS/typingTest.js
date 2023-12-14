@@ -528,6 +528,34 @@ restart.addEventListener('click', () => {
   forceRestart = true;
   newTest();
   prompt.innerHTML = quoteToWrite;
+
+  let words = quoteToWrite.split(' ');
+  let wordDivs = words.map((word, index) => {
+    let div = document.createElement('div');
+    div.classList.add('word');
+
+    if (index !== 0) {
+      let spaceSpan = document.createElement('span');
+      spaceSpan.innerHTML = '&nbsp;';
+      spaceSpan.classList.add('letter', 'space');
+      div.appendChild(spaceSpan);
+    }
+
+    let letters = word.split('');
+    let letterSpans = letters.map((letter) => {
+      let span = document.createElement('span');
+      span.textContent = letter;
+      span.classList.add('letter');
+      return span;
+    });
+
+    letterSpans.forEach((span) => div.appendChild(span));
+
+    return div;
+  });
+
+  prompt.innerHTML = '';
+  wordDivs.forEach((div) => prompt.appendChild(div));
 });
 
 prompt.addEventListener('focus', () => {
@@ -587,6 +615,34 @@ async function startTimer() {
       timer.innerHTML = '60 Seconds';
     }
   }
+  let finalWpm;
+  let finalAccuracy;
+  let testType;
+  let randomDifficulty;
+  let randomTime;
+  let dateTaken = new Date().toLocaleDateString('en-US');
+  let timeTaken = new Date().toLocaleTimeString('en-US');
+  let testId = tests[parseInt(promptDropdown.value)]._id;
+  if (done) {
+    finalWpm = wpm.innerHTML;
+    finalAccuracy = accuracy.innerHTML;
+    if (promptDropdown.value === 'random') {
+      testType = 'Random';
+      randomDifficulty = diffDropdown.value;
+      randomTime = timeDropdown.value;
+    } else {
+      testType = promptDropdown.options[promptDropdown.selectedIndex].innerHTML;
+    }
+  }
+  //TODO: send these to DB
+  console.log(finalWpm);
+  console.log(finalAccuracy);
+  console.log(testType);
+  console.log(randomDifficulty);
+  console.log(randomTime);
+  console.log(dateTaken);
+  console.log(timeTaken);
+  console.log(testId);
 }
 
 let current = 0;
@@ -657,6 +713,7 @@ prompt.addEventListener('keydown', (event) => {
     wordCount++;
     forceRestart = false;
     timing = false;
+    done = true;
   }
   //scroll lines down when typing
   let currentLetter = prompt.querySelector('.current');
