@@ -42,7 +42,16 @@ app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine(
   "handlebars",
-  exphbs.engine({ defaultLayout: "main", partialsDir: ["views/partials/"] })
+  exphbs.engine({
+    defaultLayout: "main",
+    partialsDir: ["views/partials/"],
+    helpers: {
+      exists: (value) => {
+        if (value.length != 0) return true;
+        else return false;
+      },
+    },
+  })
 );
 app.set("view engine", "handlebars");
 

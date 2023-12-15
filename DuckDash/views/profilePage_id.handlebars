@@ -24,5 +24,12 @@
     <div class="BioSection">
         <p class="userBio">{{{userBio}}}</p>
     </div>
-
+    <div class="TestsSection">
+        <h2>Tests</h2>
+        <ul>
+            {{#each tests}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
 </section>

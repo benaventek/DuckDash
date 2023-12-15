@@ -218,6 +218,7 @@ router
       res.render("profilePage_id", {
         title: "Profile",
         partial: "profilePage_id_script",
+        tests: user.testResultsList,
         username: user.username,
         userBio: user.userBio,
         profilePictureUrl: user.profilePictureUrl,

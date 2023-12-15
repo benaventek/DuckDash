@@ -39,7 +39,9 @@
             </li>
             {{/each}}
         </ul>
+        {{#if (exists PendingFriendRequests) }}
         <h2 class="PendingFriendRequestTitle">Pending Friend Requests</h2>
+
         <ul class="FriendsList" id="FriendsList">
             {{#each PendingFriendRequests}}
             <li class="FriendsListItem" id="FriendsListItem">
@@ -61,6 +63,8 @@
             </li>
             {{/each}}
         </ul>
+        {{/if}}
+
     </div>
 
     <div class="TestsSection">
