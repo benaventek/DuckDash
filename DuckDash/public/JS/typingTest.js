@@ -1,3 +1,4 @@
+
 let prompt = document.getElementById('prompt');
 let restart = document.getElementById('restart');
 let timer = document.getElementById('timer');
@@ -13,6 +14,7 @@ let timeDropdownDiv = document.getElementById('time-dropdown');
 let diffDropdown = document.getElementById('difficultyDropdown');
 let diffDropdownDiv = document.getElementById('diff-dropdown');
 let focusMessage = document.getElementById('focusmsg');
+let signInMessage = document.getElementById('login-alert')
 let randomWords = [
   'request',
   'negotiation',
@@ -280,6 +282,9 @@ let started = false;
 let forceRestart = false;
 let timePassed = 0;
 function newTest() {
+  focusMessage.removeAttribute('hidden')
+  prompt.removeAttribute('hidden');
+  signInMessage.setAttribute('hidden',true);
   done = false;
   started = false;
   current = 0;
@@ -316,7 +321,7 @@ function newTest() {
 
 function easyRandomTestGen() {
   let words = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     words.push(randomWords[Math.floor(Math.random() * randomWords.length)]);
   }
   let prompt = words.join(' ');
@@ -325,7 +330,7 @@ function easyRandomTestGen() {
 
 function mediumRandomTestGen() {
   let words = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     let word = randomWords[Math.floor(Math.random() * randomWords.length)];
     let letters = word.split('');
     let newWord = '';
@@ -344,7 +349,7 @@ function mediumRandomTestGen() {
 
 function hardRandomTestGen() {
   let words = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     let word = randomWords[Math.floor(Math.random() * randomWords.length)];
     let letters = word.split('');
     let newWord = '';
@@ -372,7 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
     option.text = test.testTitle;
     promptDropdown.add(option);
   });
-
   // generate random prompt on page load
   quoteToWrite = easyRandomTestGen();
   forceRestart = true;
@@ -563,7 +567,9 @@ prompt.addEventListener('focus', () => {
 });
 
 prompt.addEventListener('blur', () => {
-  focusMessage.style.display = 'block';
+  if(done === false){
+    focusMessage.style.display = 'block';
+  }
 });
 function wait() {
   return new Promise((resolve) => {
@@ -622,7 +628,8 @@ async function startTimer() {
   let randomTime;
   let dateTaken = new Date().toLocaleDateString('en-US');
   let timeTaken = new Date().toLocaleTimeString('en-US');
-  let testId = tests[parseInt(promptDropdown.value)]._id;
+  //TODO: TestID value not working
+  let testId = null;
   if (done) {
     finalWpm = wpm.innerHTML;
     finalAccuracy = accuracy.innerHTML;
@@ -632,6 +639,11 @@ async function startTimer() {
       randomTime = timeDropdown.value;
     } else {
       testType = promptDropdown.options[promptDropdown.selectedIndex].innerHTML;
+    }
+    focusMessage.setAttribute('hidden',true);
+    prompt.setAttribute('hidden',true)
+    if(!document.cookie.user){
+      signInMessage.removeAttribute('hidden')
     }
   }
   //TODO: send these to DB
@@ -714,6 +726,7 @@ prompt.addEventListener('keydown', (event) => {
     forceRestart = false;
     timing = false;
     done = true;
+    
   }
   //scroll lines down when typing
   let currentLetter = prompt.querySelector('.current');
@@ -736,6 +749,8 @@ prompt.addEventListener('keydown', (event) => {
     prompt.scrollTop = nextWordTop;
   }
 });
+
+
 
 //TODO:
 // 1. Functioning Timer ✅

@@ -162,6 +162,16 @@ a.LoginLink {
   z-index: 1;
   font-size: 20px;
 }
+#login-alert {
+  border:1px solid black;
+  color:#ffffff;
+  background-color: #741724;
+  margin:auto;
+  text-align: center;
+  width:500px;
+  padding:40px
+  
+}
 
 #prompt:focus {
   filter: blur(0px);
