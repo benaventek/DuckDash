@@ -1,8 +1,6 @@
 import { requests } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import mongodb from "mongodb";
 import users from "./users.js";
-import e from "express";
 
 let exportedMethods = {
   async addRequest(senderId, receiverId) {
@@ -58,8 +56,8 @@ let exportedMethods = {
         sender: senderId,
         receiver: receiverId,
         status: "pending",
-        dateSent: new Date().toDateString(),
-        timeSent: new Date().getTime(),
+        dateSent: new Date().toLocaleDateString(),
+        timeSent: new Date().toLocaleTimeString(),
       };
       //Add new result to database
       const insertInfo = await requestCollection.insertOne(newRequest);

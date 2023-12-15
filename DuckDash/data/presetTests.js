@@ -1,6 +1,6 @@
 import { presetTests } from "../config/mongoCollections.js";
 import validateFuncs from "../helpers/validation.js";
-
+import { ObjectId } from "mongodb";
 let ExportedMethods = {
   //timelimit between 30 and 300 seconds
   async CreateTypingTest(testTitle, text, difficulty, timeLimit) {
@@ -47,7 +47,7 @@ let ExportedMethods = {
     if (typeof id !== "string") throw "Invalid test id";
     id = id.trim();
     const testCollection = await presetTests();
-    const test = await testCollection.findOne({ _id: id });
+    const test = await testCollection.findOne({ _id: new ObjectId(id) });
     if (!test) throw "Test not found";
     return test;
   },
