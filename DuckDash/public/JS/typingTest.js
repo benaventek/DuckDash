@@ -649,23 +649,25 @@ async function startTimer() {
       saveMessage.hidden = false;
     }
   }
-  if (sessionCookie != null) {
-    let result = {
-      testType: testType,
-      testId: testId,
-      userId: sessionCookie.userID,
-      wpm: finalWpm,
-      accuracy: finalAccuracy,
-      dateTaken: dateTaken,
-      timeTaken: timeTaken,
-    };
-    await fetch('/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(result),
-    });
+  if (done) {
+    if (sessionCookie != null) {
+      let result = {
+        testType: testType,
+        testId: testId,
+        userId: sessionCookie.userID,
+        wpm: finalWpm,
+        accuracy: finalAccuracy,
+        dateTaken: dateTaken,
+        timeTaken: timeTaken,
+      };
+      await fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(result),
+      });
+    }
   }
 }
 
