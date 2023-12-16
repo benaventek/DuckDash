@@ -1,5 +1,5 @@
 * {
-  font-family: "Fjalla One", sans-serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 body {
   background-color: #d3d3d3;
@@ -18,7 +18,7 @@ header {
 }
 
 header::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -75,9 +75,9 @@ h2 {
   display: table;
   text-align: center;
 }
-input[type="text"],
-input[type="password"],
-input[type="email"],
+input[type='text'],
+input[type='password'],
+input[type='email'],
 select {
   width: 100%;
   margin-bottom: 2px;
@@ -85,7 +85,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-input[type="submit"] {
+input[type='submit'] {
   width: 100%;
   padding: 8px 16px;
   border: 1px solid #ccc;
@@ -163,6 +163,15 @@ a.LoginLink {
   font-size: 20px;
 }
 #login-alert {
+  border: 1px solid black;
+  color: #ffffff;
+  background-color: #741724;
+  margin: auto;
+  text-align: center;
+  width: 500px;
+  padding: 40px;
+}
+#save-alert {
   border: 1px solid black;
   color: #ffffff;
   background-color: #741724;

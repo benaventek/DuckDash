@@ -1,7 +1,7 @@
 //File used to validate various user inputs
 
-import validator from "validator";
-import { ObjectId } from "mongodb";
+import validator from 'validator';
+import { ObjectId } from 'mongodb';
 //Function to validate user registration inputs
 const validateFuncs = {
   validateRegisterInput(displayname, email, password) {
@@ -10,21 +10,21 @@ const validateFuncs = {
     //displayname checks
     //displayname must be alphanumeric
     if (validator.isEmpty(displayname)) {
-      errors.displayname = "displayname field is required";
+      errors.displayname = 'displayname field is required';
     }
     if (!validator.isAlphanumeric(displayname)) {
-      errors.displayname = "displayname must contain only letters and numbers";
+      errors.displayname = 'displayname must contain only letters and numbers';
     }
     //Email checks
     if (validator.isEmpty(email)) {
-      errors.email = "Email field is required";
+      errors.email = 'Email field is required';
     } else if (!validator.isEmail(email)) {
-      errors.email = "Email is invalid";
+      errors.email = 'Email is invalid';
     }
 
     //Password checks
     if (validator.isEmpty(password)) {
-      errors.password = "Password field is required";
+      errors.password = 'Password field is required';
     }
     let passwordOptions = {
       minLength: 8,
@@ -34,7 +34,7 @@ const validateFuncs = {
     };
     if (validator.isStrongPassword(password, passwordOptions) === false) {
       errors.password =
-        "Password must be between 8 and 14 characters, and contain at least one number and one special character";
+        'Password must be between 8 and 14 characters, and contain at least one number and one special character';
     }
     return {
       errors,
@@ -43,10 +43,10 @@ const validateFuncs = {
   },
   validdisplayname(displayname) {
     if (validator.isEmpty(displayname)) {
-      throw "No displayname Provided";
+      throw 'No displayname Provided';
     }
     if (!validator.isAlphanumeric(displayname)) {
-      throw "displaynames only contain alphanumeric characters";
+      throw 'displaynames only contain alphanumeric characters';
     }
     return displayname.trim();
   },
@@ -54,31 +54,31 @@ const validateFuncs = {
   validUpdateInfo(updateSelection, updateValue) {
     updateValue = updateValue.trim();
     //bio will have max length of 250 characters
-    if (updateSelection === "Bio") {
-      if (typeof updateValue !== "string") {
-        throw "Bio must be a string";
+    if (updateSelection === 'Bio') {
+      if (typeof updateValue !== 'string') {
+        throw 'Bio must be a string';
       }
       if (updateValue.length > 250) {
-        throw "Bio must be less than 250 characters";
+        throw 'Bio must be less than 250 characters';
       }
       if (validator.isEmpty(updateValue)) {
-        throw "No Bio Provided";
+        throw 'No Bio Provided';
       }
-    } else if (updateSelection === "ProfilePictureUrl") {
+    } else if (updateSelection === 'ProfilePictureUrl') {
       //TODO add way to legitimately check if the file exists or not or if its a valid url
-      if (typeof updateValue !== "string") {
-        throw "Invalid Profile Picture Url";
+      if (typeof updateValue !== 'string') {
+        throw 'Invalid Profile Picture Url';
       }
       if (validator.isEmpty(updateValue)) {
-        throw "No Profile Picture Provided";
+        throw 'No Profile Picture Provided';
       }
-    } else if (updateSelection === "FriendsList") {
+    } else if (updateSelection === 'FriendsList') {
       if (this.validdisplayname(updateValue) === false) {
-        throw "Invalid Friend displayname";
+        throw 'Invalid Friend displayname';
       }
-    } else if (updateSelection === "TestResultsList") {
+    } else if (updateSelection === 'TestResultsList') {
       if (!ObjectId.isValid(updateValue)) {
-        throw "Invalid Test Result Id";
+        throw 'Invalid Test Result Id';
       }
     }
     return updateValue;
@@ -86,26 +86,26 @@ const validateFuncs = {
   validateTypingTestInput(testTitle, text, difficulty, timeLimit) {
     //Test Title checks
     if (validator.isEmpty(testTitle)) {
-      throw "Test Title field is required";
+      throw 'Test Title field is required';
     }
     //Text checks
     if (validator.isEmpty(text)) {
-      throw "Text field is required";
+      throw 'Text field is required';
     }
     //Difficulty checks
     if (validator.isEmpty(difficulty)) {
-      throw "Difficulty field is required";
+      throw 'Difficulty field is required';
     }
     if (
-      difficulty !== "Easy" &&
-      difficulty !== "Medium" &&
-      difficulty !== "Hard"
+      difficulty !== 'Easy' &&
+      difficulty !== 'Medium' &&
+      difficulty !== 'Hard'
     ) {
-      throw "Invalid Difficulty";
+      throw 'Invalid Difficulty';
     }
     //Time Limit checks
-    if (timeLimit < 30 || timeLimit > 300) {
-      throw "Invalid Time Limit";
+    if (timeLimit < 15 || timeLimit > 300) {
+      throw 'Invalid Time Limit';
     }
   },
 };
