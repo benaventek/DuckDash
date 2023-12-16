@@ -46,9 +46,52 @@ router.route('/leaderboard').get(async (req, res) => {
   res.render('leaderboard', { title: 'Leaderboards' });
 });
 
-router.route('/search').get(async (req, res) => {
-  res.render('search', { title: 'Search' });
-});
+router.route("/search")
+  .get(async (req, res) => {
+    res.render("search", { 
+      title: "Search",
+      partial: "profileLookup_script"
+    });
+  })
+  .post(async (req, res) =>{
+    if (!req.body.username) {
+      return res.status(400).render("search", {
+        title: "Search",
+        partial: "profileLookup_script",
+        error: "Missing Username"
+      });
+    }
+    try{
+      req.body.username = validateFuncs.validUsername(req.body.username);
+    } catch(e){
+      return res.status(400).render("search", {
+        title: "Search",
+        partial: "profileLookup_script",
+        error: e
+      });
+    }
+    const cleanUsername = xss(req.body.username);
+
+    try{
+      let userInfo = await UserFuncs.getUserByUsername(cleanUsername);
+      if(userInfo){
+        res.render('partials/profileLookup', {layout: null, ...userInfo});
+      }
+      else{
+        return res.status(500).render("search", {
+          title: "Search",
+          partial: "profileLookup_script",
+          error: "Internal Server Error"
+        }); 
+      }
+    } catch(e){
+      return res.status(400).render("search", {
+        title: "Search",
+        partial: "profileLookup_script",
+        error: e
+      }); 
+    }
+  });
 
 router
   .route('/login')
