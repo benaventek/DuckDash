@@ -65,6 +65,16 @@ h2 {
   text-align: center;
 }
 /* JUST FOR NOW TEMPLATE COPIED FROM MY LAB- ANDRES */
+.Search {
+  width: 300px;
+  margin: 0 auto;
+  padding: 15px;
+  border: 4px solid #ccc;
+  background: #eaeaea;
+  border-radius: 5px;
+  display: table;
+  text-align: center;
+}
 .Login {
   width: 300px;
   margin: 10px auto;
@@ -245,6 +255,9 @@ img.ProfilePicture {
   margin: auto;
   border: #741724 5px solid;
 }
+div.ProfilePictureSearch {
+  margin-right: 20px;
+}
 .userBio {
   margin: auto;
   text-align: center;
@@ -297,11 +310,28 @@ div.ProfilePictureSecion {
   justify-content: center;
   align-items: center;
 }
+div.ProfileRequestSection {
+  display: flex;
+  align-items: center;
+  border: 8px solid #ccc;
+  background: #eaeaea;
+  border-radius: 5px;
+  cursor: pointer;
+}
 div.BioSection {
   padding-top: 30px;
   display: grid;
   justify-content: center;
   align-items: center;
+}
+h2.username {
+  text-align: center;
+}
+h2.userNameFromRequest {
+  margin-top: 0;
+}
+div.UserNameSearch {
+  text-align: left;
 }
 h2.displayname {
   text-align: center;
