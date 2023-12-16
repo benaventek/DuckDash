@@ -74,7 +74,7 @@ router.route("/search")
     const cleanUsername = xss(req.body.username);
 
     try{
-      let userInfo = await UserFuncs.getUserByUsername(cleanUsername);
+      let userInfo = await UserFuncs.getUserBydisplayname(cleanUsername);
       if(userInfo){
         res.render('partials/profileLookup', {layout: null, ...userInfo});
       }
