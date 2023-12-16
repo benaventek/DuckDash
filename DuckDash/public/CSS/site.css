@@ -67,7 +67,7 @@ h2 {
 /* JUST FOR NOW TEMPLATE COPIED FROM MY LAB- ANDRES */
 .Login {
   width: 300px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 15px;
   border: 4px solid #ccc;
   background: #eaeaea;
@@ -163,14 +163,13 @@ a.LoginLink {
   font-size: 20px;
 }
 #login-alert {
-  border:1px solid black;
-  color:#ffffff;
+  border: 1px solid black;
+  color: #ffffff;
   background-color: #741724;
-  margin:auto;
+  margin: auto;
   text-align: center;
-  width:500px;
-  padding:40px
-  
+  width: 500px;
+  padding: 40px;
 }
 
 #prompt:focus {
@@ -295,7 +294,7 @@ div.BioSection {
   justify-content: center;
   align-items: center;
 }
-h2.username {
+h2.displayname {
   text-align: center;
 }
 #SendFriendRequestButton {

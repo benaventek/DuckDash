@@ -2,12 +2,12 @@
 
 
     <div class="ProfilePictureSecion">
-        <h2 class="userName" id="userName">{{username}}</h2>
+        <h2 class="displayName" id="displayName">{{displayname}}</h2>
         <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
         {{#if showRequestButton}}
-        <form action="/profile/{{username}}" method="post" id="sendFriendRequest">
-            <label for="username">
-                <input type="hidden" id="username" name="username" value="{{username}}">
+        <form action="/profile/{{displayname}}" method="post" id="sendFriendRequest">
+            <label for="displayname">
+                <input type="hidden" id="displayname" name="displayname" value="{{displayname}}">
                 <button type="submit" value name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend
                     Request</button>
         </form>

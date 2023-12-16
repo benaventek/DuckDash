@@ -4,16 +4,16 @@ import validator from "validator";
 import { ObjectId } from "mongodb";
 //Function to validate user registration inputs
 const validateFuncs = {
-  validateRegisterInput(username, email, password) {
+  validateRegisterInput(displayname, email, password) {
     let errors = {};
 
-    //Username checks
-    //Username must be alphanumeric
-    if (validator.isEmpty(username)) {
-      errors.username = "Username field is required";
+    //displayname checks
+    //displayname must be alphanumeric
+    if (validator.isEmpty(displayname)) {
+      errors.displayname = "displayname field is required";
     }
-    if (!validator.isAlphanumeric(username)) {
-      errors.username = "Username must contain only letters and numbers";
+    if (!validator.isAlphanumeric(displayname)) {
+      errors.displayname = "displayname must contain only letters and numbers";
     }
     //Email checks
     if (validator.isEmpty(email)) {
@@ -41,14 +41,14 @@ const validateFuncs = {
       isValid: Object.keys(errors).length === 0,
     };
   },
-  validUsername(username) {
-    if (validator.isEmpty(username)) {
-      throw "No Username Provided";
+  validdisplayname(displayname) {
+    if (validator.isEmpty(displayname)) {
+      throw "No displayname Provided";
     }
-    if (!validator.isAlphanumeric(username)) {
-      throw "Usernames only contain alphanumeric characters";
+    if (!validator.isAlphanumeric(displayname)) {
+      throw "displaynames only contain alphanumeric characters";
     }
-    return username.trim();
+    return displayname.trim();
   },
   //Function to validate user update inputs
   validUpdateInfo(updateSelection, updateValue) {
@@ -73,8 +73,8 @@ const validateFuncs = {
         throw "No Profile Picture Provided";
       }
     } else if (updateSelection === "FriendsList") {
-      if (this.validUsername(updateValue) === false) {
-        throw "Invalid Friend Username";
+      if (this.validdisplayname(updateValue) === false) {
+        throw "Invalid Friend displayname";
       }
     } else if (updateSelection === "TestResultsList") {
       if (!ObjectId.isValid(updateValue)) {

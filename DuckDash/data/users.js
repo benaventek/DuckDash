@@ -6,19 +6,19 @@ import { ObjectId } from "mongodb";
 const saltRounds = 16;
 
 let exportedMethods = {
-  //username, email, passwd, are all given by the user
+  //displayname, email, passwd, are all given by the user
   //ProfilePicture, BIO, friendsList and testResultsList are initialized to defaults
-  //username must not be taken
-  async addUser(username, email, password) {
+  //displayname must not be taken
+  async addUser(displayname, email, password) {
     //ToDo: Validate all user inputs, throw error if invalid
-    if (!username || !email || !password)
+    if (!displayname || !email || !password)
       throw new Error("Invalid user inputs");
-    username = username.trim();
+    displayname = displayname.trim();
     email = email.trim();
     password = password.trim(); //trim all inputs
     email = email.toLowerCase(); //convert email to lowercase
     let errorCheck = validateFuncs.validateRegisterInput(
-      username,
+      displayname,
       email,
       password
     );
@@ -26,11 +26,19 @@ let exportedMethods = {
       throw new Error(
         "Invalid user inputs" + JSON.stringify(errorCheck.errors)
       );
-    //Check if username is taken
+    //Check if email and or displayname is already taken, throw error if taken (displayname is case sensitive)
     try {
-      let isDuplicate = await this.getUserByUsername(username);
-      if (isDuplicate) throw new Error("Username already taken");
-    } catch (error) {}
+      const userCollection = await users();
+      const checkdupUser = await userCollection.findOne({
+        displayname: displayname,
+      });
+      const checkDupEmail = await userCollection.findOne({ email: email });
+      console.log(checkDupEmail, checkdupUser);
+      if (checkDupEmail || checkdupUser)
+        throw new Error("Email or displayname already taken");
+    } catch (error) {
+      throw error;
+    }
     //Create new user object
     //initialize friendsList and testResultsList as empty arrays
     let friendsList = [];
@@ -41,7 +49,7 @@ let exportedMethods = {
     let hashedPassword = await bcrypt.hash(password, saltRounds);
 
     let newUser = {
-      username: username,
+      displayname: displayname,
       email: email,
       password: hashedPassword,
       profilePictureUrl: profilePictureUrl,
@@ -55,18 +63,17 @@ let exportedMethods = {
     if (insertInfo.insertedId === 0) throw "Could not add user";
     return 1;
   },
-  async getUserByUsername(username) {
-    username = validateFuncs.validUsername(username);
-    username = username.toLowerCase();
+  async getUserBydisplayname(displayname) {
+    displayname = validateFuncs.validdisplayname(displayname);
     const userCollection = await users();
     const user = await userCollection.findOne({
-      username: { $regex: new RegExp("^" + username + "$", "i") },
+      displayname: displayname,
     });
     if (!user) throw "User Doesnt Exist";
     const returnInfo = {
       userID: user._id,
       email: user.email,
-      username: user.username,
+      displayname: user.displayname,
       profilePictureUrl: user.profilePictureUrl,
       userBio: user.userBio,
       friendsList: user.friendsList,
@@ -74,22 +81,22 @@ let exportedMethods = {
     };
     return returnInfo;
   },
-  //takes in username, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
-  async updateUser(username, updateSelection, updateValue) {
-    if (!username || !updateSelection || !updateValue)
+  //takes in displayname, and then a selection of what to update, only selections that are valid are "Bio", "ProfilePictureUrl", "FriendsList", "TestResultsList", and also an updateValue
+  async updateUser(displayname, updateSelection, updateValue) {
+    if (!displayname || !updateSelection || !updateValue)
       throw new Error("Invalid user inputs");
     if (
-      typeof username !== "string" ||
+      typeof displayname !== "string" ||
       typeof updateSelection !== "string" ||
       typeof updateValue !== "string"
     )
       throw new Error("Invalid user inputs");
     updateValue = validateFuncs.validUpdateInfo(updateSelection, updateValue);
-    username = validateFuncs.validUsername(username);
+    displayname = validateFuncs.validdisplayname(displayname);
     if (updateSelection === "Bio") {
       const userCollection = await users();
       const updateInfo = await userCollection.updateOne(
-        { username: username },
+        { displayname: displayname },
         { $set: { userBio: updateValue } }
       );
       if (!updateInfo) throw new Error("Could not update user");
@@ -97,17 +104,17 @@ let exportedMethods = {
     } else if (updateSelection === "ProfilePictureUrl") {
       const userCollection = await users();
       const updateInfo = await userCollection.updateOne(
-        { username: username },
+        { displayname: displayname },
         { $set: { profilePictureUrl: updateValue } }
       );
       if (!updateInfo) throw new Error("Could not update user");
       return 1;
-      //for friendsList the update value is the friends username that will be appended, we will get the ID throgh the getUserByUsername function
+      //for friendsList the update value is the friends displayname that will be appended, we will get the ID throgh the getUserBydisplayname function
     } else if (updateSelection === "FriendsList") {
-      let friend = await this.getUserByUsername(updateValue);
+      let friend = await this.getUserBydisplayname(updateValue);
       const userCollection = await users();
       const updateInfo = await userCollection.updateOne(
-        { username: username },
+        { displayname: displayname },
         {
           $push: {
             friendsList: friend.userID,
@@ -120,7 +127,7 @@ let exportedMethods = {
     } else if (updateSelection === "TestResultsList") {
       const userCollection = await users();
       const updateInfo = await userCollection.updateOne(
-        { username: username },
+        { displayname: displayname },
         {
           $push: {
             testResultsList: updateValue,
@@ -147,7 +154,7 @@ let exportedMethods = {
     email = email.toLowerCase();
 
     let errorCheck = validateFuncs.validateRegisterInput(
-      "NoUsernameNeeded",
+      "NodisplaynameNeeded",
       email,
       password
     );
@@ -168,7 +175,7 @@ let exportedMethods = {
     const returnInfo = {
       userID: user._id,
       email: user.email,
-      username: user.username,
+      displayname: user.displayname,
       profilePictureUrl: user.profilePictureUrl,
       userBio: user.userBio,
       friendsList: user.friendsList,
@@ -176,25 +183,25 @@ let exportedMethods = {
     };
     return returnInfo;
   },
-  async registerUser(username, email, password) {
-    if (!email || !password || !username) {
+  async registerUser(displayname, email, password) {
+    if (!email || !password || !displayname) {
       throw new Error("All fields are required");
     }
     if (
       typeof email !== "string" ||
       typeof password !== "string" ||
-      typeof username !== "string"
+      typeof displayname !== "string"
     ) {
       throw new Error("Invalid user inputs");
     }
     //trim all inputs
     email = email.trim();
     password = password.trim();
-    username = username.trim();
+    displayname = displayname.trim();
     validator.validate(email);
     email = email.toLowerCase();
     try {
-      await this.addUser(username, email, password);
+      await this.addUser(displayname, email, password);
       return true;
     } catch (error) {
       throw error;
@@ -210,7 +217,7 @@ let exportedMethods = {
     const returnInfo = {
       userID: user._id,
       email: user.email,
-      username: user.username,
+      displayname: user.displayname,
       profilePictureUrl: user.profilePictureUrl,
       userBio: user.userBio,
       friendsList: user.friendsList,

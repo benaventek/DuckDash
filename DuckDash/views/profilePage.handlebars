@@ -1,6 +1,6 @@
 <section>
     <div class="ProfilePictureSecion">
-        <h2 class="userName">{{username}}</h2>
+        <h2 class="displayName">{{displayname}}</h2>
         <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
 
         <button id="editProfilePictureButton">
@@ -45,8 +45,8 @@
         <ul class="FriendsList" id="FriendsList">
             {{#each PendingFriendRequests}}
             <li class="FriendsListItem" id="FriendsListItem">
-                <a class="SendToUsersProfile" id="SendToUsersProfile" href="/profile/{{this.username}}">
-                    {{this.username}}
+                <a class="SendToUsersProfile" id="SendToUsersProfile" href="/profile/{{this.displayname}}">
+                    {{this.displayname}}
                 </a>
                 <div class="FriendRequestButtonsOptions" id="FriendRequestButtonsOptions">
                     <form action="WillGetThisFromClientSide" method="post" id="FriendRequestPost">

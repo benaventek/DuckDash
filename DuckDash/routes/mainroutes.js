@@ -45,7 +45,7 @@ router
     req.body.passwordInput = req.body.passwordInput.trim();
     req.body.emailAddressInput = req.body.emailAddressInput.toLowerCase();
     let errorCheck = validateFuncs.validateRegisterInput(
-      "NoUsernameNeeded",
+      "NodisplaynameNeeded",
       req.body.emailAddressInput,
       req.body.passwordInput
     );
@@ -107,10 +107,11 @@ router
 
     validator.validate(req.body.emailAddressInput);
     let errorCheck = validateFuncs.validateRegisterInput(
-      req.body.usernameInput,
+      req.body.displaynameInput,
       req.body.emailAddressInput,
       req.body.passwordInput
     );
+    req.body.emailAddressInput = req.body.emailAddressInput.toLowerCase();
     if (errorCheck.isValid === false) {
       return res.status(400).render("Register", {
         title: "Register",
@@ -119,7 +120,7 @@ router
     }
     try {
       let DbInfo = await UserFuncs.registerUser(
-        req.body.usernameInput,
+        req.body.displaynameInput,
         req.body.emailAddressInput,
         req.body.passwordInput
       );
@@ -156,8 +157,8 @@ router
         );
       let friends = [];
       for (const friend of req.session.user.friendsList) {
-        let FriendUsername = await UserFuncs.getUserById(friend.toString());
-        friends.push(FriendUsername.username);
+        let Frienddisplayname = await UserFuncs.getUserById(friend.toString());
+        friends.push(Frienddisplayname.displayname);
       }
 
       res.render("profilePage", {
@@ -165,19 +166,19 @@ router
         partial: "profilePage_script",
         tests: req.session.user.testResultsList,
         friends: friends,
-        username: req.session.user.username,
+        displayname: req.session.user.displayname,
         userBio: req.session.user.userBio,
         profilePictureUrl: req.session.user.profilePictureUrl,
         PendingFriendRequests: PendingFriendRequests,
       });
     } catch (error) {
-      console.log(error);
+      return res.status(404).render("error", { title: "404", Error: error });
     }
   })
   .post(async (req, res, next) => {
     try {
       await UserFuncs.updateUser(
-        req.session.user.username,
+        req.session.user.displayname,
         "Bio",
         req.body.bioInput
       );
@@ -187,18 +188,17 @@ router
     }
   });
 router
-  .route("/profile/:username")
+  .route("/profile/:displayname")
   .get(async (req, res, next) => {
-    if (!req.params.username)
+    if (!req.params.displayname)
       return res.status(404).render("error", { title: "Error" });
+    console.log(req.params.displayname);
     try {
-      let user = await UserFuncs.getUserByUsername(
-        req.params.username.toLowerCase()
-      );
+      let user = await UserFuncs.getUserBydisplayname(req.params.displayname);
       let isFriend = false;
       let isPending = false;
       if (req.session.user) {
-        if (req.session.user.username == user.username) {
+        if (req.session.user.displayname == user.displayname) {
           return res.redirect("/profile");
         }
         for (const friend of user.friendsList) {
@@ -219,7 +219,7 @@ router
         title: "Profile",
         partial: "profilePage_id_script",
         tests: user.testResultsList,
-        username: user.username,
+        displayname: user.displayname,
         userBio: user.userBio,
         profilePictureUrl: user.profilePictureUrl,
         showRequestButton: !isFriend && !isPending,
@@ -232,8 +232,8 @@ router
   .post(async (req, res, next) => {
     if (req.session.user) {
       try {
-        let requestedUser = await UserFuncs.getUserByUsername(
-          req.body.username.toLowerCase()
+        let requestedUser = await UserFuncs.getUserBydisplayname(
+          req.body.displayname
         );
 
         await RequestFuncs.addRequest(
@@ -244,7 +244,7 @@ router
         res.render("profilePage_id", {
           title: "Profile",
           partial: "profilePage_id_script",
-          username: requestedUser.username,
+          displayname: requestedUser.displayname,
           userBio: requestedUser.userBio,
           profilePictureUrl: requestedUser.profilePictureUrl,
         });

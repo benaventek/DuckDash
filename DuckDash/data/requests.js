@@ -25,16 +25,16 @@ let exportedMethods = {
       let senderfriends = [];
       let receiverfriends = [];
       for (const friend of sender.friendsList) {
-        let FriendUsername = await users.getUserById(friend.toString());
-        senderfriends.push(FriendUsername.username);
+        let Frienddisplayname = await users.getUserById(friend.toString());
+        senderfriends.push(Frienddisplayname.displayname);
       }
       for (const friend of receiver.friendsList) {
-        let FriendUsername = await users.getUserById(friend.toString());
-        receiverfriends.push(FriendUsername.username);
+        let Frienddisplayname = await users.getUserById(friend.toString());
+        receiverfriends.push(Frienddisplayname.displayname);
       }
       if (
-        senderfriends.includes(receiver.username) ||
-        receiverfriends.includes(sender.username)
+        senderfriends.includes(receiver.displayname) ||
+        receiverfriends.includes(sender.displayname)
       )
         throw new Error("Sender and receiver are already friends");
 
@@ -88,7 +88,7 @@ let exportedMethods = {
       for (const request of pendingRequests) {
         let user = await users.getUserById(request.sender);
         let RequestdUserObject = {
-          username: user.username,
+          displayname: user.displayname,
           userId: request.sender,
         };
         pendingRequestUsers.push(RequestdUserObject);
@@ -129,8 +129,8 @@ let exportedMethods = {
 
     //update user friends list
     try {
-      await users.updateUser(receiver.username, "FriendsList", sender.username);
-      await users.updateUser(sender.username, "FriendsList", receiver.username);
+      await users.updateUser(receiver.displayname, "FriendsList", sender.displayname);
+      await users.updateUser(sender.displayname, "FriendsList", receiver.displayname);
 
       await requestCollection.findOneAndDelete({
         sender: senderId,

@@ -85,7 +85,7 @@ app.post("/upload", async (req, res) => {
   }
   try {
     await UserFuncs.updateUser(
-      req.session.user.username,
+      req.session.user.displayname,
       "ProfilePictureUrl",
       "https://duckdashbucket.s3.amazonaws.com/UserProfilePictures_" +
         req.session.user.userID +

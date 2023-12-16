@@ -32,7 +32,7 @@ await presetTests.CreateTypingTest(
   100
 ); */
 
-console.log(await results.getResultsByUsername("Dremike6027"));
+console.log(await results.getResultsBydisplayname("Dremike6027"));
 
 console.log("Done seeding database");
 await closeConnection();
