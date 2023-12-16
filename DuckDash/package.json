@@ -23,6 +23,7 @@
     "express-session": "^1.17.3",
     "file-api": "^0.10.4",
     "mongodb": "^6.2.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "xss": "^1.0.14"
   }
 }

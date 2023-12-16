@@ -8,6 +8,7 @@ import * as validator from 'email-validator';
 import { requests } from '../config/mongoCollections.js';
 import commentFuncs from '../data/comments.js';
 import resultFuncs from '../data/results.js';
+import xss from 'xss';
 
 router
   .route('/')
@@ -62,7 +63,7 @@ router.route("/search")
       });
     }
     try{
-      req.body.username = validateFuncs.validUsername(req.body.username);
+      req.body.username = validateFuncs.validdisplayname(req.body.username);
     } catch(e){
       return res.status(400).render("search", {
         title: "Search",
