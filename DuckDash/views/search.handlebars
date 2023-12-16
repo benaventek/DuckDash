@@ -1,1 +1,25 @@
-<h2>Search page will go here</h2>
+<br>
+<section class="Search">
+    <h1>User Search Form</h1>
+    
+    <div class="searchForm">
+        <form id="search-form">
+            <label for="userNameInput">Username</label>
+            <input type="text" name="userNameInput" id="userNameInput">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    
+    <p id="error">
+        {{#if error}}
+        Error "{{{error}}}"
+        {{/if}}
+    </p>
+
+
+</section>
+
+
+<div class="col-sm-12 col-md-6" id="profile-area">
+        
+</div>
