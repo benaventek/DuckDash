@@ -327,3 +327,34 @@ h2.displayname {
 #FriendsList {
   border: #741724 2px dotted;
 }
+#CommentsSection {
+  text-align: center;
+  padding-top: 15px;
+  display: grid;
+  justify-content: center;
+}
+#addComment {
+  text-align: center;
+}
+#CommentsSection > h2 {
+  padding-top: 15px;
+  margin: auto;
+}
+#CommentsSection > ul {
+  border: #741724 2px dotted;
+  border-bottom: none;
+}
+#CommentItem {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+#CommentItem > li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#CommentItem {
+  border-bottom: #741724 2px dotted;
+}
