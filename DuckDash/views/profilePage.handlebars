@@ -29,6 +29,7 @@
     </div>
 
     <div class="FriendsSection" id="FriendsSection">
+        {{#if (exists friends) }}
         <h2 class="FriendsTitle">Friends</h2>
         <ul class="FriendsList" id="FriendsList">
             {{#each friends}}
@@ -39,6 +40,7 @@
             </li>
             {{/each}}
         </ul>
+        {{/if}}
         {{#if (exists PendingFriendRequests) }}
         <h2 class="PendingFriendRequestTitle">Pending Friend Requests</h2>
 
@@ -68,10 +70,35 @@
     </div>
 
     <div class="TestsSection">
+        {{#if (exists tests) }}
         <h2>Tests</h2>
         <ul>
             {{#each tests}}
             <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        {{/if}}
+    </div>
+
+    <div class="CommentsSection">
+        <h2>Comments</h2>
+        <h4>Post a Comment</h4>
+        <form action="/postComment" method="POST" id="addComment">
+            <input type="text" name="commentInput" id="commentInput" />
+            <input type="hidden" name="profileId" id="profileId" value="{{userId}}" />
+            <button type="submit" value="Submit">Post</button>
+        </form>
+
+        <ul>
+            {{#each comments}}
+            <h5>{{this.AuthorDisplayName}}</h5>
+            <li>{{this.commentText}}</li>
+
+            <form action="/deleteComment" method="POST" id="deleteComment">
+                <input type="hidden" name="commentId" id="commentId" value="{{this._id}}" />
+                <input type="hidden" name="profileId" id="profileId" value="{{../userId}}" />
+                <button type=" submit" value="Submit">Delete</button>
+            </form>
             {{/each}}
         </ul>
     </div>

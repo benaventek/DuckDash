@@ -25,10 +25,28 @@
         <p class="userBio">{{{userBio}}}</p>
     </div>
     <div class="TestsSection">
+        {{#if (exists tests) }}
         <h2>Tests</h2>
         <ul>
             {{#each tests}}
             <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        {{/if}}
+    </div>
+
+    <div class="CommentsSection">
+        <h2>Comments</h2>
+        <h4>Post a Comment</h4>
+        <form action="/postComment" method="POST" id="addComment">
+            <input type="text" name="commentInput" id="commentInput" />
+            <input type="hidden" name="profileId" id="profileId" value="{{userId}}" />
+            <button type="submit" value="Submit">Post</button>
+        </form>
+        <ul>
+            {{#each comments}}
+            <h5>{{this.AuthorDisplayName}}</h5>
+            <li>{{this.commentText}}</li>
             {{/each}}
         </ul>
     </div>

@@ -6,6 +6,7 @@ import UserFuncs from "../data/users.js";
 import RequestFuncs from "../data/requests.js";
 import * as validator from "email-validator";
 import { requests } from "../config/mongoCollections.js";
+import commentFuncs from "../data/comments.js";
 
 router.route("/").get(async (req, res) => {
   let tests = await presetTestFuncs.getAllTests();
@@ -161,15 +162,20 @@ router
         friends.push(Frienddisplayname.displayname);
       }
 
+      let comments = await commentFuncs.getCommentByprofileId(
+        req.session.user.userID.toString()
+      );
       res.render("profilePage", {
         title: "Profile",
         partial: "profilePage_script",
         tests: req.session.user.testResultsList,
         friends: friends,
         displayname: req.session.user.displayname,
+        userId: req.session.user.userID,
         userBio: req.session.user.userBio,
         profilePictureUrl: req.session.user.profilePictureUrl,
         PendingFriendRequests: PendingFriendRequests,
+        comments: comments,
       });
     } catch (error) {
       return res.status(404).render("error", { title: "404", Error: error });
@@ -215,14 +221,19 @@ router
           }
         }
       }
+      let comments = await commentFuncs.getCommentByprofileId(
+        user.userID.toString()
+      );
       res.render("profilePage_id", {
         title: "Profile",
         partial: "profilePage_id_script",
         tests: user.testResultsList,
         displayname: user.displayname,
+        userId: user.userID,
         userBio: user.userBio,
         profilePictureUrl: user.profilePictureUrl,
         showRequestButton: !isFriend && !isPending,
+        comments: comments,
       });
     } catch (error) {
       console.log(error);
@@ -279,6 +290,36 @@ router.route("/declineFriendRequest").post(async (req, res, next) => {
       sender: req.body.FriendRequestId,
     });
     res.redirect("/profile");
+  } catch (error) {
+    return res.status(404).render("error", { title: "404", Error: error });
+  }
+});
+router.route("/postComment").post(async (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  let currProfile = await UserFuncs.getUserById(req.body.profileId.toString());
+  try {
+    let comment = await commentFuncs.addComment(
+      req.session.user.userID.toString(),
+      req.body.commentInput,
+      req.body.profileId.toString()
+    );
+    res.redirect("/profile/" + currProfile.displayname);
+  } catch (error) {
+    return res.status(404).render("error", { title: "404", Error: error });
+  }
+});
+router.route("/deleteComment").post(async (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  let currProfile = await UserFuncs.getUserById(req.body.profileId.toString());
+  try {
+    let comment = await commentFuncs.deleteCommentsById(
+      req.body.commentId.toString()
+    );
+    res.redirect("/profile/" + currProfile.displayname);
   } catch (error) {
     return res.status(404).render("error", { title: "404", Error: error });
   }
