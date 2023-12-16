@@ -47,7 +47,7 @@ app.engine(
     partialsDir: ["views/partials/"],
     helpers: {
       exists: (value) => {
-        if (value.length != 0) return true;
+        if (!value) return true;
         else return false;
       },
     },

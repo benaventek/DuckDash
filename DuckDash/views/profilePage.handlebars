@@ -28,8 +28,9 @@
         </button>
     </div>
 
+
     <div class="FriendsSection" id="FriendsSection">
-        {{#if (exists friends) }}
+        {{#if friends}}
         <h2 class="FriendsTitle">Friends</h2>
         <ul class="FriendsList" id="FriendsList">
             {{#each friends}}
@@ -41,9 +42,9 @@
             {{/each}}
         </ul>
         {{/if}}
-        {{#if (exists PendingFriendRequests) }}
-        <h2 class="PendingFriendRequestTitle">Pending Friend Requests</h2>
 
+        {{#if PendingFriendRequests}}
+        <h2 class="PendingFriendRequestTitle">Pending Friend Requests</h2>
         <ul class="FriendsList" id="FriendsList">
             {{#each PendingFriendRequests}}
             <li class="FriendsListItem" id="FriendsListItem">
@@ -70,14 +71,14 @@
     </div>
 
     <div class="TestsSection">
-        {{#if (exists tests) }}
+
         <h2>Tests</h2>
         <ul>
             {{#each tests}}
             <li>{{this}}</li>
             {{/each}}
         </ul>
-        {{/if}}
+
     </div>
 
     <div class="CommentsSection" id="CommentsSection">
