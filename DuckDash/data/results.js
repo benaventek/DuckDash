@@ -46,15 +46,15 @@ let exportedMethods = {
     const userCollection = await results();
     return userCollection;
   },
-  async getResultsByUsername(username) {
-    if (!username) throw new Error("Invalid inputs");
-    username = validateFuncs.validUsername(username);
+  async getResultsBydisplayname(displayname) {
+    if (!displayname) throw new Error("Invalid inputs");
+    displayname = validateFuncs.validdisplayname(displayname);
     try {
-      let user = await users.getUserByUsername(username);
+      let user = await users.getUserBydisplayname(displayname);
     } catch (error) {
       throw new Error("User does not exist");
     }
-    let user = await users.getUserByUsername(username);
+    let user = await users.getUserBydisplayname(displayname);
     const resultCollection = await results();
     const result = await resultCollection
       .find({
