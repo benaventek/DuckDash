@@ -10,10 +10,15 @@ import commentFuncs from "../data/comments.js";
 
 router.route("/").get(async (req, res) => {
   let tests = await presetTestFuncs.getAllTests();
+  let cookie = JSON.stringify(null);
+  if (req.session.user) {
+    cookie = JSON.stringify(req.session.user);
+  }
   res.render("home", {
     title: "DuckDash Homepage",
     partial: "typingTest_script",
     tests: JSON.stringify(tests),
+    sessionCookie: cookie,
   });
 });
 
