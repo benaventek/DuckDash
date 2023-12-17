@@ -45,12 +45,12 @@ ul {
 }
 
 #userList li {
-  display:contents;
+  display: contents;
 }
 
 #userList li::before {
-  content: counter(item) ". "; 
-  counter-increment: item; 
+  content: counter(item) ". ";
+  counter-increment: item;
 }
 
 li {
@@ -155,11 +155,11 @@ a.LoginLink {
 }
 
 #wpm {
-  margin-left: 1075px;
+  margin-left: 250px;
 }
 
 #accuracy {
-  margin-left: 340px;
+  margin-left: 210px;
 }
 
 #restart-container {
@@ -171,25 +171,23 @@ a.LoginLink {
   margin-top: 10px;
 }
 
-
-
-#wpm {
-  color:white;
-  border:2px solid #a32638;
-  border-radius: 5px;
-  background-color: #a32638;
-  cursor: pointer;
-}
-
-
-#accuracy {
+#Leaderboardwpm {
   color: white;
-  border:2px solid #a32638;
+  border: 2px solid #a32638;
   border-radius: 5px;
   background-color: #a32638;
   cursor: pointer;
+  margin-left: 1075px;
 }
 
+#Leaderboardaccuracy {
+  color: white;
+  border: 2px solid #a32638;
+  border-radius: 5px;
+  background-color: #a32638;
+  cursor: pointer;
+  margin-left: 340px;
+}
 
 #prompt {
   margin-left: 500px;
