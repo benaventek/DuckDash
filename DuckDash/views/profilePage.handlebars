@@ -22,7 +22,7 @@
         <h4>Bio</h4>
         <p class="userBio">{{userBio}}</p>
         <form action="/profile" method="POST" id="changeBio" hidden>
-            <input type="text" name="bioInput" id="bioInput" value="{{{userBio}}}" />
+            <input type="text" name="bioInput" id="bioInput" value={{userBio}} />
             <input type="submit" value="Submit">
         </form>
         <button class="editProfileBioButton" id="editProfileBioButton">Edit Bio</button>

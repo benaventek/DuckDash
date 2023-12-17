@@ -434,7 +434,7 @@ router
           AverageAccuracy = AverageAccuracy / i;
         }
       }
-      const cleanedBio = xss(req.session.user.userBio);
+      const cleanedBio = xss.filterXSS(req.session.user.userBio);
       console.log(cleanedBio);
       res.render("profilePage", {
         title: "Profile",
@@ -459,7 +459,7 @@ router
       await UserFuncs.updateUser(
         req.session.user.displayname,
         "Bio",
-        xss(req.body.bioInput)
+        xss.filterXSS(req.body.bioInput)
       );
       res.redirect("/profile");
     } catch (error) {
@@ -536,7 +536,7 @@ router
           AverageAccuracy = AverageAccuracy / i;
         }
       }
-      const cleanedBio = xss(user.userBio);
+      const cleanedBio = xss.filterXSS(user.userBio);
       res.render("profilePage_id", {
         title: "Profile",
         partial: "profilePage_id_script",
