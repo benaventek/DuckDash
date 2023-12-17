@@ -74,142 +74,138 @@ router.route("/leaderboard").get(async (req, res) => {
   }
 });
 
-router.route("/leaderboard/wpm/average")
-  .post(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
-    try{
-      const results = await UserFuncs.getUsersByAverageWPM();
-      if(results){
-        res.render("partials/leaderboard_template", {layout: null, results: results});
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+router.route("/leaderboard/wpm/average").post(async (req, res) => {
+  //Leaderboard initially loads with WPM Selected
+  try {
+    const results = await UserFuncs.getUsersByAverageWPM();
+    if (results) {
+      res.render("partials/leaderboard_template", {
+        layout: null,
+        results: results,
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
         error: "Internal Server Error",
       });
     }
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: "Internal Server Error",
+    });
+  }
 });
 
-router.route("/leaderboard/accuracy/average")
-  .post(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
-    try{
-      const results = await UserFuncs.getUsersByAverageAccuracy();
-      if(results){
-        res.render("partials/leaderboard_template", {layout: null, results: results});
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+router.route("/leaderboard/accuracy/average").post(async (req, res) => {
+  //Leaderboard initially loads with WPM Selected
+  try {
+    const results = await UserFuncs.getUsersByAverageAccuracy();
+    if (results) {
+      res.render("partials/leaderboard_template", {
+        layout: null,
+        results: results,
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
         error: "Internal Server Error",
       });
     }
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: "Internal Server Error",
+    });
+  }
 });
 
-router.route("/leaderboard/wpm/:testTitle")
-  .post(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
-    if (!req.params.testTitle){
-      return res.status(404).render("error", { title: "Error" });
-    }
+router.route("/leaderboard/wpm/:testTitle").post(async (req, res) => {
+  //Leaderboard initially loads with WPM Selected
+  if (!req.params.testTitle) {
+    return res.status(404).render("error", { title: "Error" });
+  }
 
-    let testTitle = req.params.testTitle;
-    if(testTitle=== 'pledge'){
-      testTitle = 'Honor Pledge';
+  let testTitle = req.params.testTitle;
+  if (testTitle === "pledge") {
+    testTitle = "Honor Pledge";
+  }
+  if (testTitle === "star") {
+    testTitle = "Twinkle Twinkle Little Star";
+  }
+  if (testTitle === "alphabet") {
+    testTitle = "Alphabet";
+  }
+  if (testTitle === "gold") {
+    testTitle = "Gold Digger";
+  }
 
-    }
-    if(testTitle=== 'star'){
-      testTitle = 'Twinkle Twinkle Little Star';
-
-    }
-    if(testTitle=== 'alphabet'){
-      testTitle = 'Alphabet';
-
-    }
-    if(testTitle=== 'gold'){
-      testTitle = 'Gold Digger';
-
-    }
-    
-    try{
-      const results = await UserFuncs.getUsersWPMByTestTitle(testTitle);
-      if(results){
-        res.render("partials/leaderboard_template", {layout: null, results: results});
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+  try {
+    const results = await UserFuncs.getUsersWPMByTestTitle(testTitle);
+    if (results) {
+      res.render("partials/leaderboard_template", {
+        layout: null,
+        results: results,
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
-        error: e,
+        error: "Internal Server Error",
       });
     }
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: e,
+    });
+  }
 });
 
-router.route("/leaderboard/accuracy/:testTitle")
-  .post(async (req, res) => {
-    if (!req.params.testTitle){
-      return res.status(404).render("error", { title: "Error" });
-    }
+router.route("/leaderboard/accuracy/:testTitle").post(async (req, res) => {
+  if (!req.params.testTitle) {
+    return res.status(404).render("error", { title: "Error" });
+  }
 
-    let testTitle = req.params.testTitle;
-    if(testTitle=== 'pledge'){
-      testTitle = 'Honor Pledge';
-
-    }
-    if(testTitle=== 'star'){
-      testTitle = 'Twinkle Twinkle Little Star';
-
-    }
-    if(testTitle=== 'alphabet'){
-      testTitle = 'Alphabet';
-
-    }
-    if(testTitle=== 'gold'){
-      testTitle = 'Gold Digger';
-
-    }
-    try{
-      const results = await UserFuncs.getUsersAccByTestTitle(testTitle);
-      if(results){
-        res.render("partials/leaderboard_template", {layout: null, results: results});
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+  let testTitle = req.params.testTitle;
+  if (testTitle === "pledge") {
+    testTitle = "Honor Pledge";
+  }
+  if (testTitle === "star") {
+    testTitle = "Twinkle Twinkle Little Star";
+  }
+  if (testTitle === "alphabet") {
+    testTitle = "Alphabet";
+  }
+  if (testTitle === "gold") {
+    testTitle = "Gold Digger";
+  }
+  try {
+    const results = await UserFuncs.getUsersAccByTestTitle(testTitle);
+    if (results) {
+      res.render("partials/leaderboard_template", {
+        layout: null,
+        results: results,
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
-        error: e,
+        error: "Internal Server Error",
       });
     }
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: e,
+    });
+  }
 });
 
 router
@@ -240,7 +236,6 @@ router
       });
     }
     const cleandisplayname = xss(req.body.displayname);
-
     try {
       let userInfo = await UserFuncs.getUserBydisplayname(cleandisplayname);
       if (userInfo) {
@@ -439,6 +434,8 @@ router
           AverageAccuracy = AverageAccuracy / i;
         }
       }
+      const cleanedBio = xss(req.session.user.userBio);
+      console.log(cleanedBio);
       res.render("profilePage", {
         title: "Profile",
         partial: "profilePage_script",
@@ -446,7 +443,7 @@ router
         friends: friends,
         displayname: req.session.user.displayname,
         userId: req.session.user.userID,
-        userBio: req.session.user.userBio,
+        userBio: cleanedBio,
         profilePictureUrl: req.session.user.profilePictureUrl,
         PendingFriendRequests: PendingFriendRequests,
         comments: comments,
@@ -474,7 +471,7 @@ router
   .get(async (req, res, next) => {
     if (!req.params.displayname)
       return res.status(404).render("error", { title: "Error" });
-    console.log(req.params.displayname);
+
     try {
       let user = await UserFuncs.getUserBydisplayname(req.params.displayname);
       let isFriend = false;
@@ -491,7 +488,7 @@ router
         let pendingRequests = await RequestFuncs.getPendingRequestsbyRecieverId(
           user.userID.toString()
         );
-        console.log(pendingRequests);
+
         for (const request of pendingRequests) {
           if (request.userId == req.session.user.userID.toString()) {
             isPending = true;
@@ -539,13 +536,14 @@ router
           AverageAccuracy = AverageAccuracy / i;
         }
       }
+      const cleanedBio = xss(user.userBio);
       res.render("profilePage_id", {
         title: "Profile",
         partial: "profilePage_id_script",
         tests: tests,
         displayname: user.displayname,
         userId: user.userID,
-        userBio: user.userBio,
+        userBio: cleanedBio,
         profilePictureUrl: user.profilePictureUrl,
         showRequestButton: !isFriend && !isPending,
         comments: comments,
@@ -553,7 +551,6 @@ router
         AverageAccuracy: AverageAccuracy.toFixed(2),
       });
     } catch (error) {
-      console.log(error);
       return res.status(404).render("error", { title: "404", Error: error });
     }
   })

@@ -11,12 +11,12 @@
 
   function bindEventToProfile(userItem) {
     userItem
-      .find(".ProfilePicture, .userNameFromRequest")
+      .find(".ProfilePicture, .displaynameFromRequest")
       .on("click", function (event) {
         event.preventDefault();
-        let currentUsername = userItem.find(".userNameFromRequest").text();
+        let currentdisplayname = userItem.find(".displaynameFromRequest").text();
 
-        window.location.href = "/profile/" + currentUsername;
+        window.location.href = "/profile/" + currentdisplayname;
       });
   }
 

@@ -365,13 +365,13 @@ div.BioSection {
   justify-content: center;
   align-items: center;
 }
-h2.username {
+h2.displayname {
   text-align: center;
 }
-h2.userNameFromRequest {
+h2.displaynameFromRequest {
   margin-top: 0;
 }
-div.UserNameSearch {
+div.displaynameSearch {
   text-align: left;
 }
 h2.displayname {
