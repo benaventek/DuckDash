@@ -459,7 +459,7 @@ router
       await UserFuncs.updateUser(
         req.session.user.displayname,
         "Bio",
-        req.body.bioInput
+        xss(req.body.bioInput)
       );
       res.redirect("/profile");
     } catch (error) {
