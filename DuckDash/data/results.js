@@ -67,5 +67,6 @@ let exportedMethods = {
     if (!result) return false;
     return result;
   },
+  
 };
 export default exportedMethods;

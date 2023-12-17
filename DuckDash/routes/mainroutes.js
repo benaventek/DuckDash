@@ -43,8 +43,14 @@ router
     }
   });
 
-router.route('/leaderboard').get(async (req, res) => {
-  res.render('leaderboard', { title: 'Leaderboards' });
+router.route("/leaderboard")
+  .get(async (req, res) => {
+    //Leaderboard initially loads with WPM Selected
+    res.render("leaderboard", { 
+      title: "Leaderboards",
+      results: results,
+      partial: "leaderboard_script"
+    });
 });
 
 router.route("/search")
