@@ -75,38 +75,13 @@ let exportedMethods = {
 
     return result;
   },
-  async calcAvgWPM(users){
-    let usersWithAverageWPM = [];
+  async getResultsByTestID(id) {
+    const resultCollection = await results();
+    const result = await resultCollection.find({testID: id}).toArray();
 
-    for(let user of users){
-      let totalWPM = 0;
-      let testCount = 0;
-      for(let testID of user.testResultsList){
-        let testResult = await this.getResultByID(testID);
-
-        totalWPM += testResult.wpm;
-        testCount++;
-      }
-      let averageWPM = testCount > 0 ? totalWPM / testCount : 0;
-
-      let userWithAverageWPM = {
-        userID: user.userID,
-        email: user.email,
-        displayname: user.displayname,
-        profilePictureUrl: user.profilePictureUrl,
-        userBio: user.userBio,
-        friendsList: user.friendsList,
-        testResultsList: user.testResultsList,
-        averageWPM: averageWPM
-      };
-      usersWithAverageWPM.push(userWithAverageWPM);
-
-
-    }
-    usersWithAverageWPM.sort((a,b) => b.averageWPM - a.averageWPM);
-    return usersWithAverageWPM;
-
+    return result;
   },
+
   
 };
 export default exportedMethods;

@@ -39,6 +39,12 @@ ul {
   padding: 0;
   list-style: none;
 }
+#test-filter-menu {
+  text-align: center;
+  width: 10%;
+  margin-left: 45%;
+  padding-top: 10px;
+}
 
 #userList {
   counter-reset: item;

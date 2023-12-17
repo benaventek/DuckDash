@@ -48,33 +48,30 @@ router
     }
   });
 
-router.route("/leaderboard")
-  .get(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
-    try{
-      const results = await UserFuncs.getUsersByAverageWPM();
-      if(results){
-        res.render("leaderboard", { 
-          title: "Leaderboards",
-          results: results,
-          partial: "leaderboard_script"
-        });
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+router.route("/leaderboard").get(async (req, res) => {
+  //Leaderboard initially loads with WPM Selected
+  try {
+    const results = await UserFuncs.getUsersByAverageWPM();
+    if (results) {
+      res.render("leaderboard", {
+        title: "Leaderboards",
+        results: results,
+        partial: "leaderboard_script",
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
-        error: e,
+        error: "Internal Server Error",
       });
     }
-    
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: e,
+    });
+  }
 });
 
 router.route("/leaderboard/wpm/average")
@@ -96,7 +93,7 @@ router.route("/leaderboard/wpm/average")
       return res.status(400).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
-        error: e,
+        error: "Internal Server Error",
       });
     }
 });
@@ -120,7 +117,7 @@ router.route("/leaderboard/accuracy/average")
       return res.status(400).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
-        error: e,
+        error: "Internal Server Error",
       });
     }
 });
@@ -132,7 +129,23 @@ router.route("/leaderboard/wpm/:testTitle")
       return res.status(404).render("error", { title: "Error" });
     }
 
-    const testTitle = req.params.testTitle;
+    let testTitle = req.params.testTitle;
+    if(testTitle=== 'pledge'){
+      testTitle = 'Honor Pledge';
+
+    }
+    if(testTitle=== 'star'){
+      testTitle = 'Twinkle Twinkle Little Star';
+
+    }
+    if(testTitle=== 'alphabet'){
+      testTitle = 'Alphabet';
+
+    }
+    if(testTitle=== 'gold'){
+      testTitle = 'Gold Digger';
+
+    }
     
     try{
       const results = await UserFuncs.getUsersWPMByTestTitle(testTitle);
@@ -157,7 +170,27 @@ router.route("/leaderboard/wpm/:testTitle")
 
 router.route("/leaderboard/accuracy/:testTitle")
   .post(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
+    if (!req.params.testTitle){
+      return res.status(404).render("error", { title: "Error" });
+    }
+
+    let testTitle = req.params.testTitle;
+    if(testTitle=== 'pledge'){
+      testTitle = 'Honor Pledge';
+
+    }
+    if(testTitle=== 'star'){
+      testTitle = 'Twinkle Twinkle Little Star';
+
+    }
+    if(testTitle=== 'alphabet'){
+      testTitle = 'Alphabet';
+
+    }
+    if(testTitle=== 'gold'){
+      testTitle = 'Gold Digger';
+
+    }
     try{
       const results = await UserFuncs.getUsersAccByTestTitle(testTitle);
       if(results){
@@ -456,14 +489,16 @@ router
           }
         }
         let pendingRequests = await RequestFuncs.getPendingRequestsbyRecieverId(
-          req.session.user.userID.toString()
+          user.userID.toString()
         );
+        console.log(pendingRequests);
         for (const request of pendingRequests) {
-          if (request.userId == user.userID.toString()) {
+          if (request.userId == req.session.user.userID.toString()) {
             isPending = true;
           }
         }
       }
+
       let comments = await commentFuncs.getCommentByprofileId(
         user.userID.toString()
       );
@@ -533,14 +568,7 @@ router
           req.session.user.userID.toString(),
           requestedUser.userID.toString()
         );
-
-        res.render("profilePage_id", {
-          title: "Profile",
-          partial: "profilePage_id_script",
-          displayname: requestedUser.displayname,
-          userBio: requestedUser.userBio,
-          profilePictureUrl: requestedUser.profilePictureUrl,
-        });
+        res.redirect("/profile/" + requestedUser.displayname);
       } catch (error) {
         return res.status(404).render("error", { title: "404", Error: error });
       }

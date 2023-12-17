@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import * as validator from "email-validator";
 import { ObjectId } from "mongodb";
 import results from './results.js';
+import presetTests from './presetTests.js';
 const saltRounds = 16;
 
 let exportedMethods = {
@@ -297,15 +298,67 @@ let exportedMethods = {
     return usersWithAverageAccuracy;
   },
   async getUsersWPMByTestTitle(testTitle){
-    const userCollection = await users();
-    const allUsers = await userCollection.find({}).toArray();
-    if(!allUsers) throw 'Error while retrieving Users';
-    
+    if (!testTitle) throw "Invalid user id";
+    if (typeof testTitle !== "string") throw "Invalid test title";
+    testTitle = testTitle.trim();
+
+    const test = await presetTests.getTestByTitle(testTitle);
+    const testID = test._id.toString();
+
+    const testResults = await results.getResultsByTestID(testID);
+
+    const groupedResults = {};
+    testResults.forEach((results) =>{
+      const { userID, wpm } = results;
+      if(!groupedResults[userID] || groupedResults[userID] < parseFloat(wpm)){
+        groupedResults[userID] = wpm;
+      }
+    });
+
+    const userIDSorted = Object.keys(groupedResults).sort((a,b) => groupedResults[b]-groupedResults[a]);
+
+    const userInfoArray = [];
+
+    for (let i = 0; i < userIDSorted.length; i++) {
+      const userId = userIDSorted[i];
+      const userInfo = await this.getUserById(userId);
+      userInfoArray.push(userInfo);
+    }
+  
+
+    return userInfoArray;
+
+
   },
   async getUsersAccByTestTitle(testTitle){
-    const userCollection = await users();
-    const allUsers = await userCollection.find({}).toArray();
-    if(!allUsers) throw 'Error while retrieving Users';
+    if (!testTitle) throw "Invalid user id";
+    if (typeof testTitle !== "string") throw "Invalid test title";
+    testTitle = testTitle.trim();
+
+    const test = await presetTests.getTestByTitle(testTitle);
+    const testID = test._id.toString();
+
+    const testResults = await results.getResultsByTestID(testID);
+
+    const groupedResults = {};
+    testResults.forEach((results) =>{
+      const { userID, accuracy } = results;
+      if(!groupedResults[userID] || groupedResults[userID] < parseFloat(accuracy)){
+        groupedResults[userID] = accuracy;
+      }
+    });
+
+    const userIDSorted = Object.keys(groupedResults).sort((a,b) => groupedResults[b]-groupedResults[a]);
+
+    const userInfoArray = [];
+
+    for (let i = 0; i < userIDSorted.length; i++) {
+      const userId = userIDSorted[i];
+      const userInfo = await this.getUserById(userId);
+      userInfoArray.push(userInfo);
+    }
+
+    return userInfoArray;
     
     
   },
