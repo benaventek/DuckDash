@@ -4,10 +4,10 @@ import presetTests from '../data/presetTests.js';
 import results from '../data/results.js';
 const db = await dbConnection();
 
-// await users.addUser('dremike1', 'test@gmail.com', 'Password#1');
-// await users.addUser('dremike12', 'test2@gmail.com', 'Password#12');
-// await users.addUser('dremike13', 'test3@gmail.com', 'Password#13');
-// await users.addUser('dremike14', 'test4@gmail.com', 'Password#14');
+await users.addUser('dremike1', 'test@gmail.com', 'Password#1');
+await users.addUser('dremike12', 'test2@gmail.com', 'Password#12');
+await users.addUser('dremike13', 'test3@gmail.com', 'Password#13');
+await users.addUser('dremike14', 'test4@gmail.com', 'Password#14');
 
 await presetTests.CreateTypingTest(
   'Honor Pledge',

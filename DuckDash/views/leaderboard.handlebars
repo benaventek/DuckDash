@@ -13,6 +13,19 @@
     <button id="Leaderboardaccuracy">ACC</button>
 </div>
 
+<div id="test-filter-menu">
+    <div id='prompt-dropdown-filter' class="dropdown">
+        <label for="filterDropdown">Filter:</label>
+        <select id="filterDropdown">
+            <option value="average">Overall Average</option>
+            <option value="pledge">Honor Pledge</option>
+            <option value="star">Twinkle Twinkle Little Star</option>
+            <option value="alphabet">Alphabet</option>
+            <option value="gold">Gold Digger</option>
+        </select>
+    </div>
+</div>
+
 <ol id="userList">
     {{#each results}}
         <li id="listedUsers">{{>profileLookup}}</li> 

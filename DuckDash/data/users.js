@@ -296,5 +296,18 @@ let exportedMethods = {
     usersWithAverageAccuracy.sort((a,b) => b.averageAcc - a.averageAcc);
     return usersWithAverageAccuracy;
   },
+  async getUsersWPMByTestTitle(testTitle){
+    const userCollection = await users();
+    const allUsers = await userCollection.find({}).toArray();
+    if(!allUsers) throw 'Error while retrieving Users';
+    
+  },
+  async getUsersAccByTestTitle(testTitle){
+    const userCollection = await users();
+    const allUsers = await userCollection.find({}).toArray();
+    if(!allUsers) throw 'Error while retrieving Users';
+    
+    
+  },
 };
 export default exportedMethods;

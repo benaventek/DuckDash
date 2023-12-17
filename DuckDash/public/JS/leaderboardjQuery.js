@@ -2,8 +2,12 @@
   let userList = $("#userList"),
     wpmButton = $("#Leaderboardwpm"),
     accButton = $("#Leaderboardaccuracy");
-  h3title = $("#sortingMethod");
-  errorArea = $("#error");
+    h3title = $("#sortingMethod");
+    errorArea = $("#error");
+    filterDropdown = $("#filterDropdown");
+
+    let lastPressedButton = 'wpm';
+    let dropDownSelected = 'average';
 
   function bindEventToProfile(userItem) {
     userItem
@@ -20,11 +24,15 @@
     bindEventToProfile($(element));
   });
 
+  
+
+  
+
   wpmButton.on("click", function () {
     errorArea.hide();
     let requestConfig = {
       method: "POST",
-      url: "/leaderboard/wpm",
+      url: "/leaderboard/wpm/" + dropDownSelected,
     };
 
     $.ajax(requestConfig)
@@ -43,6 +51,8 @@
 
           // Display the extracted error content in the 'errorArea'
           errorArea.html(errorContent);
+
+          errorArea.show();
         }
       });
   });
@@ -51,7 +61,7 @@
     errorArea.hide();
     let requestConfig = {
       method: "POST",
-      url: "/leaderboard/accuracy",
+      url: "/leaderboard/accuracy/" + dropDownSelected,
     };
 
     $.ajax(requestConfig)
@@ -75,4 +85,28 @@
         }
       });
   });
+
+
+
+  filterDropdown.on('change', () => {
+    if(filterDropdown.val() === 'average'){
+        dropDownSelected = 'average';
+
+    }
+    if(filterDropdown.val() === 'pledge'){
+        dropDownSelected = 'pledge';
+    }
+    if(filterDropdown.val() === 'star'){
+        dropDownSelected = 'star';
+    }
+    if(filterDropdown.val() === 'alphabet'){
+        dropDownSelected = 'alphabet';
+    }
+    if(filterDropdown.val() === 'gold'){
+        dropDownSelected = 'gold';
+    }
+    
+  });
+
+
 })(window.jQuery);

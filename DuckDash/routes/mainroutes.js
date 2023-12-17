@@ -77,7 +77,7 @@ router.route("/leaderboard")
     
 });
 
-router.route("/leaderboard/wpm")
+router.route("/leaderboard/wpm/average")
   .post(async (req, res) => {
     //Leaderboard initially loads with WPM Selected
     try{
@@ -101,11 +101,65 @@ router.route("/leaderboard/wpm")
     }
 });
 
-router.route("/leaderboard/accuracy")
+router.route("/leaderboard/accuracy/average")
   .post(async (req, res) => {
     //Leaderboard initially loads with WPM Selected
     try{
       const results = await UserFuncs.getUsersByAverageAccuracy();
+      if(results){
+        res.render("partials/leaderboard_template", {layout: null, results: results});
+      }
+      else{
+        return res.status(500).render("leaderboard", {
+          title: "Leaderboards",
+          partial: "leaderboard_script",
+          error: "Internal Server Error",
+        });
+      }
+    } catch(e){
+      return res.status(400).render("leaderboard", {
+        title: "Leaderboards",
+        partial: "leaderboard_script",
+        error: e,
+      });
+    }
+});
+
+router.route("/leaderboard/wpm/:testTitle")
+  .post(async (req, res) => {
+    //Leaderboard initially loads with WPM Selected
+    if (!req.params.testTitle){
+      return res.status(404).render("error", { title: "Error" });
+    }
+
+    const testTitle = req.params.testTitle;
+    
+    try{
+      const results = await UserFuncs.getUsersWPMByTestTitle(testTitle);
+      if(results){
+        res.render("partials/leaderboard_template", {layout: null, results: results});
+      }
+      else{
+        return res.status(500).render("leaderboard", {
+          title: "Leaderboards",
+          partial: "leaderboard_script",
+          error: "Internal Server Error",
+        });
+      }
+    } catch(e){
+      return res.status(400).render("leaderboard", {
+        title: "Leaderboards",
+        partial: "leaderboard_script",
+        error: e,
+      });
+    }
+});
+
+router.route("/leaderboard/accuracy/:testTitle")
+  .post(async (req, res) => {
+    //Leaderboard initially loads with WPM Selected
+    try{
+      const results = await UserFuncs.getUsersAccByTestTitle(testTitle);
       if(results){
         res.render("partials/leaderboard_template", {layout: null, results: results});
       }
