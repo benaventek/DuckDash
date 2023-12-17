@@ -240,6 +240,8 @@ router
         req.session.user.userID.toString()
       );
       let tests = [];
+      let AverageWPM = 0;
+      let AverageAccuracy = 0;
       if (req.session.user.testResultsList) {
         for (const result of req.session.user.testResultsList
           .slice(Math.max(req.session.user.testResultsList.length - 5, 0))
@@ -260,6 +262,20 @@ router
             WPM: resultInfo.wpm,
           });
         }
+        let i = 0;
+
+        let AllUsersResults = await resultFuncs.getResultsBydisplayname(
+          req.session.user.displayname
+        );
+        for (const result of AllUsersResults) {
+          i++;
+          AverageWPM += +result.wpm;
+          AverageAccuracy += +result.accuracy;
+        }
+        if (i != 0) {
+          AverageWPM = AverageWPM / i;
+          AverageAccuracy = AverageAccuracy / i;
+        }
       }
       res.render("profilePage", {
         title: "Profile",
@@ -272,6 +288,8 @@ router
         profilePictureUrl: req.session.user.profilePictureUrl,
         PendingFriendRequests: PendingFriendRequests,
         comments: comments,
+        AverageWPM: AverageWPM.toFixed(2),
+        AverageAccuracy: AverageAccuracy.toFixed(2),
       });
     } catch (error) {
       return res.status(404).render("error", { title: "404", Error: error });
@@ -321,6 +339,8 @@ router
         user.userID.toString()
       );
       let tests = [];
+      let AverageWPM = 0;
+      let AverageAccuracy = 0;
       if (user.testResultsList) {
         for (const result of user.testResultsList
           .slice(Math.max(user.testResultsList.length - 5, 0))
@@ -341,6 +361,19 @@ router
             WPM: resultInfo.wpm,
           });
         }
+        let i = 0;
+        let AllUsersResults = await resultFuncs.getResultsBydisplayname(
+          user.displayname
+        );
+        for (const result of AllUsersResults) {
+          i++;
+          AverageWPM += +result.wpm;
+          AverageAccuracy += +result.accuracy;
+        }
+        if (i != 0) {
+          AverageWPM = AverageWPM / i;
+          AverageAccuracy = AverageAccuracy / i;
+        }
       }
       res.render("profilePage_id", {
         title: "Profile",
@@ -352,6 +385,8 @@ router
         profilePictureUrl: user.profilePictureUrl,
         showRequestButton: !isFriend && !isPending,
         comments: comments,
+        AverageWPM: AverageWPM.toFixed(2),
+        AverageAccuracy: AverageAccuracy.toFixed(2),
       });
     } catch (error) {
       console.log(error);
