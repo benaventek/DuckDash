@@ -41,7 +41,7 @@ ul {
 }
 
 #userList {
-  counter-reset: item; /* Reset the counter for the ordered list */
+  counter-reset: item;
 }
 
 #userList li {
@@ -49,8 +49,8 @@ ul {
 }
 
 #userList li::before {
-  content: counter(item) ". "; /* Use counter to generate the numbers */
-  counter-increment: item; /* Increment the counter for each list item */
+  content: counter(item) ". "; 
+  counter-increment: item; 
 }
 
 li {
