@@ -12,6 +12,8 @@
                     Request</button>
         </form>
         {{/if}}
+        <h3>Lifetime Speed : {{AverageWPM}}</h3>
+        <h3>Lifetime Accuracy : {{AverageAccuracy}}</h3>
     </div>
 
 
@@ -25,11 +27,14 @@
         <p class="userBio">{{{userBio}}}</p>
     </div>
     <div class="TestsSection">
-
-        <h2>Tests</h2>
+        <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
-            <li>{{this}}</li>
+            <div class="TestInformation" id="TestInformation">
+                <li>{{this.testTitle}}</li>
+                <li>Accuracy:{{this.Accuracy}}</li>
+                <li>WPM:{{this.WPM}}</li>
+            </div>
             {{/each}}
         </ul>
 
