@@ -40,8 +40,21 @@ ul {
   list-style: none;
 }
 
+#userList {
+  counter-reset: item; /* Reset the counter for the ordered list */
+}
+
+#userList li {
+  display:contents;
+}
+
+#userList li::before {
+  content: counter(item) ". "; /* Use counter to generate the numbers */
+  counter-increment: item; /* Increment the counter for each list item */
+}
+
 li {
-  color: white;
+  color: black;
   display: inline-block;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -62,6 +75,10 @@ a {
 }
 
 h2 {
+  text-align: center;
+}
+
+h3 {
   text-align: center;
 }
 /* JUST FOR NOW TEMPLATE COPIED FROM MY LAB- ANDRES */
@@ -138,7 +155,7 @@ a.LoginLink {
 }
 
 #wpm {
-  margin-left: 275px;
+  margin-left: 1075px;
 }
 
 #accuracy {
@@ -154,13 +171,6 @@ a.LoginLink {
   margin-top: 10px;
 }
 
-.wpm-accuracy-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  /* margin-left: -150px; */
-}
 
 
 #wpm {

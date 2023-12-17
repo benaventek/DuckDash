@@ -51,12 +51,78 @@ router
 router.route("/leaderboard")
   .get(async (req, res) => {
     //Leaderboard initially loads with WPM Selected
-    const results = await resultFuncs.getResults();
-    res.render("leaderboard", { 
-      title: "Leaderboards",
-      results: results,
-      partial: "leaderboard_script"
-    });
+    try{
+      const results = await UserFuncs.getUsersByAverageWPM();
+      if(results){
+        res.render("leaderboard", { 
+          title: "Leaderboards",
+          results: results,
+          partial: "leaderboard_script"
+        });
+      }
+      else{
+        return res.status(500).render("leaderboard", {
+          title: "Leaderboards",
+          partial: "leaderboard_script",
+          error: "Internal Server Error",
+        });
+      }
+    } catch(e){
+      return res.status(400).render("leaderboard", {
+        title: "Leaderboards",
+        partial: "leaderboard_script",
+        error: e,
+      });
+    }
+    
+});
+
+router.route("/leaderboard/wpm")
+  .post(async (req, res) => {
+    //Leaderboard initially loads with WPM Selected
+    try{
+      const results = await UserFuncs.getUsersByAverageWPM();
+      if(results){
+        res.render("partials/leaderboard_template", {layout: null, results: results});
+      }
+      else{
+        return res.status(500).render("leaderboard", {
+          title: "Leaderboards",
+          partial: "leaderboard_script",
+          error: "Internal Server Error",
+        });
+      }
+    } catch(e){
+      return res.status(400).render("leaderboard", {
+        title: "Leaderboards",
+        partial: "leaderboard_script",
+        error: e,
+      });
+    }
+});
+
+router.route("/leaderboard/accuracy")
+  .post(async (req, res) => {
+    //Leaderboard initially loads with WPM Selected
+    try{
+      const results = await UserFuncs.getUsersByAverageAccuracy();
+      if(results){
+        res.render("partials/leaderboard_template", {layout: null, results: results});
+      }
+      else{
+        return res.status(500).render("leaderboard", {
+          title: "Leaderboards",
+          partial: "leaderboard_script",
+          error: "Internal Server Error",
+        });
+      }
+    } catch(e){
+      return res.status(400).render("leaderboard", {
+        title: "Leaderboards",
+        partial: "leaderboard_script",
+        error: e,
+      });
+    }
 });
 
 router

@@ -1,10 +1,12 @@
 <h2>Leaderboard</h2>
 
+<h3 id="sortingMethod">WPM</h3>
+
 <p id="error">
         {{#if error}}
         Error "{{{error}}}"
         {{/if}}
-    </p>
+</p>
 
 <div id="wpm-accuracy-container">
     <button id="wpm">WPM</button>
@@ -13,6 +15,6 @@
 
 <ol id="userList">
     {{#each results}}
-        <li>{{>profileLookup}}</li> 
+        <li id="listedUsers">{{>profileLookup}}</li> 
     {{/each}}
 </ol>

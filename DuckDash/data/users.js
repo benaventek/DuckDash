@@ -3,6 +3,7 @@ import validateFuncs from "../helpers/validation.js";
 import bcrypt from "bcryptjs";
 import * as validator from "email-validator";
 import { ObjectId } from "mongodb";
+import results from './results.js';
 const saltRounds = 16;
 
 let exportedMethods = {
@@ -224,6 +225,76 @@ let exportedMethods = {
       testResultsList: user.testResultsList,
     };
     return returnInfo;
+  },
+  async getUsersByAverageWPM(){
+    const userCollection = await users();
+    const allUsers = await userCollection.find({}).toArray();
+    if(!allUsers) throw 'Error while retrieving Users';
+    
+    let usersWithAverageWPM = [];
+
+    for(let user of allUsers){
+      let totalWPM = 0;
+      let testCount = 0;
+      for(let testID of user.testResultsList){
+        let testResult = await results.getResultByID(testID);
+
+        totalWPM += parseFloat(testResult.wpm);
+        testCount++;
+      }
+      let averageWPM = testCount > 0 ? totalWPM / testCount : 0;
+
+      let userWithAverageWPM = {
+        userID: user.userID,
+        email: user.email,
+        displayname: user.displayname,
+        profilePictureUrl: user.profilePictureUrl,
+        userBio: user.userBio,
+        friendsList: user.friendsList,
+        testResultsList: user.testResultsList,
+        averageWPM: averageWPM
+      };
+      usersWithAverageWPM.push(userWithAverageWPM);
+
+
+    }
+    usersWithAverageWPM.sort((a,b) => b.averageWPM - a.averageWPM);
+    return usersWithAverageWPM;
+  },
+  async getUsersByAverageAccuracy(){
+    const userCollection = await users();
+    const allUsers = await userCollection.find({}).toArray();
+    if(!allUsers) throw 'Error while retrieving Users';
+    
+    let usersWithAverageAccuracy = [];
+
+    for(let user of allUsers){
+      let totalAcc = 0;
+      let testCount = 0;
+      for(let testID of user.testResultsList){
+        let testResult = await results.getResultByID(testID);
+
+        totalAcc += parseFloat(testResult.accuracy);
+        testCount++;
+      }
+      let averageAcc = testCount > 0 ? totalAcc / testCount : 0;
+
+      let userWithAverageWPM = {
+        userID: user.userID,
+        email: user.email,
+        displayname: user.displayname,
+        profilePictureUrl: user.profilePictureUrl,
+        userBio: user.userBio,
+        friendsList: user.friendsList,
+        testResultsList: user.testResultsList,
+        averageAcc: averageAcc
+      };
+      usersWithAverageAccuracy.push(userWithAverageWPM);
+
+
+    }
+    usersWithAverageAccuracy.sort((a,b) => b.averageAcc - a.averageAcc);
+    return usersWithAverageAccuracy;
   },
 };
 export default exportedMethods;
