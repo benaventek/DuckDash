@@ -17,29 +17,28 @@
     </div>
 
 
-    {{!-- TODO: Add a button to enable friend request, maybe Add friend. Also if this user is already a friend dont show
-    the button and maybe show
-    a remove friend button
 
-    also show total number of friends a user has, and all the tests they have completed along with their stats
-    --}}
     <div class="BioSection">
+        <h4>Bio</h4>
         <p class="userBio">{{{userBio}}}</p>
     </div>
-    <div class="TestsSection">
+    {{#if tests}}
+    <div class="TestsSection" id="TestsSection">
         <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
             <div class="TestInformation" id="TestInformation">
-                <li>{{this.testTitle}}</li>
-                <li>Accuracy:{{this.Accuracy}}</li>
-                <li>WPM:{{this.WPM}}</li>
+                <li>
+                    <h3 id="testTitle">{{this.testTitle}}</h3>
+                    <p id="testStats">Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
+                </li>
+
             </div>
             {{/each}}
         </ul>
 
     </div>
-
+    {{/if}}
     <div class="CommentsSection" id="CommentsSection">
 
         <h4>Post a Comment</h4>

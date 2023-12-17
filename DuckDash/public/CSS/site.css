@@ -1,5 +1,5 @@
 * {
-  font-family: 'Fjalla One', sans-serif;
+  font-family: "Fjalla One", sans-serif;
 }
 body {
   background-color: #d3d3d3;
@@ -18,7 +18,7 @@ header {
 }
 
 header::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -102,9 +102,9 @@ h3 {
   display: table;
   text-align: center;
 }
-input[type='text'],
-input[type='password'],
-input[type='email'],
+input[type="text"],
+input[type="password"],
+input[type="email"],
 select {
   width: 100%;
   margin-bottom: 2px;
@@ -112,7 +112,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-input[type='submit'] {
+input[type="submit"] {
   width: 100%;
   padding: 8px 16px;
   border: 1px solid #ccc;
@@ -403,6 +403,9 @@ h2.displayname {
 #FriendsList {
   border: #741724 2px dotted;
 }
+h2.FriendsTitle {
+  text-decoration: underline;
+}
 #CommentsSection {
   text-align: center;
   padding-top: 15px;
@@ -437,4 +440,32 @@ h2.displayname {
 #deleteComment {
   padding: 4px 2px;
   margin: auto;
+}
+#TestsSection {
+  text-align: center;
+  display: grid;
+  justify-content: center;
+}
+#TestsSection > ul {
+  border: #741724 2px solid;
+  font-style: italic;
+}
+#TestInformation > li {
+  padding: 0px;
+}
+#testTitle {
+  font-style: normal;
+  color: #741724;
+}
+#testStats {
+  color: gray;
+  text-decoration-line: underline;
+}
+body > main > section > div.BioSection > h4 {
+  text-align: center;
+  text-decoration-line: underline;
+}
+#TestsSection > h2 {
+  padding-top: 15px;
+  text-decoration: underline;
 }

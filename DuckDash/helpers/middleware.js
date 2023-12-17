@@ -12,10 +12,10 @@ let middlewareFunctions = {
       }
       //if not logged in
     } else {
-      if (req.path == "/profile") {
+      if (req.path === "/profile") {
         return res.redirect("/login");
       }
-      if (req.path == "/upload") {
+      if (req.path === "/upload") {
         return res.redirect("/login");
       }
     }
