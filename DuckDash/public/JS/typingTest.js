@@ -520,6 +520,7 @@ timeDropdown.addEventListener('change', () => {
 
 restart.addEventListener('click', () => {
   // generate random prompt on page load
+  clearInterval(interval);
   if (promptDropdown.value === 'random') {
     if (diffDropdown.value === 'easy') {
       quoteToWrite = easyRandomTestGen();
