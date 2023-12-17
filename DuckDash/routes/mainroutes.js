@@ -61,15 +61,17 @@ router
     });
   })
   .post(async (req, res) => {
-    if (!req.body.username) {
+    if (!req.body.displayname) {
       return res.status(400).render("search", {
         title: "Search",
         partial: "profileLookup_script",
-        error: "Missing Username",
+        error: "Missing Display Name",
       });
     }
     try {
-      req.body.username = validateFuncs.validdisplayname(req.body.username);
+      req.body.displayname = validateFuncs.validdisplayname(
+        req.body.displayname
+      );
     } catch (e) {
       return res.status(400).render("search", {
         title: "Search",
@@ -77,10 +79,10 @@ router
         error: e,
       });
     }
-    const cleanUsername = xss(req.body.username);
+    const cleandisplayname = xss(req.body.displayname);
 
     try {
-      let userInfo = await UserFuncs.getUserBydisplayname(cleanUsername);
+      let userInfo = await UserFuncs.getUserBydisplayname(cleandisplayname);
       if (userInfo) {
         res.render("partials/profileLookup", { layout: null, ...userInfo });
       } else {

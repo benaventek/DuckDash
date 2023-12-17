@@ -19,6 +19,7 @@
 
 
     <div class="BioSection">
+        <h4>Bio</h4>
         <p class="userBio">{{{userBio}}}</p>
         <form action="/profile" method="POST" id="changeBio" hidden>
             <input type="text" name="bioInput" id="bioInput" value="{{{userBio}}}" />
@@ -72,19 +73,23 @@
 
     </div>
 
-    <div class="TestsSection">
+    {{#if tests}}
+    <div class="TestsSection" id="TestsSection">
         <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
             <div class="TestInformation" id="TestInformation">
-                <li>{{this.testTitle}}</li>
-                <li>Accuracy:{{this.Accuracy}}</li>
-                <li>WPM:{{this.WPM}}</li>
+                <li>
+                    <h3 id="testTitle">{{this.testTitle}}</h3>
+                    <p id="testStats">Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
+                </li>
+
             </div>
             {{/each}}
         </ul>
 
     </div>
+    {{/if}}
 
     <div class="CommentsSection" id="CommentsSection">
 
