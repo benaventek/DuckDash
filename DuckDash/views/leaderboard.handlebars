@@ -1,12 +1,18 @@
 <h2>Leaderboard</h2>
 
+<p id="error">
+        {{#if error}}
+        Error "{{{error}}}"
+        {{/if}}
+    </p>
+
 <div id="wpm-accuracy-container">
     <button id="wpm">WPM</button>
     <button id="accuracy">ACC</button>
 </div>
 
 <ol id="userList">
-    {{#each profile}}
+    {{#each results}}
         <li>{{>profileLookup}}</li> 
     {{/each}}
 </ol>

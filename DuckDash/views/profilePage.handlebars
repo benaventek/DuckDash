@@ -13,6 +13,8 @@
             <input type="file" name="imageUpload" id="imageUpload" accept="image/png, image/jpeg" />
             <input type="submit" value="Submit">
         </form>
+        <h3>Lifetime Speed : {{AverageWPM}} WPM</h3>
+        <h3>Lifetime Accuracy : {{AverageAccuracy}}%</h3>
     </div>
 
 
@@ -71,11 +73,14 @@
     </div>
 
     <div class="TestsSection">
-
-        <h2>Tests</h2>
+        <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
-            <li>{{this}}</li>
+            <div class="TestInformation" id="TestInformation">
+                <li>{{this.testTitle}}</li>
+                <li>Accuracy:{{this.Accuracy}}</li>
+                <li>WPM:{{this.WPM}}</li>
+            </div>
             {{/each}}
         </ul>
 
