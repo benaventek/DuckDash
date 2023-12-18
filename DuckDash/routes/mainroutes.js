@@ -1,35 +1,35 @@
-import { Router } from "express";
-import presetTestFuncs from "../data/presetTests.js";
+import { Router } from 'express';
+import presetTestFuncs from '../data/presetTests.js';
 const router = Router();
-import validateFuncs from "../helpers/validation.js";
-import UserFuncs from "../data/users.js";
-import RequestFuncs from "../data/requests.js";
-import * as validator from "email-validator";
-import { requests } from "../config/mongoCollections.js";
-import commentFuncs from "../data/comments.js";
-import resultFuncs from "../data/results.js";
-import xss from "xss";
+import validateFuncs from '../helpers/validation.js';
+import UserFuncs from '../data/users.js';
+import RequestFuncs from '../data/requests.js';
+import * as validator from 'email-validator';
+import { requests } from '../config/mongoCollections.js';
+import commentFuncs from '../data/comments.js';
+import resultFuncs from '../data/results.js';
+import xss from 'xss';
 
 router
-  .route("/")
+  .route('/')
   .get(async (req, res) => {
     let tests = await presetTestFuncs.getAllTests();
     let cookie = JSON.stringify(null);
     if (req.session.user) {
       cookie = JSON.stringify(req.session.user);
     }
-    res.render("home", {
-      title: "DuckDash Homepage",
-      partial: "typingTest_script",
+    res.render('home', {
+      title: 'DuckDash Homepage',
+      partial: 'typingTest_script',
       tests: JSON.stringify(tests),
       sessionCookie: cookie,
     });
   })
   .post(async (req, res) => {
     let wpm = req.body.wpm;
-    wpm = wpm.replace(" WPM", "");
+    wpm = wpm.replace(' WPM', '');
     let accuracy = req.body.accuracy;
-    accuracy = accuracy.replace("%", "");
+    accuracy = accuracy.replace('%', '');
     try {
       let insertedResult = await resultFuncs.addResult(
         req.body.testType,
@@ -40,7 +40,7 @@ router
       );
       await UserFuncs.updateUser(
         req.session.user.displayname,
-        "TestResultsList",
+        'TestResultsList',
         insertedResult.toString()
       );
       await presetTestFuncs.pushScores(
@@ -52,180 +52,180 @@ router
     }
   });
 
-router.route("/leaderboard").get(async (req, res) => {
+router.route('/leaderboard').get(async (req, res) => {
   //Leaderboard initially loads with WPM Selected
   try {
     const results = await UserFuncs.getUsersByAverageWPM();
     if (results) {
-      res.render("leaderboard", {
-        title: "Leaderboards",
+      res.render('leaderboard', {
+        title: 'Leaderboards',
         results: results,
-        partial: "leaderboard_script",
+        partial: 'leaderboard_script',
       });
     } else {
-      return res.status(500).render("leaderboard", {
-        title: "Leaderboards",
-        partial: "leaderboard_script",
-        error: "Internal Server Error",
+      return res.status(500).render('leaderboard', {
+        title: 'Leaderboards',
+        partial: 'leaderboard_script',
+        error: 'Internal Server Error',
       });
     }
   } catch (e) {
-    return res.status(400).render("leaderboard", {
-      title: "Leaderboards",
-      partial: "leaderboard_script",
+    return res.status(400).render('leaderboard', {
+      title: 'Leaderboards',
+      partial: 'leaderboard_script',
       error: e,
     });
   }
 });
 
-router.route("/leaderboard/wpm/average").post(async (req, res) => {
+router.route('/leaderboard/wpm/average').post(async (req, res) => {
   //Leaderboard initially loads with WPM Selected
   try {
     const results = await UserFuncs.getUsersByAverageWPM();
     if (results) {
-      res.render("partials/leaderboard_template", {
+      res.render('partials/leaderboard_template', {
         layout: null,
         results: results,
       });
     } else {
-      return res.status(500).render("leaderboard", {
-        title: "Leaderboards",
-        partial: "leaderboard_script",
-        error: "Internal Server Error",
+      return res.status(500).render('leaderboard', {
+        title: 'Leaderboards',
+        partial: 'leaderboard_script',
+        error: 'Internal Server Error',
       });
     }
   } catch (e) {
-    return res.status(400).render("leaderboard", {
-      title: "Leaderboards",
-      partial: "leaderboard_script",
-      error: "Internal Server Error",
+    return res.status(400).render('leaderboard', {
+      title: 'Leaderboards',
+      partial: 'leaderboard_script',
+      error: 'Internal Server Error',
     });
   }
 });
 
-router.route("/leaderboard/accuracy/average").post(async (req, res) => {
+router.route('/leaderboard/accuracy/average').post(async (req, res) => {
   //Leaderboard initially loads with WPM Selected
   try {
     const results = await UserFuncs.getUsersByAverageAccuracy();
     if (results) {
-      res.render("partials/leaderboard_template", {
+      res.render('partials/leaderboard_template', {
         layout: null,
         results: results,
       });
     } else {
-      return res.status(500).render("leaderboard", {
-        title: "Leaderboards",
-        partial: "leaderboard_script",
-        error: "Internal Server Error",
+      return res.status(500).render('leaderboard', {
+        title: 'Leaderboards',
+        partial: 'leaderboard_script',
+        error: 'Internal Server Error',
       });
     }
   } catch (e) {
-    return res.status(400).render("leaderboard", {
-      title: "Leaderboards",
-      partial: "leaderboard_script",
-      error: "Internal Server Error",
+    return res.status(400).render('leaderboard', {
+      title: 'Leaderboards',
+      partial: 'leaderboard_script',
+      error: 'Internal Server Error',
     });
   }
 });
 
-router.route("/leaderboard/wpm/:testTitle").post(async (req, res) => {
+router.route('/leaderboard/wpm/:testTitle').post(async (req, res) => {
   //Leaderboard initially loads with WPM Selected
   if (!req.params.testTitle) {
-    return res.status(404).render("error", { title: "Error" });
+    return res.status(404).render('error', { title: 'Error' });
   }
 
   let testTitle = req.params.testTitle;
-  if (testTitle === "pledge") {
-    testTitle = "Honor Pledge";
+  if (testTitle === 'pledge') {
+    testTitle = 'Honor Pledge';
   }
-  if (testTitle === "star") {
-    testTitle = "Twinkle Twinkle Little Star";
+  if (testTitle === 'star') {
+    testTitle = 'Twinkle Twinkle Little Star';
   }
-  if (testTitle === "alphabet") {
-    testTitle = "Alphabet";
+  if (testTitle === 'alphabet') {
+    testTitle = 'Alphabet';
   }
-  if (testTitle === "gold") {
-    testTitle = "Gold Digger";
+  if (testTitle === 'gold') {
+    testTitle = 'Gold Digger';
   }
 
   try {
     const results = await UserFuncs.getUsersWPMByTestTitle(testTitle);
     if (results) {
-      res.render("partials/leaderboard_template", {
+      res.render('partials/leaderboard_template', {
         layout: null,
         results: results,
       });
     } else {
-      return res.status(500).render("leaderboard", {
-        title: "Leaderboards",
-        partial: "leaderboard_script",
-        error: "Internal Server Error",
+      return res.status(500).render('leaderboard', {
+        title: 'Leaderboards',
+        partial: 'leaderboard_script',
+        error: 'Internal Server Error',
       });
     }
   } catch (e) {
-    return res.status(400).render("leaderboard", {
-      title: "Leaderboards",
-      partial: "leaderboard_script",
+    return res.status(400).render('leaderboard', {
+      title: 'Leaderboards',
+      partial: 'leaderboard_script',
       error: e,
     });
   }
 });
 
-router.route("/leaderboard/accuracy/:testTitle").post(async (req, res) => {
+router.route('/leaderboard/accuracy/:testTitle').post(async (req, res) => {
   if (!req.params.testTitle) {
-    return res.status(404).render("error", { title: "Error" });
+    return res.status(404).render('error', { title: 'Error' });
   }
 
   let testTitle = req.params.testTitle;
-  if (testTitle === "pledge") {
-    testTitle = "Honor Pledge";
+  if (testTitle === 'pledge') {
+    testTitle = 'Honor Pledge';
   }
-  if (testTitle === "star") {
-    testTitle = "Twinkle Twinkle Little Star";
+  if (testTitle === 'star') {
+    testTitle = 'Twinkle Twinkle Little Star';
   }
-  if (testTitle === "alphabet") {
-    testTitle = "Alphabet";
+  if (testTitle === 'alphabet') {
+    testTitle = 'Alphabet';
   }
-  if (testTitle === "gold") {
-    testTitle = "Gold Digger";
+  if (testTitle === 'gold') {
+    testTitle = 'Gold Digger';
   }
   try {
     const results = await UserFuncs.getUsersAccByTestTitle(testTitle);
     if (results) {
-      res.render("partials/leaderboard_template", {
+      res.render('partials/leaderboard_template', {
         layout: null,
         results: results,
       });
     } else {
-      return res.status(500).render("leaderboard", {
-        title: "Leaderboards",
-        partial: "leaderboard_script",
-        error: "Internal Server Error",
+      return res.status(500).render('leaderboard', {
+        title: 'Leaderboards',
+        partial: 'leaderboard_script',
+        error: 'Internal Server Error',
       });
     }
   } catch (e) {
-    return res.status(400).render("leaderboard", {
-      title: "Leaderboards",
-      partial: "leaderboard_script",
+    return res.status(400).render('leaderboard', {
+      title: 'Leaderboards',
+      partial: 'leaderboard_script',
       error: e,
     });
   }
 });
 
 router
-  .route("/search")
+  .route('/search')
   .get(async (req, res) => {
-    res.render("search", {
-      title: "Search",
-      partial: "profileLookup_script",
+    res.render('search', {
+      title: 'Search',
+      partial: 'profileLookup_script',
     });
   })
   .post(async (req, res) => {
     if (!req.body.displayname) {
-      return res.status(400).render("search", {
-        title: "Search",
-        partial: "profileLookup_script",
-        error: "Missing Display Name",
+      return res.status(400).render('search', {
+        title: 'Search',
+        partial: 'profileLookup_script',
+        error: 'Missing Display Name',
       });
     }
     try {
@@ -233,9 +233,9 @@ router
         req.body.displayname
       );
     } catch (e) {
-      return res.status(400).render("search", {
-        title: "Search",
-        partial: "profileLookup_script",
+      return res.status(400).render('search', {
+        title: 'Search',
+        partial: 'profileLookup_script',
         error: e,
       });
     }
@@ -243,52 +243,52 @@ router
     try {
       let userInfo = await UserFuncs.getUserBydisplayname(cleandisplayname);
       if (userInfo) {
-        res.render("partials/profileLookup", { layout: null, ...userInfo });
+        res.render('partials/profileLookup', { layout: null, ...userInfo });
       } else {
-        return res.status(500).render("search", {
-          title: "Search",
-          partial: "profileLookup_script",
-          error: "Internal Server Error",
+        return res.status(500).render('search', {
+          title: 'Search',
+          partial: 'profileLookup_script',
+          error: 'Internal Server Error',
         });
       }
     } catch (e) {
-      return res.status(400).render("search", {
-        title: "Search",
-        partial: "profileLookup_script",
+      return res.status(400).render('search', {
+        title: 'Search',
+        partial: 'profileLookup_script',
         error: e,
       });
     }
   });
 
 router
-  .route("/login")
+  .route('/login')
   .get(async (req, res) => {
-    res.render("login", { title: "Login" });
+    res.render('login', { title: 'Login', partial: 'loginValidation_script' });
   })
   .post(async (req, res) => {
     if (!req.body.emailAddressInput) {
-      return res.status(400).render("login", {
-        title: "Login",
-        error: "Missing email address",
+      return res.status(400).render('login', {
+        title: 'Login',
+        error: 'Missing email address',
       });
     }
     if (!req.body.passwordInput) {
       return res
         .status(400)
-        .render("login", { title: "Login", error: "Missing password" });
+        .render('login', { title: 'Login', error: 'Missing password' });
     }
     req.body.emailAddressInput = req.body.emailAddressInput.trim();
     req.body.passwordInput = req.body.passwordInput.trim();
     req.body.emailAddressInput = req.body.emailAddressInput.toLowerCase();
     let errorCheck = validateFuncs.validateRegisterInput(
-      "NodisplaynameNeeded",
+      'NodisplaynameNeeded',
       req.body.emailAddressInput,
       req.body.passwordInput
     );
     if (errorCheck.isValid === false) {
-      return res.status(400).render("login", {
-        title: "Login",
-        error: "Invalid user inputs" + JSON.stringify(errorCheck.errors),
+      return res.status(400).render('login', {
+        title: 'Login',
+        error: 'Invalid user inputs' + JSON.stringify(errorCheck.errors),
       });
     }
     try {
@@ -298,42 +298,44 @@ router
       );
       req.session.user = DbInfo;
       if (DbInfo) {
-        return res.redirect("/");
+        return res.redirect('/');
       } else {
-        return res.status(500).render("login", {
-          title: "Login",
-          error: "Internal Server Error",
+        return res.status(500).render('login', {
+          title: 'Login',
+          error: 'Internal Server Error',
         });
       }
     } catch (e) {
-      return res.status(400).render("login", {
-        title: "Login",
+      return res.status(400).render('login', {
+        title: 'Login',
         error: e.message,
       });
     }
   });
 
 router
-  .route("/register")
+  .route('/register')
   .get(async (req, res) => {
-    res.render("register", { title: "Register" });
+    res.render('register', {
+      title: 'Register',
+    });
   })
   .post(async (req, res) => {
     if (!req.body.emailAddressInput) {
-      return res.status(400).render("register", {
-        title: "Register",
-        error: "Missing email address",
+      return res.status(400).render('register', {
+        title: 'Register',
+        error: 'Missing email address',
       });
     }
     if (!req.body.passwordInput) {
       return res
         .status(400)
-        .render("register", { title: "Register", error: "Missing password" });
+        .render('register', { title: 'Register', error: 'Missing password' });
     }
     if (!req.body.confirmPasswordInput) {
-      return res.status(400).render("register", {
-        title: "Register",
-        error: "Missing confirm password",
+      return res.status(400).render('register', {
+        title: 'Register',
+        error: 'Missing confirm password',
       });
     }
 
@@ -349,9 +351,9 @@ router
     );
     req.body.emailAddressInput = req.body.emailAddressInput.toLowerCase();
     if (errorCheck.isValid === false) {
-      return res.status(400).render("Register", {
-        title: "Register",
-        error: "Invalid user inputs" + JSON.stringify(errorCheck.errors),
+      return res.status(400).render('Register', {
+        title: 'Register',
+        error: 'Invalid user inputs' + JSON.stringify(errorCheck.errors),
       });
     }
     try {
@@ -361,29 +363,29 @@ router
         req.body.passwordInput
       );
       if (DbInfo) {
-        return res.redirect("/login");
+        return res.redirect('/login');
       } else {
-        return res.status(500).render("register", {
-          title: "Register",
-          error: "Internal Server Error",
+        return res.status(500).render('register', {
+          title: 'Register',
+          error: 'Internal Server Error',
         });
       }
     } catch (e) {
-      return res.status(400).render("register", {
-        title: "Register",
+      return res.status(400).render('register', {
+        title: 'Register',
         error: e.message,
       });
     }
   });
-router.route("/logout").get(async (req, res) => {
+router.route('/logout').get(async (req, res) => {
   req.session.destroy();
-  res.redirect("/");
+  res.redirect('/');
 });
 router
-  .route("/profile")
+  .route('/profile')
   .get(async (req, res, next) => {
     if (!req.session.user) {
-      return res.redirect("/login");
+      return res.redirect('/login');
     }
 
     try {
@@ -410,7 +412,7 @@ router
           let resultInfo = await resultFuncs.getResultByID(result);
           let testInfo = {};
           if (resultInfo.testID == null) {
-            testInfo.testTitle = "Random Test";
+            testInfo.testTitle = 'Random Test';
           } else {
             testInfo = await presetTestFuncs.getTestById(
               resultInfo.testID.toString()
@@ -440,9 +442,9 @@ router
       }
       const cleanedBio = xss.filterXSS(req.session.user.userBio);
       console.log(cleanedBio);
-      res.render("profilePage", {
-        title: "Profile",
-        partial: "profilePage_script",
+      res.render('profilePage', {
+        title: 'Profile',
+        partial: 'profilePage_script',
         tests: tests,
         friends: friends,
         displayname: req.session.user.displayname,
@@ -455,26 +457,26 @@ router
         AverageAccuracy: AverageAccuracy.toFixed(2),
       });
     } catch (error) {
-      return res.status(404).render("error", { title: "404", Error: error });
+      return res.status(404).render('error', { title: '404', Error: error });
     }
   })
   .post(async (req, res, next) => {
     try {
       await UserFuncs.updateUser(
         req.session.user.displayname,
-        "Bio",
+        'Bio',
         xss.filterXSS(req.body.bioInput)
       );
-      res.redirect("/profile");
+      res.redirect('/profile');
     } catch (error) {
-      return res.status(404).render("error", { title: "404", Error: error });
+      return res.status(404).render('error', { title: '404', Error: error });
     }
   });
 router
-  .route("/profile/:displayname")
+  .route('/profile/:displayname')
   .get(async (req, res, next) => {
     if (!req.params.displayname)
-      return res.status(404).render("error", { title: "Error" });
+      return res.status(404).render('error', { title: 'Error' });
 
     try {
       let user = await UserFuncs.getUserBydisplayname(req.params.displayname);
@@ -482,7 +484,7 @@ router
       let isPending = false;
       if (req.session.user) {
         if (req.session.user.displayname == user.displayname) {
-          return res.redirect("/profile");
+          return res.redirect('/profile');
         }
         for (const friend of user.friendsList) {
           if (friend.toString() == req.session.user.userID.toString()) {
@@ -513,7 +515,7 @@ router
           let resultInfo = await resultFuncs.getResultByID(result);
           let testInfo = {};
           if (resultInfo.testID == null) {
-            testInfo.testTitle = "Random Test";
+            testInfo.testTitle = 'Random Test';
           } else {
             testInfo = await presetTestFuncs.getTestById(
               resultInfo.testID.toString()
@@ -541,9 +543,9 @@ router
         }
       }
       const cleanedBio = xss.filterXSS(user.userBio);
-      res.render("profilePage_id", {
-        title: "Profile",
-        partial: "profilePage_id_script",
+      res.render('profilePage_id', {
+        title: 'Profile',
+        partial: 'profilePage_id_script',
         tests: tests,
         displayname: user.displayname,
         userId: user.userID,
@@ -555,7 +557,7 @@ router
         AverageAccuracy: AverageAccuracy.toFixed(2),
       });
     } catch (error) {
-      return res.status(404).render("error", { title: "404", Error: error });
+      return res.status(404).render('error', { title: '404', Error: error });
     }
   })
   .post(async (req, res, next) => {
@@ -569,45 +571,45 @@ router
           req.session.user.userID.toString(),
           requestedUser.userID.toString()
         );
-        res.redirect("/profile/" + requestedUser.displayname);
+        res.redirect('/profile/' + requestedUser.displayname);
       } catch (error) {
-        return res.status(404).render("error", { title: "404", Error: error });
+        return res.status(404).render('error', { title: '404', Error: error });
       }
     } else {
-      return res.redirect("/login");
+      return res.redirect('/login');
     }
   });
-router.route("/acceptFriendRequest").post(async (req, res, next) => {
+router.route('/acceptFriendRequest').post(async (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect("/login");
+    return res.redirect('/login');
   }
   try {
     await RequestFuncs.acceptFriendRequest(
       req.body.FriendRequestId,
       req.session.user.userID.toString()
     );
-    res.redirect("/profile");
+    res.redirect('/profile');
   } catch (error) {
-    return res.status(404).render("error", { title: "404", Error: error });
+    return res.status(404).render('error', { title: '404', Error: error });
   }
 });
-router.route("/declineFriendRequest").post(async (req, res, next) => {
+router.route('/declineFriendRequest').post(async (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect("/login");
+    return res.redirect('/login');
   }
   try {
     const userCollection = await requests();
     await userCollection.deleteOne({
       sender: req.body.FriendRequestId,
     });
-    res.redirect("/profile");
+    res.redirect('/profile');
   } catch (error) {
-    return res.status(404).render("error", { title: "404", Error: error });
+    return res.status(404).render('error', { title: '404', Error: error });
   }
 });
-router.route("/postComment").post(async (req, res, next) => {
+router.route('/postComment').post(async (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect("/login");
+    return res.redirect('/login');
   }
   let currProfile = await UserFuncs.getUserById(req.body.profileId.toString());
   try {
@@ -616,23 +618,23 @@ router.route("/postComment").post(async (req, res, next) => {
       req.body.commentInput,
       req.body.profileId.toString()
     );
-    res.redirect("/profile/" + currProfile.displayname);
+    res.redirect('/profile/' + currProfile.displayname);
   } catch (error) {
-    return res.status(404).render("error", { title: "404", Error: error });
+    return res.status(404).render('error', { title: '404', Error: error });
   }
 });
-router.route("/deleteComment").post(async (req, res, next) => {
+router.route('/deleteComment').post(async (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect("/login");
+    return res.redirect('/login');
   }
   let currProfile = await UserFuncs.getUserById(req.body.profileId.toString());
   try {
     let comment = await commentFuncs.deleteCommentsById(
       req.body.commentId.toString()
     );
-    res.redirect("/profile/" + currProfile.displayname);
+    res.redirect('/profile/' + currProfile.displayname);
   } catch (error) {
-    return res.status(404).render("error", { title: "404", Error: error });
+    return res.status(404).render('error', { title: '404', Error: error });
   }
 });
 export default router;
