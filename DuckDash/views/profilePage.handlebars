@@ -78,13 +78,13 @@
         <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
-            <div class="TestInformation" id="TestInformation">
-                <li>
-                    <h3 id="testTitle">{{this.testTitle}}</h3>
-                    <p id="testStats">Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
-                </li>
 
-            </div>
+            <li>
+                <h3>{{this.testTitle}}</h3>
+                <p>Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
+            </li>
+
+
             {{/each}}
         </ul>
 
@@ -100,24 +100,27 @@
             <button type="submit" value="Submit">Post</button>
         </form>
         <h2>Comments</h2>
-        <ul>
-            {{#each comments}}
-            <div class="CommentItem" id="CommentItem">
-                <h5><a class="SendToUsersProfile" id="SendToUsersProfile" href="/profile/{{this.AuthorDisplayName}}">
-                        {{this.AuthorDisplayName}}
-                    </a></h5>
-                <li>
-                    <p class="CommentText">{{this.commentText}}</p>
-                </li>
 
-                <form action="/deleteComment" method="POST" id="deleteComment">
-                    <input type="hidden" name="commentId" id="commentId" value="{{this._id}}" />
-                    <input type="hidden" name="profileId" id="profileId" value="{{../userId}}" />
-                    <button type=" submit" value="Submit">Delete</button>
-                </form>
-            </div>
-            {{/each}}
-        </ul>
+        {{#each comments}}
+        <div class="CommentItem">
+
+
+            <h5> <a class="SendToUsersProfile" href="/profile/{{this.AuthorDisplayName}}">
+                    {{this.AuthorDisplayName}}
+                </a>
+            </h5>
+
+            <p class="CommentText">{{this.commentText}}</p>
+
+
+            <form action="/deleteComment" method="POST" id="deleteComment+{{this._id}}">
+                <input type="hidden" name="commentId" id="{{this._id}}Comment" value="{{this._id}}" />
+                <input type="hidden" name="profileId" id="{{this._id}}Profile" value="{{../userId}}" />
+                <button type="submit" value="Submit">Delete</button>
+            </form>
+        </div>
+        {{/each}}
+
     </div>
 
 

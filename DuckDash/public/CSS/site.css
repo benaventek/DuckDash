@@ -477,3 +477,19 @@ body > main > section > div.BioSection > h4 {
   padding-top: 15px;
   text-decoration: underline;
 }
+#TestsSection > ul {
+  display: flex;
+  flex-direction: column;
+}
+#CommentsSection > div {
+  display: flex;
+  align-items: baseline;
+  margin: inherit;
+  border-bottom: #741724 2px dotted;
+}
+#CommentsSection > div > p {
+  padding: 10px;
+}
+#CommentsSection > div > h5 > a {
+  color: #741724;
+}

@@ -6,10 +6,10 @@
         <img class="ProfilePicture" src="{{{profilePictureUrl}}}" alt="Profile Picture">
         {{#if showRequestButton}}
         <form action="/profile/{{displayname}}" method="post" id="sendFriendRequest">
-            <label for="displayname">
-                <input type="hidden" id="displayname" name="displayname" value="{{displayname}}">
-                <button type="submit" value name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend
-                    Request</button>
+
+            <input type="hidden" id="displayname" name="displayname" value="{{displayname}}">
+            <button type="submit" name="SendFriendRequestButton" id="SendFriendRequestButton">Send Friend
+                Request</button>
         </form>
         {{/if}}
         <h3>Lifetime Speed : {{AverageWPM}} WPM</h3>
@@ -27,13 +27,13 @@
         <h2>Recently Completed Tests</h2>
         <ul>
             {{#each tests}}
-            <div class="TestInformation" id="TestInformation">
-                <li>
-                    <h3 id="testTitle">{{this.testTitle}}</h3>
-                    <p id="testStats">Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
-                </li>
 
-            </div>
+            <li>
+                <h3>{{this.testTitle}}</h3>
+                <p>Accuracy:{{this.Accuracy}} WPM:{{this.WPM}} </p>
+            </li>
+
+
             {{/each}}
         </ul>
 
@@ -48,17 +48,17 @@
             <button type="submit" value="Submit">Post</button>
         </form>
         <h2>Comments</h2>
-        <ul>
-            {{#each comments}}
-            <div class="CommentItem" id="CommentItem">
-                <h5><a class="SendToUsersProfile" id="SendToUsersProfile" href="/profile/{{this.AuthorDisplayName}}">
-                        {{this.AuthorDisplayName}}
-                    </a></h5>
-                <li>
-                    <p class="CommentText">{{this.commentText}}</p>
-                </li>
-            </div>
-            {{/each}}
-        </ul>
+
+        {{#each comments}}
+        <div class="CommentItem">
+            <h5><a class="SendToUsersProfile" href="/profile/{{this.AuthorDisplayName}}">
+                    {{this.AuthorDisplayName}}
+                </a></h5>
+
+            <p class="CommentText">{{this.commentText}}</p>
+
+        </div>
+        {{/each}}
+
     </div>
 </section>
