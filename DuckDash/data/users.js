@@ -3,8 +3,8 @@ import validateFuncs from "../helpers/validation.js";
 import bcrypt from "bcryptjs";
 import * as validator from "email-validator";
 import { ObjectId } from "mongodb";
-import results from './results.js';
-import presetTests from './presetTests.js';
+import results from "./results.js";
+import presetTests from "./presetTests.js";
 const saltRounds = 16;
 
 let exportedMethods = {
@@ -35,7 +35,7 @@ let exportedMethods = {
         displayname: displayname,
       });
       const checkDupEmail = await userCollection.findOne({ email: email });
-      
+
       if (checkDupEmail || checkdupUser)
         throw new Error("Email or displayname already taken");
     } catch (error) {
@@ -227,17 +227,17 @@ let exportedMethods = {
     };
     return returnInfo;
   },
-  async getUsersByAverageWPM(){
+  async getUsersByAverageWPM() {
     const userCollection = await users();
     const allUsers = await userCollection.find({}).toArray();
-    if(!allUsers) throw 'Error while retrieving Users';
-    
+    if (!allUsers) throw "Error while retrieving Users";
+
     let usersWithAverageWPM = [];
 
-    for(let user of allUsers){
+    for (let user of allUsers) {
       let totalWPM = 0;
       let testCount = 0;
-      for(let testID of user.testResultsList){
+      for (let testID of user.testResultsList) {
         let testResult = await results.getResultByID(testID);
 
         totalWPM += parseFloat(testResult.wpm);
@@ -253,27 +253,25 @@ let exportedMethods = {
         userBio: user.userBio,
         friendsList: user.friendsList,
         testResultsList: user.testResultsList,
-        averageWPM: averageWPM,
-        wpmShow: true
+        averageWPM: averageWPM.toFixed(2),
+        wpmShow: true,
       };
       usersWithAverageWPM.push(userWithAverageWPM);
-
-
     }
-    usersWithAverageWPM.sort((a,b) => b.averageWPM - a.averageWPM);
+    usersWithAverageWPM.sort((a, b) => b.averageWPM - a.averageWPM);
     return usersWithAverageWPM;
   },
-  async getUsersByAverageAccuracy(){
+  async getUsersByAverageAccuracy() {
     const userCollection = await users();
     const allUsers = await userCollection.find({}).toArray();
-    if(!allUsers) throw 'Error while retrieving Users';
-    
+    if (!allUsers) throw "Error while retrieving Users";
+
     let usersWithAverageAccuracy = [];
 
-    for(let user of allUsers){
+    for (let user of allUsers) {
       let totalAcc = 0;
       let testCount = 0;
-      for(let testID of user.testResultsList){
+      for (let testID of user.testResultsList) {
         let testResult = await results.getResultByID(testID);
 
         totalAcc += parseFloat(testResult.accuracy);
@@ -289,17 +287,15 @@ let exportedMethods = {
         userBio: user.userBio,
         friendsList: user.friendsList,
         testResultsList: user.testResultsList,
-        averageAcc: averageAcc,
-        accShow: true
+        averageAcc: averageAcc.toFixed(2),
+        accShow: true,
       };
       usersWithAverageAccuracy.push(userWithAverageWPM);
-
-
     }
-    usersWithAverageAccuracy.sort((a,b) => b.averageAcc - a.averageAcc);
+    usersWithAverageAccuracy.sort((a, b) => b.averageAcc - a.averageAcc);
     return usersWithAverageAccuracy;
   },
-  async getUsersWPMByTestTitle(testTitle){
+  async getUsersWPMByTestTitle(testTitle) {
     if (!testTitle) throw "Invalid user id";
     if (typeof testTitle !== "string") throw "Invalid test title";
     testTitle = testTitle.trim();
@@ -310,14 +306,16 @@ let exportedMethods = {
     const testResults = await results.getResultsByTestID(testID);
 
     const groupedResults = {};
-    testResults.forEach((results) =>{
+    testResults.forEach((results) => {
       const { userID, wpm } = results;
-      if(!groupedResults[userID] || groupedResults[userID] < parseFloat(wpm)){
+      if (!groupedResults[userID] || groupedResults[userID] < parseFloat(wpm)) {
         groupedResults[userID] = wpm;
       }
     });
 
-    const userIDSorted = Object.keys(groupedResults).sort((a,b) => groupedResults[b]-groupedResults[a]);
+    const userIDSorted = Object.keys(groupedResults).sort(
+      (a, b) => groupedResults[b] - groupedResults[a]
+    );
 
     const userInfoArray = [];
 
@@ -329,13 +327,10 @@ let exportedMethods = {
       userInfo.wpmShow = true;
       userInfoArray.push(userInfo);
     }
-  
 
     return userInfoArray;
-
-
   },
-  async getUsersAccByTestTitle(testTitle){
+  async getUsersAccByTestTitle(testTitle) {
     if (!testTitle) throw "Invalid user id";
     if (typeof testTitle !== "string") throw "Invalid test title";
     testTitle = testTitle.trim();
@@ -346,14 +341,19 @@ let exportedMethods = {
     const testResults = await results.getResultsByTestID(testID);
 
     const groupedResults = {};
-    testResults.forEach((results) =>{
+    testResults.forEach((results) => {
       const { userID, accuracy } = results;
-      if(!groupedResults[userID] || groupedResults[userID] < parseFloat(accuracy)){
+      if (
+        !groupedResults[userID] ||
+        groupedResults[userID] < parseFloat(accuracy)
+      ) {
         groupedResults[userID] = accuracy;
       }
     });
 
-    const userIDSorted = Object.keys(groupedResults).sort((a,b) => groupedResults[b]-groupedResults[a]);
+    const userIDSorted = Object.keys(groupedResults).sort(
+      (a, b) => groupedResults[b] - groupedResults[a]
+    );
 
     const userInfoArray = [];
 
@@ -367,8 +367,6 @@ let exportedMethods = {
     }
 
     return userInfoArray;
-    
-    
   },
 };
 export default exportedMethods;
