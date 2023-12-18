@@ -31,9 +31,9 @@ You start up the site by running:
 **Test Accounts**
 
           Display Name = Email Address | Password
-        1. dremike1 = test@gmail.com | Password#1
-        2. dremike12 = test2@gmail.com | Password#12
-        3. dremike13 = test3@gmail.com | Password#13
-        4. dremike14 = test4@gmail.com | Password#14
+        1. keb = keb@gmail.com | Password1!
+        2. bestTyper = ilied@gmail.com | Password2!
+        3. chronicallyOnline = sleep@gmail.com | Password3!
+        4. gamer123 = bestgamer@gmail.com | Password4!
 
 
