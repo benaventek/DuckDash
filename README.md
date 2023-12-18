@@ -8,7 +8,7 @@ DuckDash is a typing website where the user can take different kinds of typing s
 
 **Setup**
 
-For profile pictures to work, the user will need to make sure that the ***.env*** provided in the canvas submission is placed into the DuckDash directory.
+For profile pictures to work, our website uses an Amazon AWS S3 bucket to host the files. The access key and secret access key are stored in an ENV file which is in the Root of the project folder. It is imporant to never allow this file to be publicly available, as this will lead to Amazon taking certain privelages away from the user, restricting access to the bucket and leading to errors.
 
 You can install the required packages by running:
 
