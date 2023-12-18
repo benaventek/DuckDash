@@ -3,7 +3,7 @@
 
 By: Kevin Benavente, Andres Fernandez, Jack Jimenez, Andrew McCauley
 
-## What are we?
+## What is DuckDash?
 DuckDash is a typing website where the user can take different kinds of typing speed tests compare their scores with other users on the platform. Users can become friends with other users and leave comments on their profile as well check out the leaderboard and see how they rank amongst others.
 
 **Setup**
