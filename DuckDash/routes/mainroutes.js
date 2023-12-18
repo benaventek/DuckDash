@@ -55,7 +55,6 @@ router.route("/leaderboard").get(async (req, res) => {
     if (results) {
       res.render("leaderboard", {
         title: "Leaderboards",
-        wpmTrue: 'true',
         results: results,
         partial: "leaderboard_script",
       });

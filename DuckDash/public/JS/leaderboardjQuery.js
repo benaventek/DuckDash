@@ -14,7 +14,7 @@
       .find(".ProfilePicture, .displaynameFromRequest")
       .on("click", function (event) {
         event.preventDefault();
-        let currentUsername = userItem.find(".displaynameFromRequest").text();
+        let currentdisplayname = $(this).closest(".ProfileRequestSection").find(".displaynameFromRequest").text();
 
         window.location.href = "/profile/" + currentdisplayname;
       });
