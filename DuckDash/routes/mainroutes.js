@@ -318,6 +318,7 @@ router
   .get(async (req, res) => {
     res.render('register', {
       title: 'Register',
+      partial: 'registerValidation_script',
     });
   })
   .post(async (req, res) => {

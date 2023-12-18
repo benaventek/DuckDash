@@ -1,18 +1,31 @@
-let loginForm = document.getElementById('login-form');
+let registerForm = document.getElementById('registration-form');
+let displayname = document.getElementById('displaynameInput');
 let email = document.getElementById('emailAddressInput');
 let password = document.getElementById('passwordInput');
+let confirmPassword = document.getElementById('confirmPasswordInput');
 
-if (loginForm) {
-  loginForm.addEventListener('submit', (event) => {
+if (registerForm) {
+  registerForm.addEventListener('submit', (event) => {
     event.preventDefault();
     let errorMessages = [];
+    if (!displayname.value) {
+      errorMessages.push('Display name input is required!');
+    }
     if (!email.value) {
       errorMessages.push('Email input is required!');
     }
     if (!password.value) {
       errorMessages.push('Password input is required!');
     }
+    if (!confirmPassword.value) {
+      errorMessages.push('Confirm Password input is required!');
+    }
+    displayname.value = displayname.value.trim();
     password.value = password.value.trim();
+    confirmPassword.value = confirmPassword.value.trim();
+    if (!displayname.value.match(/^[a-z0-9]+$/i)) {
+      errorMessages.push('Display name must be alphanumeric!');
+    }
     if (password.value.length < 8 || password.value.length > 14) {
       errorMessages.push('Password must be between 8 and 14 characters!');
     }
@@ -32,11 +45,14 @@ if (loginForm) {
         'Password must contain at least one special character!'
       );
     }
+    if (password.value !== confirmPassword.value) {
+      errorMessages.push('Passwords do not match!');
+    }
     if (errorMessages.length > 0) {
       let errorString = errorMessages.join('\n');
       alert(errorString);
     } else {
-      loginForm.submit();
+      registerForm.submit();
     }
   });
 }
