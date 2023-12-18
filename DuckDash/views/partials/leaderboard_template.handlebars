@@ -2,23 +2,23 @@
     {{#each results}}
     <li>
         <div class="ProfileRequestSection">
-            <div class="ProfilePictureSearch">
-                <img class="ProfilePicture" src = "{{{profilePictureUrl}}}" alt="Profile Picture">
-            </div>
-            <div class="displaynameSearch">
-                <h2 class="displaynameFromRequest">{{displayname}}</h2>
-            </div>
-            <div class="WPM">
-                {{#if wpmShow}}
-                    <p class="wordsperminute">WPM: {{averageWPM}}</p>
-                {{/if}}
-            </div>
-            <div class="Acc">
-                {{#if accShow}}
-                    <p class="wordsperminute">Acc: {{averageAcc}}</p>
-                {{/if}}
-            </div>
-        </div>
-    </li> 
+    <div class="ProfilePictureSearch">
+        <img class="ProfilePicture" src = "{{{profilePictureUrl}}}" alt="Profile Picture">
+    </div>
+    <div class="displaynameSearch">
+        <h2 class="displaynameFromRequest">{{displayname}}</h2>
+    </div>
+    <div class="WPM">
+        {{#if wpmShow}}
+        <p class="wordsperminute">WPM: {{averageWPM}}</p>
+        {{/if}}
+    </div>
+    <div class="Acc">
+        {{#if accShow}}
+        <p class="wordsperminute">Acc: {{averageAcc}}</p>
+        {{/if}}
+    </div>
+    </div>
+    </li>
     {{/each}}
 </ol>

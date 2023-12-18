@@ -2,12 +2,12 @@
   let userList = $("#userList"),
     wpmButton = $("#Leaderboardwpm"),
     accButton = $("#Leaderboardaccuracy");
-    h3title = $("#sortingMethod");
-    errorArea = $("#error");
-    filterDropdown = $("#filterDropdown");
+  h3title = $("#sortingMethod");
+  errorArea = $("#error");
+  filterDropdown = $("#filterDropdown");
 
-    let lastPressedButton = 'wpm';
-    let dropDownSelected = 'average';
+  let lastPressedButton = "wpm";
+  let dropDownSelected = "average";
 
   function bindEventToProfile(userItem) {
     userItem
@@ -24,10 +24,6 @@
     bindEventToProfile($(element));
   });
 
-  
-
-  
-
   wpmButton.on("click", function () {
     errorArea.hide();
     let requestConfig = {
@@ -37,18 +33,15 @@
 
     $.ajax(requestConfig)
       .done(function (responseMessage) {
-        console.log(responseMessage);
         userList.html(responseMessage);
         h3title.text("WPM");
-        if(userList.find('ol li').length === 0){
-          let element = $('<h2>No Data to Show</h2>');
+        if (userList.find("ol li").length === 0) {
+          let element = $("<h2>No Data to Show</h2>");
           userList.html(element);
-        }
-        else{
+        } else {
           userList.children().each(function (index, element) {
             bindEventToProfile($(element));
           });
-
         }
       })
       .fail(function (jqXHR, status, error) {
@@ -73,18 +66,15 @@
 
     $.ajax(requestConfig)
       .done(function (responseMessage) {
-        console.log(responseMessage);
         userList.html(responseMessage);
         h3title.text("Accuracy");
-        if(userList.find('ol li').length === 0){
-          let element = $('<h2>No Data to Show</h2>');
+        if (userList.find("ol li").length === 0) {
+          let element = $("<h2>No Data to Show</h2>");
           userList.html(element);
-        }
-        else{
+        } else {
           userList.children().each(function (index, element) {
             bindEventToProfile($(element));
           });
-
         }
       })
       .fail(function (xhe, status, error) {
@@ -100,27 +90,21 @@
       });
   });
 
-
-
-  filterDropdown.on('change', () => {
-    if(filterDropdown.val() === 'average'){
-        dropDownSelected = 'average';
-
+  filterDropdown.on("change", () => {
+    if (filterDropdown.val() === "average") {
+      dropDownSelected = "average";
     }
-    if(filterDropdown.val() === 'pledge'){
-        dropDownSelected = 'pledge';
+    if (filterDropdown.val() === "pledge") {
+      dropDownSelected = "pledge";
     }
-    if(filterDropdown.val() === 'star'){
-        dropDownSelected = 'star';
+    if (filterDropdown.val() === "star") {
+      dropDownSelected = "star";
     }
-    if(filterDropdown.val() === 'alphabet'){
-        dropDownSelected = 'alphabet';
+    if (filterDropdown.val() === "alphabet") {
+      dropDownSelected = "alphabet";
     }
-    if(filterDropdown.val() === 'gold'){
-        dropDownSelected = 'gold';
+    if (filterDropdown.val() === "gold") {
+      dropDownSelected = "gold";
     }
-    
   });
-
-
 })(window.jQuery);

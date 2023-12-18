@@ -43,6 +43,10 @@ router
         "TestResultsList",
         insertedResult.toString()
       );
+      await presetTestFuncs.pushScores(
+        insertedResult.toString(),
+        req.body.testId
+      );
     } catch (error) {
       console.log(error);
     }
@@ -74,28 +78,29 @@ router.route("/leaderboard").get(async (req, res) => {
   }
 });
 
-router.route("/leaderboard/wpm/average")
-  .post(async (req, res) => {
-    //Leaderboard initially loads with WPM Selected
-    try{
-      const results = await UserFuncs.getUsersByAverageWPM();
-      if(results){
-        res.render("partials/leaderboard_template", {layout: null,results: results});
-      }
-      else{
-        return res.status(500).render("leaderboard", {
-          title: "Leaderboards",
-          partial: "leaderboard_script",
-          error: "Internal Server Error",
-        });
-      }
-    } catch(e){
-      return res.status(400).render("leaderboard", {
+router.route("/leaderboard/wpm/average").post(async (req, res) => {
+  //Leaderboard initially loads with WPM Selected
+  try {
+    const results = await UserFuncs.getUsersByAverageWPM();
+    if (results) {
+      res.render("partials/leaderboard_template", {
+        layout: null,
+        results: results,
+      });
+    } else {
+      return res.status(500).render("leaderboard", {
         title: "Leaderboards",
         partial: "leaderboard_script",
         error: "Internal Server Error",
       });
     }
+  } catch (e) {
+    return res.status(400).render("leaderboard", {
+      title: "Leaderboards",
+      partial: "leaderboard_script",
+      error: "Internal Server Error",
+    });
+  }
 });
 
 router.route("/leaderboard/accuracy/average").post(async (req, res) => {
