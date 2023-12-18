@@ -520,6 +520,7 @@ timeDropdown.addEventListener('change', () => {
 
 restart.addEventListener('click', () => {
   // generate random prompt on page load
+  clearInterval(interval);
   if (promptDropdown.value === 'random') {
     if (diffDropdown.value === 'easy') {
       quoteToWrite = easyRandomTestGen();
@@ -676,6 +677,13 @@ let numwrong = [];
 let words = [];
 let wordCount = 0;
 let furthestReached = 0;
+let interval;
+function updateWPM() {
+  let currwpm = (wordCount / timePassed) * 60;
+  if (timePassed == 0) currwpm = 0;
+  wpm.innerHTML = Math.round(currwpm).toFixed(0) + ' WPM';
+}
+
 prompt.addEventListener('keydown', (event) => {
   let keyPress = event.key;
   if (keyPress === 'Shift' || keyPress === 'CapsLock' || done) {
@@ -685,6 +693,7 @@ prompt.addEventListener('keydown', (event) => {
     started = true;
     timing = true;
     startTimer();
+    interval = setInterval(updateWPM, 500);
   }
   let letters = prompt.querySelectorAll('.letter');
   letters.forEach((letter) => {
@@ -726,10 +735,6 @@ prompt.addEventListener('keydown', (event) => {
     }
     accuracy.innerHTML =
       100 - Math.round((count / furthestReached) * 100).toFixed(0) + '%';
-    //words complete / seconds passed * 60 (seconds for minutes)
-    let currwpm = (wordCount / timePassed) * 60;
-    if (timePassed == 0) currwpm = 0;
-    wpm.innerHTML = Math.round(currwpm).toFixed(0) + ' WPM';
   }
   //Check if now at the end
   if (current == letters.length) {
@@ -740,6 +745,8 @@ prompt.addEventListener('keydown', (event) => {
     forceRestart = false;
     timing = false;
     done = true;
+    //stop the interval when the typing is done
+    clearInterval(interval);
   }
   //scroll lines down when typing
   let currentWord = prompt.querySelector('.current');

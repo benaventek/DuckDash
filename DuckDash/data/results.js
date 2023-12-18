@@ -63,7 +63,7 @@ let exportedMethods = {
         userID: user.userID.toString(),
       })
       .toArray();
-    console.log(user.userID.toString());
+    
     if (!result) return false;
     return result;
   },

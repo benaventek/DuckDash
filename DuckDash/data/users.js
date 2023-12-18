@@ -35,7 +35,7 @@ let exportedMethods = {
         displayname: displayname,
       });
       const checkDupEmail = await userCollection.findOne({ email: email });
-      console.log(checkDupEmail, checkdupUser);
+      
       if (checkDupEmail || checkdupUser)
         throw new Error("Email or displayname already taken");
     } catch (error) {

@@ -3,9 +3,9 @@
 <h3 id="sortingMethod">WPM</h3>
 
 <p id="error">
-        {{#if error}}
-        Error "{{{error}}}"
-        {{/if}}
+    {{#if error}}
+    Error "{{{error}}}"
+    {{/if}}
 </p>
 
 <div id="wpm-accuracy-container">
@@ -28,6 +28,6 @@
 
 <ol id="userList">
     {{#each results}}
-        <li id="listedUsers">{{>profileLookup}}</li> 
+    <li>{{>profileLookup}}</li>
     {{/each}}
 </ol>

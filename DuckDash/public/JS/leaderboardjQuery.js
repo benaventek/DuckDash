@@ -16,7 +16,7 @@
         event.preventDefault();
         let currentUsername = userItem.find(".displaynameFromRequest").text();
 
-        window.location.href = "/profile/" + currentUsername;
+        window.location.href = "/profile/" + currentdisplayname;
       });
   }
 
