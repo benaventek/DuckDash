@@ -23,7 +23,7 @@ You can seed the database with some dummy login info and some preset tests by ru
 
 **Running**
 
-You start up the site by running:
+You start up the site by running (will be at localhost:3000):
 
         npm start
 
