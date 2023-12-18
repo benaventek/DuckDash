@@ -31,6 +31,7 @@ You start up the site by running:
 **Test Accounts**
 
           Display Name = Email Address | Password
+          
         1. keb = keb@gmail.com | Password1!
         2. bestTyper = ilied@gmail.com | Password2!
         3. chronicallyOnline = sleep@gmail.com | Password3!
