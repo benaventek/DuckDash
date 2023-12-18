@@ -253,7 +253,8 @@ let exportedMethods = {
         userBio: user.userBio,
         friendsList: user.friendsList,
         testResultsList: user.testResultsList,
-        averageWPM: averageWPM
+        averageWPM: averageWPM,
+        wpmShow: true
       };
       usersWithAverageWPM.push(userWithAverageWPM);
 
@@ -288,7 +289,8 @@ let exportedMethods = {
         userBio: user.userBio,
         friendsList: user.friendsList,
         testResultsList: user.testResultsList,
-        averageAcc: averageAcc
+        averageAcc: averageAcc,
+        accShow: true
       };
       usersWithAverageAccuracy.push(userWithAverageWPM);
 
@@ -322,6 +324,9 @@ let exportedMethods = {
     for (let i = 0; i < userIDSorted.length; i++) {
       const userId = userIDSorted[i];
       const userInfo = await this.getUserById(userId);
+      const usersWPM = groupedResults[userId];
+      userInfo.averageWPM = usersWPM;
+      userInfo.wpmShow = true;
       userInfoArray.push(userInfo);
     }
   
@@ -355,6 +360,9 @@ let exportedMethods = {
     for (let i = 0; i < userIDSorted.length; i++) {
       const userId = userIDSorted[i];
       const userInfo = await this.getUserById(userId);
+      const usersAcc = groupedResults[userId];
+      userInfo.averageAcc = usersAcc;
+      userInfo.accShow = true;
       userInfoArray.push(userInfo);
     }
 

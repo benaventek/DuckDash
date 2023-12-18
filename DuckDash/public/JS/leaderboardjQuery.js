@@ -11,10 +11,10 @@
 
   function bindEventToProfile(userItem) {
     userItem
-      .find(".ProfilePicture, .userNameFromRequest")
+      .find(".ProfilePicture, .displaynameFromRequest")
       .on("click", function (event) {
         event.preventDefault();
-        let currentUsername = userItem.find(".userNameFromRequest").text();
+        let currentUsername = userItem.find(".displaynameFromRequest").text();
 
         window.location.href = "/profile/" + currentUsername;
       });
@@ -39,10 +39,17 @@
       .done(function (responseMessage) {
         console.log(responseMessage);
         userList.html(responseMessage);
-        userList.children().each(function (index, element) {
-          bindEventToProfile($(element));
-        });
         h3title.text("WPM");
+        if(userList.find('ol li').length === 0){
+          let element = $('<h2>No Data to Show</h2>');
+          userList.html(element);
+        }
+        else{
+          userList.children().each(function (index, element) {
+            bindEventToProfile($(element));
+          });
+
+        }
       })
       .fail(function (jqXHR, status, error) {
         if (jqXHR.responseText) {
@@ -68,10 +75,17 @@
       .done(function (responseMessage) {
         console.log(responseMessage);
         userList.html(responseMessage);
-        userList.children().each(function (index, element) {
-          bindEventToProfile($(element));
-        });
         h3title.text("Accuracy");
+        if(userList.find('ol li').length === 0){
+          let element = $('<h2>No Data to Show</h2>');
+          userList.html(element);
+        }
+        else{
+          userList.children().each(function (index, element) {
+            bindEventToProfile($(element));
+          });
+
+        }
       })
       .fail(function (xhe, status, error) {
         if (jqXHR.responseText) {

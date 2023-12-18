@@ -55,6 +55,7 @@ router.route("/leaderboard").get(async (req, res) => {
     if (results) {
       res.render("leaderboard", {
         title: "Leaderboards",
+        wpmTrue: 'true',
         results: results,
         partial: "leaderboard_script",
       });
@@ -80,7 +81,7 @@ router.route("/leaderboard/wpm/average")
     try{
       const results = await UserFuncs.getUsersByAverageWPM();
       if(results){
-        res.render("partials/leaderboard_template", {layout: null, results: results});
+        res.render("partials/leaderboard_template", {layout: null,results: results});
       }
       else{
         return res.status(500).render("leaderboard", {

@@ -9,6 +9,16 @@
                 <h2 class="userNameFromRequest">{{displayname}}</h2>
             </div>
         </div>
+        <div class="WPM">
+            {{#if wpmShow}}
+                <p class="wordsperminute">WPM: {{averageWPM}}</p>
+            {{/if}}
+        </div>
+        <div class="Acc">
+            {{#if accShow}}
+                <p class="wordsperminute">Acc: {{averageAcc}}</p>
+            {{/if}}
+        </div>
         </li> 
     {{/each}}
 </ol>

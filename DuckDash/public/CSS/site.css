@@ -11,6 +11,10 @@ body {
   margin: 0 auto;
 }
 
+ol {
+  list-style-type: decimal;
+}
+
 header {
   background-color: #a32638;
   box-shadow: 0px 3px 8px 0px black;
